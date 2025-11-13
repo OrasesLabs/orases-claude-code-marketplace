@@ -7,10 +7,7 @@
     "email": "support@orases.com",
     "url": "https://orases.com"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/OrasesLabs/orases-claude-code-marketplace"
-  },
+  "repository": "https://github.com/OrasesLabs/orases-claude-code-marketplace",
   "license": "MIT",
   "keywords": [
     "jira",
@@ -21,11 +18,5 @@
     "tickets",
     "automation",
     "productivity"
-  ],
-  "engines": {
-    "claudeCode": ">=1.0.0"
-  },
-  "dependencies": {
-    "python": ">=3.6"
-  }
+  ]
 }
