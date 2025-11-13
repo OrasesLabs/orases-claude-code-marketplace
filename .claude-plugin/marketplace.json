@@ -6,9 +6,9 @@
   },
   "plugins": [
     {
-      "name": "orases-tools",
-      "source": "./orases-tools",
-      "description": "Orases productivity tools and integrations for Claude Code. Includes Jira ticket management, workflow automation, and platform integrations."
+      "name": "jira-tools",
+      "source": "./jira-tools",
+      "description": "Jira productivity tools and integrations for Claude Code. Includes Jira ticket management, workflow automation, and platform integrations."
     }
   ]
 }

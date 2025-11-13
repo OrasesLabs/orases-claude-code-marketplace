@@ -8,7 +8,7 @@ This marketplace provides a curated collection of Claude Code plugins designed t
 
 ## Available Plugins
 
-### [Orases Tools](./orases-tools)
+### [Jira Tools](./jira-tools)
 
 Comprehensive Jira workflow management with direct REST API access.
 
@@ -19,7 +19,7 @@ Comprehensive Jira workflow management with direct REST API access.
 - **Planned**: Confluence integration, custom Orases platform integrations
 
 **Version:** 1.0.0
-**Documentation:** [View Plugin README](./orases-tools/README.md)
+**Documentation:** [View Plugin README](./jira-tools/README.md)
 
 ## Installation
 
@@ -35,7 +35,7 @@ claude plugin install git@github.com:OrasesLabs/orases-claude-code-marketplace.g
 ```bash
 # Clone the repository
 git clone git@github.com:OrasesLabs/orases-claude-code-marketplace.git
-cd orases-claude-code-marketplace/orases-tools
+cd orases-claude-code-marketplace/jira-tools
 
 # Install individual plugin
 claude plugin install .

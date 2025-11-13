@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-Get up and running with Orases Tools Plugin in 5 minutes.
+Get up and running with Jira Tools Plugin in 5 minutes.
 
 ## Prerequisites
 
@@ -19,7 +19,7 @@ claude plugin install git@github.com:OrasesLabs/orases-claude-code-marketplace.g
 
 # OR install locally (for development)
 git clone git@github.com:OrasesLabs/orases-claude-code-marketplace.git
-cd orases-claude-code-marketplace/orases-tools
+cd orases-claude-code-marketplace/jira-tools
 claude plugin install .
 ```
 
@@ -149,7 +149,7 @@ python3 scripts/transition_ticket.py PROJ-123 "Done"
 ### Plugin Structure
 
 ```
-orases-tools/
+jira-tools/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin manifest
 │
@@ -279,7 +279,7 @@ The plugin is in a shared repository:
 claude plugin install git@github.com:OrasesLabs/orases-claude-code-marketplace.git
 
 # Updates are pulled automatically
-claude plugin update orases-tools
+claude plugin update jira-tools
 ```
 
 ## Tips & Best Practices

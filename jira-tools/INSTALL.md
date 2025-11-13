@@ -1,6 +1,6 @@
 # Installation Guide
 
-Complete installation and configuration guide for the Orases Tools Plugin.
+Complete installation and configuration guide for the Jira Tools Plugin.
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@ claude plugin install git@github.com:OrasesLabs/orases-claude-code-marketplace.g
 ```bash
 # Clone the repository
 git clone git@github.com:OrasesLabs/orases-claude-code-marketplace.git
-cd orases-claude-code-marketplace/orases-tools
+cd orases-claude-code-marketplace/jira-tools
 
 # Install the plugin locally
 claude plugin install .
@@ -155,7 +155,7 @@ Start Claude Code and ask:
 
 ```bash
 # Remove the plugin
-claude plugin uninstall orases-tools
+claude plugin uninstall jira-tools
 
 # Remove environment variables (edit ~/.bashrc or ~/.zshrc)
 # Remove API token from Atlassian (optional)

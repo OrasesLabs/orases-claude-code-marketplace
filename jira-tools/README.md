@@ -1,10 +1,10 @@
-# Orases Tools - Claude Code Plugin
+# Jira Tools - Claude Code Plugin
 
-A comprehensive Claude Code Plugin providing Orases productivity tools and platform integrations. Currently includes Jira workflow management with direct REST API access, with Confluence and additional integrations planned.
+A comprehensive Claude Code Plugin providing Jira productivity tools and platform integrations. Currently includes Jira workflow management with direct REST API access, with Confluence and additional integrations planned.
 
 ## Overview
 
-This plugin extends Claude Code with specialized Skills and scripts for working efficiently with Orases platforms and services. Unlike simple scripts or manual workflows, this plugin provides autonomous, model-invoked capabilities that Claude uses automatically based on context.
+This plugin extends Claude Code with specialized Skills and scripts for working efficiently with Jira and Atlassian platforms. Unlike simple scripts or manual workflows, this plugin provides autonomous, model-invoked capabilities that Claude uses automatically based on context.
 
 ## What is a Claude Code Plugin?
 
@@ -134,7 +134,7 @@ python3 scripts/test_connection.py
 ## Plugin Structure
 
 ```
-orases-tools/
+jira-tools/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin manifest
 │
@@ -176,7 +176,6 @@ orases-tools/
 - Manage spaces
 
 ### Additional Platforms
-- Custom Orases integrations
 - Workflow automation
 - Git hooks for ticket linking
 - CI/CD integration
