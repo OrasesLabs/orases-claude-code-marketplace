@@ -1,0 +1,32 @@
+{
+  "name": "orases-tools",
+  "description": "Orases productivity tools and integrations for Claude Code. Includes Jira ticket management, workflow automation, and platform integrations with direct REST API access.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Orases",
+    "email": "support@orases.com",
+    "url": "https://orases.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OrasesLabs/orases-claude-code-marketplace"
+  },
+  "license": "MIT",
+  "keywords": [
+    "orases",
+    "jira",
+    "confluence",
+    "atlassian",
+    "project-management",
+    "workflow",
+    "tickets",
+    "automation",
+    "productivity"
+  ],
+  "engines": {
+    "claudeCode": ">=1.0.0"
+  },
+  "dependencies": {
+    "python": ">=3.6"
+  }
+}

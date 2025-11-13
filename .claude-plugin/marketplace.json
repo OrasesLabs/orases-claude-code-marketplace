@@ -1,0 +1,14 @@
+{
+  "name": "orases-marketplace",
+  "owner": {
+    "name": "Orases",
+    "url": "https://orases.com"
+  },
+  "plugins": [
+    {
+      "name": "orases-tools",
+      "source": "./orases-tools",
+      "description": "Orases productivity tools and integrations for Claude Code. Includes Jira ticket management, workflow automation, and platform integrations."
+    }
+  ]
+}
