@@ -21,6 +21,20 @@ Comprehensive Jira workflow management with direct REST API access.
 **Version:** 1.0.0
 **Documentation:** [View Plugin README](./jira-tools/README.md)
 
+### [Workflow Analyzer](./workflow-analyzer)
+
+Advanced workflow analysis and optimization tools for Claude Code development sessions.
+
+**Features:**
+- **Session Discovery**: Find and list all Claude Code sessions from logs
+- **Transcript Condensing**: Compress large session transcripts for efficient review
+- **Workflow Analysis**: Comprehensive session analysis via specialized agent
+- **Event Hooks**: Automatic session tracking and transcript backups
+- **Slash Command**: `/analyze-workflow` for quick workflow analysis
+
+**Version:** 0.1.0
+**Documentation:** [View Plugin README](./workflow-analyzer/README.md)
+
 ## Installation
 
 ### Install Entire Marketplace
@@ -47,7 +61,7 @@ claude plugin install .
 2. **Configure authentication** - See plugin-specific documentation for setup
 3. **Start using** - Ask Claude to perform tasks or use slash commands
 
-For detailed setup instructions, see each plugin's INSTALL.md file.
+For detailed setup instructions, see each plugin's README.md file.
 
 ## Plugin Structure
 
@@ -58,11 +72,11 @@ plugin-name/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin manifest
 ├── skills/                  # Model-invoked capabilities
-├── scripts/                 # Standalone utilities
-├── docs/                    # Documentation
-├── README.md               # Plugin overview
-├── INSTALL.md              # Installation guide
-├── QUICKSTART.md           # Quick start guide
+├── agents/                  # Specialized AI agents (optional)
+├── hooks/                   # Event-driven automation (optional)
+├── commands/                # Slash commands (optional)
+├── scripts/                 # Standalone utilities (optional)
+├── README.md               # Complete documentation
 └── CHANGELOG.md            # Version history
 ```
 

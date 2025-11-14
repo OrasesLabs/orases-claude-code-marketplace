@@ -1,0 +1,28 @@
+{
+  "name": "workflow-analyzer",
+  "version": "0.1.0",
+  "description": "Advanced workflow analysis and optimization tools for Claude Code. Analyzes development patterns, suggests improvements, and automates workflow optimization with hooks, agents, and intelligent recommendations.",
+  "author": {
+    "name": "Orases",
+    "email": "support@orases.com",
+    "url": "https://orases.com"
+  },
+  "homepage": "https://github.com/OrasesLabs/orases-claude-code-marketplace/tree/main/workflow-analyzer",
+  "repository": "https://github.com/OrasesLabs/orases-claude-code-marketplace",
+  "license": "MIT",
+  "keywords": [
+    "workflow",
+    "analysis",
+    "optimization",
+    "automation",
+    "productivity",
+    "hooks",
+    "agents",
+    "development-tools",
+    "session-tracking",
+    "transcript-analysis"
+  ],
+  "commands": "./commands",
+  "agents": "./agents",
+  "hooks": "./hooks/hooks.json"
+}
