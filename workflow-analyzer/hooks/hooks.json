@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/session_end.py"
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/session_end.py --chat"
           }
         ]
       }
@@ -30,7 +30,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/subagent_stop.py"
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/subagent_stop.py --chat"
           }
         ]
       }
