@@ -1,0 +1,20 @@
+{
+  "name": "example-plugin",
+  "description": "Example Claude Code plugin demonstrating subagents and slash commands. A comprehensive template for building production-ready plugins.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Orases",
+    "email": "support@orases.com",
+    "url": "https://orases.com"
+  },
+  "repository": "https://github.com/OrasesLabs/orases-claude-code-marketplace",
+  "license": "MIT",
+  "keywords": [
+    "example",
+    "template",
+    "agents",
+    "commands",
+    "productivity",
+    "automation"
+  ]
+}

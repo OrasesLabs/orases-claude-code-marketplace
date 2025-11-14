@@ -1,0 +1,108 @@
+# Code Reviewer Agent
+
+A specialized subagent for performing comprehensive code reviews.
+
+## Overview
+
+The Code Reviewer agent provides thorough, actionable code reviews focusing on:
+- Code quality and maintainability
+- Security vulnerabilities
+- Performance optimization
+- Best practices adherence
+
+## Usage
+
+### Via Task Tool
+
+The agent is automatically available when invoked via the Task tool:
+
+```
+"Review the authentication module"
+"Check src/api for security issues"
+"Analyze the performance of database queries in models.py"
+```
+
+### Direct Invocation
+
+In conversations with Claude Code:
+
+```
+User: "Please review my authentication code in src/auth/login.py"
+Claude: [Invokes code-reviewer agent via Task tool]
+```
+
+## Review Scope
+
+### What Gets Reviewed
+
+- **Code Structure:** Architecture, design patterns, organization
+- **Implementation:** Logic, algorithms, error handling
+- **Security:** Vulnerabilities, input validation, authentication
+- **Performance:** Bottlenecks, resource usage, optimization
+- **Quality:** Readability, maintainability, documentation
+
+### Severity Levels
+
+- **Critical:** Must fix before merge (security, data loss)
+- **High:** Should fix before merge (performance, error handling)
+- **Medium:** Consider fixing (quality, documentation)
+- **Low:** Nice to have (style, optimizations)
+
+## Example Output
+
+```markdown
+# Code Review Summary
+
+**Overall Assessment:** Good implementation with minor security concerns
+**Recommendation:** Request Changes
+
+## Critical Issues
+1. Line 45: SQL injection vulnerability in user query
+   - Use parameterized queries instead of string concatenation
+
+## High Priority Issues
+1. Line 78: Missing error handling for database connection
+   - Wrap in try-catch block with proper error logging
+
+## Medium Priority Issues
+1. Line 12-30: Function is too long (18 lines)
+   - Consider breaking into smaller functions
+
+## Positive Highlights
+- Excellent test coverage (95%)
+- Clear naming conventions
+- Good documentation
+```
+
+## Configuration
+
+The agent uses these allowed tools:
+- **Read:** Examine source files
+- **Grep:** Search for patterns
+- **Glob:** Find related files
+- **TodoWrite:** Track review findings
+
+## Best Practices
+
+1. **Provide Context:** Specify which files or areas to review
+2. **Set Scope:** Mention if focusing on specific aspects (security, performance)
+3. **Iterate:** Use feedback to improve and re-review
+4. **Learn:** Review feedback helps improve coding skills
+
+## Integration
+
+Works seamlessly with:
+- Pull request workflows
+- Pre-commit hooks
+- CI/CD pipelines
+- Code quality tools
+
+## Resources
+
+- [AGENT.md](./AGENT.md) - Full agent specification
+- [OWASP Top 10](https://owasp.org/www-project-top-ten/)
+- [Code Review Best Practices](https://google.github.io/eng-practices/review/)
+
+---
+
+**Note:** This is a template agent. Customize the review criteria and patterns based on your team's standards and project requirements.
