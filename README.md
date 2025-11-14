@@ -41,7 +41,7 @@ Advanced workflow analysis and optimization tools for Claude Code development se
 
 ```bash
 # Install from GitHub (recommended)
-claude plugin install git@github.com:OrasesLabs/orases-claude-code-marketplace.git
+claude plugin marketplace add git@github.com:OrasesLabs/orases-claude-code-marketplace.git
 ```
 
 ### Install Specific Plugin
