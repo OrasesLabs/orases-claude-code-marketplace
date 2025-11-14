@@ -21,6 +21,5 @@
     "development-tools",
     "session-tracking",
     "transcript-analysis"
-  ],
-  "hooks": "./hooks/hooks.json"
+  ]
 }
