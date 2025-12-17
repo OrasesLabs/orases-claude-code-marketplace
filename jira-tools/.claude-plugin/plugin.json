@@ -1,7 +1,7 @@
 {
   "name": "jira-tools",
   "description": "Jira productivity tools and integrations for Claude Code. Includes Jira ticket management, workflow automation, and platform integrations with direct REST API access.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Orases",
     "email": "support@orases.com",

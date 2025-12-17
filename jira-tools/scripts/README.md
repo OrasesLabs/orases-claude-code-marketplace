@@ -58,7 +58,43 @@ See `skills/jira/docs/transitioning.md` for complete usage guide.
 
 ---
 
-### 3. `test_connection.py` - Test API Connection
+### 3. `link_ticket.py` - Link Tickets Together
+
+Create, view, and remove links between Jira tickets.
+
+```bash
+# List available link types
+python3 scripts/link_ticket.py --list-types
+
+# View existing links on a ticket
+python3 scripts/link_ticket.py TICKET-KEY --list
+
+# Create a link (SOURCE blocks TARGET)
+python3 scripts/link_ticket.py SOURCE-KEY TARGET-KEY "Blocks"
+
+# Create link with comment
+python3 scripts/link_ticket.py SOURCE-KEY TARGET-KEY "Relates" --comment "Related feature"
+
+# Preview link creation (dry run)
+python3 scripts/link_ticket.py SOURCE-KEY TARGET-KEY "Blocks" --dry-run
+
+# Remove a link by ID
+python3 scripts/link_ticket.py TICKET-KEY --remove 12345
+```
+
+**Features:**
+- List all available link types
+- View existing links on any ticket
+- Create links with optional comments
+- Fuzzy matching for link type names
+- Dry-run mode to preview changes
+- Remove links by ID
+
+See `skills/jira/docs/linking.md` for complete usage guide.
+
+---
+
+### 4. `test_connection.py` - Test API Connection
 
 Verify that your API token authentication is working correctly.
 
@@ -233,7 +269,8 @@ scripts/
 ├── SETUP.md              # Detailed setup instructions
 ├── test_connection.py    # Test API authentication
 ├── view_ticket.py        # View ticket details
-└── transition_ticket.py  # Transition workflow statuses
+├── transition_ticket.py  # Transition workflow statuses
+└── link_ticket.py        # Link tickets together
 ```
 
 ---

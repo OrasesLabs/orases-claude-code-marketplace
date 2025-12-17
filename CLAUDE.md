@@ -22,7 +22,7 @@ orases-marketplace/
 
 ## Current Plugins
 
-### jira-tools (v1.0.0)
+### jira-tools (v1.1.0)
 Complete Jira workflow management with direct REST API access.
 
 **Authentication:** API token-based (environment variables)
@@ -31,11 +31,12 @@ Complete Jira workflow management with direct REST API access.
 - `ATLASSIAN_SITE` - Defaults to `orases.atlassian.net` (configured in user's CLAUDE.md)
 
 **Skills:**
-- `jira` - Complete Jira management (viewing, transitioning, future: search/create/update)
+- `jira` - Complete Jira management (viewing, transitioning, linking, future: search/create/update)
 
 **Scripts:** (located in `jira-tools/scripts/`)
 - `view_ticket.py TICKET-KEY [--full|--json]` - View ticket details
 - `transition_ticket.py TICKET-KEY "Status" [--list|--dry-run]` - Transition workflow statuses
+- `link_ticket.py SOURCE TARGET "Type" [--list|--remove|--dry-run]` - Link tickets together
 - `test_connection.py` - Verify API authentication
 
 **Important:** All scripts use Python 3.6+ standard library only (no external dependencies).
