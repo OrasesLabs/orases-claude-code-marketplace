@@ -34,6 +34,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - .gitignore configured to prevent credential leaks
 - Clear security documentation in scripts/SETUP.md
 
+## [1.1.0] - 2025-12-17
+
+### Added
+- **Link Tickets** - New capability to create, view, and remove issue links
+  - `link_ticket.py` script for all linking operations
+  - Support for all Jira link types (Blocks, Duplicate, Relates, etc.)
+  - List available link types with `--list-types`
+  - View existing links on a ticket with `--list`
+  - Create links with optional comments
+  - Remove links by ID with `--remove`
+  - Dry-run mode to preview changes
+  - Fuzzy matching for link type names
+- Documentation for linking in `skills/jira/docs/linking.md`
+- Natural language triggers for linking ("link X to Y", "X blocks Y", "show links for X")
+
 ## [Unreleased]
 
 ### Planned - Jira Features
