@@ -173,8 +173,10 @@ class JiraLinker:
         Create a link between two issues.
 
         For "Blocks" link type: source_key blocks target_key
-        - source_key becomes outwardIssue (does the action: "blocks")
-        - target_key becomes inwardIssue (receives the action: "is blocked by")
+        NOTE: The Jira UI displays links opposite from API semantics, so we
+        swap inward/outward to make the UI show the relationship correctly.
+        - source_key becomes inwardIssue (so UI shows it as the blocker)
+        - target_key becomes outwardIssue (so UI shows it as blocked)
 
         Args:
             source_key: The source issue key (does the action, e.g., "blocks")
@@ -187,10 +189,11 @@ class JiraLinker:
         """
         url = f"{self.base_url}/issueLink"
 
+        # NOTE: Swapped inward/outward to compensate for Jira UI displaying backwards
         data = {
             "type": {"name": link_type_name},
-            "outwardIssue": {"key": source_key},
-            "inwardIssue": {"key": target_key},
+            "outwardIssue": {"key": target_key},
+            "inwardIssue": {"key": source_key},
         }
 
         if comment:
@@ -262,16 +265,15 @@ class JiraLinker:
                 link_type = link["type"]["name"]
                 link_id = link["id"]
 
-                # When fetching links for an issue:
-                # - If link contains "outwardIssue", current issue is the inward one
-                #   (current issue "is blocked by" the outward issue)
-                # - If link contains "inwardIssue", current issue is the outward one
-                #   (current issue "blocks" the inward issue)
+                # NOTE: Jira UI displays links opposite from API semantics.
+                # We swap the labels to match what users see in the Jira UI.
+                # - If link contains "outwardIssue", Jira UI shows outward label
+                # - If link contains "inwardIssue", Jira UI shows inward label
                 if "outwardIssue" in link:
-                    direction = link["type"]["inward"]
+                    direction = link["type"]["outward"]
                     linked_issue = link["outwardIssue"]
                 else:
-                    direction = link["type"]["outward"]
+                    direction = link["type"]["inward"]
                     linked_issue = link["inwardIssue"]
 
                 linked_key = linked_issue["key"]
@@ -369,14 +371,14 @@ class JiraLinker:
                 sys.exit(1)
 
             # Display what we're removing
-            # Same logic as list_issue_links: if link contains outwardIssue,
-            # current issue is the inward one
+            # NOTE: Jira UI displays links opposite from API semantics.
+            # We swap labels to match what users see in Jira UI.
             link_type = target_link["type"]["name"]
             if "outwardIssue" in target_link:
-                direction = target_link["type"]["inward"]
+                direction = target_link["type"]["outward"]
                 linked_key = target_link["outwardIssue"]["key"]
             else:
-                direction = target_link["type"]["outward"]
+                direction = target_link["type"]["inward"]
                 linked_key = target_link["inwardIssue"]["key"]
 
             print(f"\nRemoving link from {issue_key}:")
