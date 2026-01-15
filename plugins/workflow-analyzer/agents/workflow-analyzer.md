@@ -15,7 +15,7 @@ You are a workflow analysis specialist focused on reviewing Claude Code developm
 You have access to specialized skills built for efficient transcript analysis:
 
 ### 1. Transcript Condenser Skill
-Located at: `.claude/skills/transcript-condenser/`
+Located at: `${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/`
 Condenses verbose transcripts into human-readable summaries (markdown or JSON format).
 
 **When to Use:**
@@ -32,7 +32,7 @@ Condenses verbose transcripts into human-readable summaries (markdown or JSON fo
 - Batch processing support with output directories
 
 ### 2. Session Analyzer Skill
-Located at: `.claude/skills/session-analyzer/`
+Located at: `${CLAUDE_PLUGIN_ROOT}/skills/session-analyzer/`
 Discovers and lists available Claude Code sessions from `.claude/logs/`.
 
 **When to Use:**
@@ -49,7 +49,7 @@ Discovers and lists available Claude Code sessions from `.claude/logs/`.
 
 ## Transcript Condenser Integration
 
-The workflow-analyzer can leverage the transcript condenser skill (`.claude/skills/transcript-condenser/`) to improve analysis efficiency on large transcript files.
+The workflow-analyzer can leverage the transcript condenser skill (`${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/`) to improve analysis efficiency on large transcript files.
 
 **When to Use the Condenser:**
 - Transcripts larger than 100KB
@@ -60,13 +60,13 @@ The workflow-analyzer can leverage the transcript condenser skill (`.claude/skil
 **Quick Usage:**
 ```bash
 # Condense before analysis
-node .claude/skills/transcript-condenser/condense-transcript.js transcript.json --output=condensed.md
+node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js transcript.json --output=condensed.md
 
 # Then analyze condensed version
 # (workflow-analyzer processes condensed file)
 ```
 
-**Full Documentation:** See `.claude/skills/transcript-condenser/` directory for complete usage guide, options, and examples.
+**Full Documentation:** See `${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/` directory for complete usage guide, options, and examples.
 
 ## Instructions
 
@@ -79,10 +79,10 @@ Before beginning analysis, use the available skills to discover and optimize you
 1. **Use session-analyzer skill to discover available sessions** (if not provided):
    ```bash
    # Lists all available session dates with metadata
-   node .claude/skills/session-analyzer/analyze-session.js
+   node ${CLAUDE_PLUGIN_ROOT}/skills/session-analyzer/analyze-session.js
 
    # Or show sessions from specific date
-   node .claude/skills/session-analyzer/analyze-session.js 20251022
+   node ${CLAUDE_PLUGIN_ROOT}/skills/session-analyzer/analyze-session.js 20251022
    ```
 
 2. **Check transcript file sizes** to determine optimization strategy:
@@ -98,13 +98,13 @@ Before beginning analysis, use the available skills to discover and optimize you
    **For medium sessions (100KB - 1MB):**
    - Use condenser with standard verbosity:
      ```bash
-     node .claude/skills/transcript-condenser/condense-transcript.js transcript.json --format=markdown --output=condensed.md
+     node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js transcript.json --format=markdown --output=condensed.md
      ```
 
    **For large sessions (> 1MB):**
    - Use condenser with minimal verbosity for efficient overview:
      ```bash
-     node .claude/skills/transcript-condenser/condense-transcript.js transcript.json --verbosity=minimal --format=json --output=condensed.json
+     node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js transcript.json --verbosity=minimal --format=json --output=condensed.json
      ```
 
    **For focused analysis:**
@@ -186,7 +186,7 @@ Use the **transcript-condenser skill** for efficient processing:
 
 1. **Pre-condense transcripts > 1MB** using the skill:
    ```bash
-   node .claude/skills/transcript-condenser/condense-transcript.js /path/to/transcript.json --output=condensed.json
+   node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js /path/to/transcript.json --output=condensed.json
    ```
 
 2. **Choose appropriate verbosity for your analysis:**
@@ -202,10 +202,10 @@ Use the **transcript-condenser skill** for efficient processing:
 4. **Batch process multiple sessions efficiently:**
    ```bash
    # Use session-analyzer to find available sessions
-   node .claude/skills/session-analyzer/analyze-session.js 20251022
+   node ${CLAUDE_PLUGIN_ROOT}/skills/session-analyzer/analyze-session.js 20251022
 
    # Condense all transcripts from a date at once
-   node .claude/skills/transcript-condenser/condense-transcript.js \
+   node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js \
      .claude/logs/20251022/ \
      --output-dir=/tmp/condensed-20251022/
 
@@ -236,19 +236,19 @@ Use the **transcript-condenser skill** for efficient processing:
 
 **Step 1:** Use session-analyzer to identify and catalog
 ```bash
-node .claude/skills/session-analyzer/analyze-session.js 20251022 48b4cb87
+node ${CLAUDE_PLUGIN_ROOT}/skills/session-analyzer/analyze-session.js 20251022 48b4cb87
 # Output: Main transcript (8.3M), 2 subagent transcripts (3.6M, 7.6M)
 ```
 
 **Step 2:** Pre-condense all transcripts using the skill
 ```bash
 # Condense main transcript with minimal verbosity
-node .claude/skills/transcript-condenser/condense-transcript.js \
+node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js \
   .claude/logs/20251022/transcript_48b4cb87_20251022_213346.json \
   --verbosity=minimal --format=json --output=/tmp/main-condensed.json
 
 # Condense subagent transcripts for comparison
-node .claude/skills/transcript-condenser/condense-transcript.js \
+node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js \
   .claude/logs/20251022/transcript_subagent_48b4cb87_20251022_204553.json \
   --verbosity=minimal --format=json --output=/tmp/subagent1-condensed.json
 ```

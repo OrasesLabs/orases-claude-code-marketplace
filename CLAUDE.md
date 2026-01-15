@@ -11,13 +11,24 @@ This is the **Orases Claude Code Marketplace** - a curated collection of Claude 
 orases-marketplace/
 ├── .claude-plugin/
 │   └── marketplace.json      # Marketplace-level configuration
-├── jira-tools/              # Production plugin
-│   ├── .claude-plugin/
-│   │   └── plugin.json
-│   ├── skills/jira/         # Model-invoked capabilities
-│   └── scripts/             # Standalone Python utilities
-└── example-plugin/          # Template for new plugins
-    └── agents/              # Example agent implementations
+├── plugins/
+│   ├── jira-tools/           # Jira workflow management (v1.1.0)
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   ├── skills/jira/      # Model-invoked capabilities
+│   │   └── scripts/          # Standalone Python utilities
+│   ├── workflow-analyzer/    # Session analysis tools (v0.1.0)
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   ├── skills/           # transcript-condenser, session-analyzer
+│   │   ├── agents/           # workflow-analyzer agent
+│   │   └── commands/         # /analyze-workflow command
+│   └── ba-toolkit/           # Business analysis tools (v0.1.0)
+│       ├── .claude-plugin/
+│       │   └── plugin.json
+│       └── skills/           # visual-workflow-diagram-generator
+└── example-plugin/           # Template for new plugins
+    └── agents/               # Example agent implementations
 ```
 
 ## Current Plugins
@@ -33,7 +44,7 @@ Complete Jira workflow management with direct REST API access.
 **Skills:**
 - `jira` - Complete Jira management (viewing, transitioning, linking, future: search/create/update)
 
-**Scripts:** (located in `jira-tools/scripts/`)
+**Scripts:** (located in `plugins/jira-tools/scripts/`)
 - `view_ticket.py TICKET-KEY [--full|--json]` - View ticket details
 - `transition_ticket.py TICKET-KEY "Status" [--list|--dry-run]` - Transition workflow statuses
 - `link_ticket.py SOURCE TARGET "Type" [--list|--remove|--dry-run]` - Link tickets together
@@ -41,13 +52,33 @@ Complete Jira workflow management with direct REST API access.
 
 **Important:** All scripts use Python 3.6+ standard library only (no external dependencies).
 
+### workflow-analyzer (v0.1.0)
+Advanced workflow analysis and optimization tools for Claude Code development sessions.
+
+**Skills:**
+- `transcript-condenser` - Condenses verbose session transcripts into readable summaries
+- `session-analyzer` - Discovers and lists available Claude Code sessions
+
+**Agents:**
+- `workflow-analyzer` - Comprehensive session analysis with metrics and recommendations
+
+**Commands:**
+- `/analyze-workflow` - Quick workflow analysis slash command
+
+### ba-toolkit (v0.1.0)
+Business analysis toolkit for process visualization.
+
+**Skills:**
+- `visual-workflow-diagram-generator` - Transforms written workflow steps into interactive browser-based process flow diagrams
+
 ## Plugin Architecture
 
 ### Plugin Components
 1. **Skills** (`skills/*/SKILL.md`) - Model-invoked workflows with YAML frontmatter
 2. **Scripts** (`scripts/*.py`) - Standalone utilities for direct API operations
-3. **Agents** (`agents/*/AGENT.md`) - Specialized AI agents for complex workflows (planned)
-4. **Hooks** - Event-driven automation (planned)
+3. **Agents** (`agents/*.md`) - Specialized AI agents for complex workflows
+4. **Commands** (`commands/*.md`) - Slash commands for user-invoked actions
+5. **Hooks** - Event-driven automation (planned)
 
 ### Skill Structure
 Skills must include YAML frontmatter:
@@ -67,24 +98,34 @@ Description should include:
 - When to use it (trigger phrases)
 - Supported operations
 
+### Path References in Skills
+Skills have access to `${CLAUDE_PLUGIN_ROOT}` which resolves to the plugin's root directory at runtime. Always use this variable for referencing plugin files:
+```bash
+# Correct - uses runtime path resolution
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/view_ticket.py PROJ-123
+
+# Incorrect - relative paths won't work when plugin is installed
+python3 scripts/view_ticket.py PROJ-123
+```
+
 ## Development Workflow
 
 ### Testing Jira Scripts
 ```bash
 # Test authentication
-python3 jira-tools/scripts/test_connection.py
+python3 plugins/jira-tools/scripts/test_connection.py
 
 # View a ticket
-python3 jira-tools/scripts/view_ticket.py PROJ-123
+python3 plugins/jira-tools/scripts/view_ticket.py PROJ-123
 
 # List available transitions
-python3 jira-tools/scripts/transition_ticket.py PROJ-123 --list
+python3 plugins/jira-tools/scripts/transition_ticket.py PROJ-123 --list
 
 # Preview transition (dry run)
-python3 jira-tools/scripts/transition_ticket.py PROJ-123 "Status Name" --dry-run
+python3 plugins/jira-tools/scripts/transition_ticket.py PROJ-123 "Status Name" --dry-run
 
 # Execute transition
-python3 jira-tools/scripts/transition_ticket.py PROJ-123 "Status Name"
+python3 plugins/jira-tools/scripts/transition_ticket.py PROJ-123 "Status Name"
 ```
 
 ### Installing Plugins Locally
@@ -93,12 +134,12 @@ python3 jira-tools/scripts/transition_ticket.py PROJ-123 "Status Name"
 claude plugin install .
 
 # Install specific plugin (development)
-cd jira-tools
+cd plugins/jira-tools
 claude plugin install .
 ```
 
 ### Creating New Plugins
-1. Create plugin directory in repository root
+1. Create plugin directory under `plugins/`
 2. Add `.claude-plugin/plugin.json` with metadata
 3. Add skills in `skills/*/SKILL.md` with YAML frontmatter
 4. Add scripts in `scripts/` directory
@@ -160,6 +201,7 @@ Each plugin should include:
 - Update CHANGELOG.md for all plugin changes
 - Keep skills focused (one primary capability per skill)
 - Document trigger phrases in skill descriptions
+- Use `${CLAUDE_PLUGIN_ROOT}` for all file path references in skills
 
 ## Testing Before Release
 

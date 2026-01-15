@@ -1,5 +1,5 @@
 ---
-name: analyze-workflow
+name: workflow-analyzer:analyze-workflow
 description: Analyzes a recent Claude Code development session from logs to identify improvements, inefficiencies, and optimization opportunities
 tools: Read, Glob, Grep, Bash, Task
 argument-hint: "[date] [additional-instructions] - Optional date (YYYYMMDD) and/or custom analysis instructions"
@@ -41,7 +41,7 @@ First, parse `$ARGUMENTS` to handle 4 scenarios:
      ```
      You provided instructions: "{instructions}"
      Please re-run with date to apply them.
-     Example: /analyze-workflow 20251007 {your-instructions}
+     Example: /workflow-analyzer:analyze-workflow 20251007 {your-instructions}
      ```
 
 4. **Parsing errors:**
@@ -81,7 +81,7 @@ First, parse `$ARGUMENTS` to handle 4 scenarios:
      2. October 7, 2025 (20251007)
 
      Please select a session to analyze by providing the date in YYYYMMDD format.
-     Example: /analyze-workflow 20251011 focus on why we found so many errors
+     Example: /workflow-analyzer:analyze-workflow 20251011 focus on why we found so many errors
      ```
    - Example output (without instructions):
      ```
@@ -91,7 +91,7 @@ First, parse `$ARGUMENTS` to handle 4 scenarios:
      2. October 7, 2025 (20251007)
 
      Please select a session to analyze by providing the date in YYYYMMDD format.
-     Example: /analyze-workflow 20251011
+     Example: /workflow-analyzer:analyze-workflow 20251011
      ```
    - Wait for user to re-invoke the command with their chosen date
    - Exit gracefully
@@ -174,9 +174,9 @@ After the workflow-analyzer completes its report, offer the user:
 4. **Analyze with Different Focus:** "Would you like to re-analyze this session with different focus areas?"
 
 **Example commands with instructions:**
-- `/analyze-workflow 20251011 Are we committing our work appropriately`
-- `/analyze-workflow 20251011 focus on subagent handoffs`
-- `/analyze-workflow focus on why we found so many errors` (lists sessions, then re-run with date)
+- `/workflow-analyzer:analyze-workflow 20251011 Are we committing our work appropriately`
+- `/workflow-analyzer:analyze-workflow 20251011 focus on subagent handoffs`
+- `/workflow-analyzer:analyze-workflow focus on why we found so many errors` (lists sessions, then re-run with date)
 
 ## Edge Cases
 

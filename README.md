@@ -8,20 +8,22 @@ This marketplace provides a curated collection of Claude Code plugins designed t
 
 ## Available Plugins
 
-### [Jira Tools](./jira-tools)
+### [Jira Tools](./plugins/jira-tools) (v1.1.0)
 
 Comprehensive Jira workflow management with direct REST API access.
 
 **Features:**
-- **Jira Integration**: View tickets, transition statuses, and manage workflows
+- **Jira Integration**: View tickets, transition statuses, link issues, and manage workflows
 - **Skills**: Autonomous Jira operations invoked by Claude based on context
 - **Scripts**: Standalone Python utilities for direct API operations
 - **Planned**: Confluence integration, custom Orases platform integrations
 
-**Version:** 1.0.0
-**Documentation:** [View Plugin README](./jira-tools/README.md)
+**Category:** Productivity
+**Documentation:** [View Plugin README](./plugins/jira-tools/README.md)
 
-### [Workflow Analyzer](./workflow-analyzer)
+---
+
+### [Workflow Analyzer](./plugins/workflow-analyzer) (v0.1.0)
 
 Advanced workflow analysis and optimization tools for Claude Code development sessions.
 
@@ -32,26 +34,116 @@ Advanced workflow analysis and optimization tools for Claude Code development se
 - **Event Hooks**: Automatic session tracking and transcript backups
 - **Slash Command**: `/analyze-workflow` for quick workflow analysis
 
-**Version:** 0.1.0
-**Documentation:** [View Plugin README](./workflow-analyzer/README.md)
+**Category:** Analysis
+**Documentation:** [View Plugin README](./plugins/workflow-analyzer/README.md)
+
+---
+
+### [BA Toolkit](./plugins/ba-toolkit) (v0.1.0)
+
+Business analysis toolkit that transforms written workflow descriptions into visual process flow diagrams.
+
+**Features:**
+- **Process Visualization**: Convert text-based workflow steps into interactive diagrams
+- **Browser-Based**: Generates HTML diagrams viewable in any web browser
+- **Clickable Elements**: Interactive nodes for exploring workflow details
+- **Export Ready**: Diagrams suitable for documentation and presentations
+
+**Category:** Visualization
+**Documentation:** [View Plugin README](./plugins/ba-toolkit/README.md)
+
+---
 
 ## Installation
 
-### Install Entire Marketplace
+### Prerequisites
+
+- [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) installed and configured
+- Git (for cloning the repository)
+- Python 3.6+ (for jira-tools scripts)
+
+### Option 1: Install Entire Marketplace (Recommended)
+
+This installs all plugins at once from the GitHub repository.
 
 ```bash
-# Install from GitHub (recommended)
+# Install marketplace directly from GitHub
 claude plugin marketplace add git@github.com:OrasesLabs/orases-claude-code-marketplace.git
 ```
 
-### Install Specific Plugin
+### Option 2: Install from Local Clone
+
+Clone the repository first, then install locally.
 
 ```bash
 # Clone the repository
 git clone git@github.com:OrasesLabs/orases-claude-code-marketplace.git
-cd orases-claude-code-marketplace/jira-tools
+cd orases-claude-code-marketplace
 
-# Install individual plugin
+# Install all plugins from the marketplace root
+claude plugin install .
+```
+
+### Option 3: Install Individual Plugins
+
+Install only the plugins you need.
+
+```bash
+# Clone the repository
+git clone git@github.com:OrasesLabs/orases-claude-code-marketplace.git
+
+# Install jira-tools only
+cd orases-claude-code-marketplace/plugins/jira-tools
+claude plugin install .
+
+# Or install workflow-analyzer only
+cd orases-claude-code-marketplace/plugins/workflow-analyzer
+claude plugin install .
+
+# Or install ba-toolkit only
+cd orases-claude-code-marketplace/plugins/ba-toolkit
+claude plugin install .
+```
+
+### Verifying Installation
+
+After installation, verify the plugins are loaded:
+
+```bash
+# List installed plugins
+claude plugin list
+
+# You should see the installed plugins listed
+```
+
+### Plugin-Specific Configuration
+
+Some plugins require additional configuration:
+
+**Jira Tools** - Requires Atlassian API credentials:
+```bash
+# Set environment variables (add to your shell profile)
+export ATLASSIAN_EMAIL="your-email@company.com"
+export ATLASSIAN_API_TOKEN="your-api-token"
+export ATLASSIAN_SITE="yoursite.atlassian.net"
+
+# Test the connection
+python3 plugins/jira-tools/scripts/test_connection.py
+```
+
+See [Jira Tools INSTALL.md](./plugins/jira-tools/INSTALL.md) for detailed setup instructions.
+
+### Updating Plugins
+
+To update to the latest version:
+
+```bash
+# If installed from GitHub marketplace
+claude plugin marketplace update orases-marketplace
+
+# If installed locally, pull latest and reinstall
+cd orases-claude-code-marketplace
+git pull
 claude plugin install .
 ```
 
@@ -60,6 +152,12 @@ claude plugin install .
 1. **Install the marketplace** using one of the methods above
 2. **Configure authentication** - See plugin-specific documentation for setup
 3. **Start using** - Ask Claude to perform tasks or use slash commands
+
+**Example Commands:**
+- "Show me PROJ-123" (Jira Tools)
+- "Transition PROJ-123 to In Progress" (Jira Tools)
+- `/analyze-workflow` (Workflow Analyzer)
+- "Create a process flow diagram for this workflow" (BA Toolkit)
 
 For detailed setup instructions, see each plugin's README.md file.
 
@@ -84,10 +182,10 @@ plugin-name/
 
 ### Adding New Plugins
 
-1. Create plugin directory in marketplace root
+1. Create plugin directory under `plugins/`
 2. Add `.claude-plugin/plugin.json` with metadata
 3. Update marketplace manifest (`.claude-plugin/marketplace.json`)
-4. Add plugin to this README
+4. Add plugin section to this README
 5. Follow Claude Code plugin best practices
 
 ### Contributing

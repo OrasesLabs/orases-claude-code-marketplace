@@ -43,43 +43,43 @@ Claude should invoke this skill when the user:
 ### Basic Usage
 ```bash
 # Condense a single transcript to markdown (stdout)
-node .claude/skills/transcript-condenser/condense-transcript.js <transcript-file>
+node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js <transcript-file>
 
 # Save condensed version to file
-node .claude/skills/transcript-condenser/condense-transcript.js <transcript-file> --output=summary.md
+node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js <transcript-file> --output=summary.md
 ```
 
 ### Format Options
 ```bash
 # Output as JSON for automated analysis
-node .claude/skills/transcript-condenser/condense-transcript.js <transcript-file> --format=json --output=session.json
+node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js <transcript-file> --format=json --output=session.json
 ```
 
 ### Verbosity Control
 ```bash
 # Minimal output (quick overview)
-node .claude/skills/transcript-condenser/condense-transcript.js <transcript-file> --verbosity=minimal
+node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js <transcript-file> --verbosity=minimal
 
 # Detailed output (full content)
-node .claude/skills/transcript-condenser/condense-transcript.js <transcript-file> --verbosity=detailed
+node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js <transcript-file> --verbosity=detailed
 ```
 
 ### Filtered Views
 ```bash
 # Show only tool usage
-node .claude/skills/transcript-condenser/condense-transcript.js <transcript-file> --only-tools
+node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js <transcript-file> --only-tools
 
 # Show only subagent interactions
-node .claude/skills/transcript-condenser/condense-transcript.js <transcript-file> --only-subagents
+node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js <transcript-file> --only-subagents
 ```
 
 ### Batch Processing
 ```bash
 # Process all transcripts in a directory
-node .claude/skills/transcript-condenser/condense-transcript.js logs/20251017/ --output-dir=condensed/
+node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js logs/20251017/ --output-dir=condensed/
 
 # Batch process with specific format
-node .claude/skills/transcript-condenser/condense-transcript.js logs/20251017/ --output-dir=condensed/ --format=json
+node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js logs/20251017/ --output-dir=condensed/ --format=json
 ```
 
 ## Output Structure
@@ -157,7 +157,7 @@ The script automatically removes noise:
 ## Command Reference
 
 ```
-node .claude/skills/transcript-condenser/condense-transcript.js <input> [options]
+node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js <input> [options]
 
 Arguments:
   input                 Path to transcript file or directory

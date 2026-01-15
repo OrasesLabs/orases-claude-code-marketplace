@@ -61,7 +61,7 @@ For each session, displays:
 ### List All Available Sessions
 ```bash
 # Shows all dates with available sessions
-node .claude/skills/session-analyzer/analyze-session.js
+node ${CLAUDE_PLUGIN_ROOT}/skills/session-analyzer/analyze-session.js
 ```
 
 Output:
@@ -79,7 +79,7 @@ Run with date to analyze:
 ### List Sessions for Specific Date
 ```bash
 # Shows all sessions from October 17, 2025
-node .claude/skills/session-analyzer/analyze-session.js 20251017
+node ${CLAUDE_PLUGIN_ROOT}/skills/session-analyzer/analyze-session.js 20251017
 ```
 
 Output:
@@ -103,7 +103,7 @@ Run with session ID to analyze:
 ### Analyze Specific Session
 ```bash
 # Analyzes session abc123de from October 17, 2025
-node .claude/skills/session-analyzer/analyze-session.js 20251017 abc123de
+node ${CLAUDE_PLUGIN_ROOT}/skills/session-analyzer/analyze-session.js 20251017 abc123de
 ```
 
 Output (current implementation shows basic info, detailed analysis coming):
@@ -161,7 +161,7 @@ Session grouping is based on the session ID portion of the filename.
 ## Command Reference
 
 ```
-node .claude/skills/session-analyzer/analyze-session.js [date] [sessionId]
+node ${CLAUDE_PLUGIN_ROOT}/skills/session-analyzer/analyze-session.js [date] [sessionId]
 
 Arguments:
   date       (optional) Session date in YYYYMMDD format (e.g., 20251017)
@@ -171,9 +171,9 @@ Options:
   --help, -h  Show help message
 
 Examples:
-  node analyze-session.js                  # List all available session dates
-  node analyze-session.js 20251017         # List sessions from Oct 17, 2025
-  node analyze-session.js 20251017 abc123  # Analyze specific session
+  node ${CLAUDE_PLUGIN_ROOT}/skills/session-analyzer/analyze-session.js                  # List all available session dates
+  node ${CLAUDE_PLUGIN_ROOT}/skills/session-analyzer/analyze-session.js 20251017         # List sessions from Oct 17, 2025
+  node ${CLAUDE_PLUGIN_ROOT}/skills/session-analyzer/analyze-session.js 20251017 abc123  # Analyze specific session
 ```
 
 ## Integration with Other Skills
@@ -182,10 +182,10 @@ Examples:
 
 ```bash
 # 1. Find sessions
-node .claude/skills/session-analyzer/analyze-session.js 20251017
+node ${CLAUDE_PLUGIN_ROOT}/skills/session-analyzer/analyze-session.js 20251017
 
 # 2. Condense specific session
-node .claude/skills/transcript-condenser/condense-transcript.js \
+node ${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/condense-transcript.js \
   .claude/logs/20251017/transcript_abc123de_20251017_143215.json \
   --output=session-report.md
 ```

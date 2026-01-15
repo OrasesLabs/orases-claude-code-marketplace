@@ -2,18 +2,55 @@
   "name": "orases-marketplace",
   "owner": {
     "name": "Orases",
+    "email": "support@orases.com",
     "url": "https://orases.com"
+  },
+  "metadata": {
+    "description": "Orases curated Claude Code plugins for Jira workflow management, session analysis, and business process visualization",
+    "version": "1.2.0"
   },
   "plugins": [
     {
       "name": "jira-tools",
-      "source": "./jira-tools",
-      "description": "Jira productivity tools and integrations for Claude Code. Includes Jira ticket management, workflow automation, and platform integrations."
+      "source": "./plugins/jira-tools",
+      "description": "Jira productivity tools and integrations for Claude Code. Includes Jira ticket management, workflow automation, and platform integrations.",
+      "version": "1.1.0",
+      "author": {
+        "name": "Orases",
+        "email": "support@orases.com"
+      },
+      "repository": "https://github.com/OrasesLabs/orases-claude-code-marketplace",
+      "license": "MIT",
+      "keywords": ["jira", "atlassian", "project-management", "workflow", "tickets"],
+      "category": "productivity"
     },
     {
       "name": "workflow-analyzer",
-      "source": "./workflow-analyzer",
-      "description": "Advanced workflow analysis and optimization tools for Claude Code. Analyzes development patterns, tracks session transcripts, and provides intelligent recommendations."
+      "source": "./plugins/workflow-analyzer",
+      "description": "Advanced workflow analysis and optimization tools for Claude Code. Analyzes development patterns, tracks session transcripts, and provides intelligent recommendations.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Orases",
+        "email": "support@orases.com"
+      },
+      "repository": "https://github.com/OrasesLabs/orases-claude-code-marketplace",
+      "license": "MIT",
+      "keywords": ["workflow", "analysis", "optimization", "session-tracking", "transcript-analysis"],
+      "category": "analysis"
+    },
+    {
+      "name": "ba-toolkit",
+      "source": "./plugins/ba-toolkit",
+      "description": "A Claude Code skill that transforms written workflow steps into interactive, browser-based visual process flow diagrams with clickable elements.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Orases",
+        "email": "support@orases.com"
+      },
+      "repository": "https://github.com/OrasesLabs/orases-claude-code-marketplace",
+      "license": "MIT",
+      "keywords": ["workflow", "visualization", "diagrams", "business-analysis", "process-flow"],
+      "category": "visualization"
     }
   ]
 }

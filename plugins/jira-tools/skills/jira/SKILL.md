@@ -24,63 +24,63 @@ Activate when the user:
 
 Display full ticket details including status, description, comments, attachments, and links.
 
-**Script:** `scripts/view_ticket.py`
-**Detailed Guide:** `skills/jira/docs/viewing.md`
+**Script:** `${CLAUDE_PLUGIN_ROOT}/scripts/view_ticket.py`
+**Detailed Guide:** `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/viewing.md`
 
 **Quick Usage:**
 ```bash
 # Basic view
-python3 scripts/view_ticket.py TICKET-KEY
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/view_ticket.py TICKET-KEY
 
 # Full details with comments
-python3 scripts/view_ticket.py TICKET-KEY --full
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/view_ticket.py TICKET-KEY --full
 
 # JSON output
-python3 scripts/view_ticket.py TICKET-KEY --json
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/view_ticket.py TICKET-KEY --json
 ```
 
 ### 2. Transition Tickets ✅
 
 Move tickets through workflow statuses (To Do → In Progress → Done).
 
-**Script:** `scripts/transition_ticket.py`
-**Detailed Guide:** `skills/jira/docs/transitioning.md`
+**Script:** `${CLAUDE_PLUGIN_ROOT}/scripts/transition_ticket.py`
+**Detailed Guide:** `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/transitioning.md`
 
 **Quick Usage:**
 ```bash
 # List available transitions
-python3 scripts/transition_ticket.py TICKET-KEY --list
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/transition_ticket.py TICKET-KEY --list
 
 # Preview transition
-python3 scripts/transition_ticket.py TICKET-KEY "Status Name" --dry-run
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/transition_ticket.py TICKET-KEY "Status Name" --dry-run
 
 # Execute transition
-python3 scripts/transition_ticket.py TICKET-KEY "Status Name"
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/transition_ticket.py TICKET-KEY "Status Name"
 ```
 
 ### 3. Link Tickets ✅
 
 Create, view, and remove links between tickets (blocks, duplicates, relates).
 
-**Script:** `scripts/link_ticket.py`
-**Detailed Guide:** `skills/jira/docs/linking.md`
+**Script:** `${CLAUDE_PLUGIN_ROOT}/scripts/link_ticket.py`
+**Detailed Guide:** `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/linking.md`
 
 **Quick Usage:**
 ```bash
 # List available link types
-python3 scripts/link_ticket.py --list-types
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/link_ticket.py --list-types
 
 # View existing links on a ticket
-python3 scripts/link_ticket.py TICKET-KEY --list
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/link_ticket.py TICKET-KEY --list
 
 # Create a link (SOURCE blocks TARGET)
-python3 scripts/link_ticket.py SOURCE-KEY TARGET-KEY "Blocks"
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/link_ticket.py SOURCE-KEY TARGET-KEY "Blocks"
 
 # Create link with comment
-python3 scripts/link_ticket.py SOURCE-KEY TARGET-KEY "Relates" --comment "Related work"
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/link_ticket.py SOURCE-KEY TARGET-KEY "Relates" --comment "Related work"
 
 # Remove a link by ID
-python3 scripts/link_ticket.py TICKET-KEY --remove 12345
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/link_ticket.py TICKET-KEY --remove 12345
 ```
 
 ### 5. Search Tickets (Coming Soon)
@@ -109,7 +109,7 @@ ATLASSIAN_API_TOKEN="ATATT..."
 ATLASSIAN_SITE="yoursite.atlassian.net"
 ```
 
-**Setup:** See `scripts/SETUP.md`
+**Setup:** See `${CLAUDE_PLUGIN_ROOT}/scripts/SETUP.md`
 
 ## Natural Language Mapping
 
@@ -127,7 +127,7 @@ Map common phrases to Jira actions:
 | "relate X and Y" | Link | "Relates" link type |
 | "show links for X" | Link | `link_ticket.py --list` |
 
-See `docs/transitioning.md` and `docs/linking.md` for complete mapping tables.
+See `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/transitioning.md` and `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/linking.md` for complete mapping tables.
 
 ## Workflow Patterns
 
@@ -137,7 +137,7 @@ See `docs/transitioning.md` and `docs/linking.md` for complete mapping tables.
 
 **Steps:**
 1. Parse ticket key
-2. Execute: `python3 scripts/view_ticket.py PROJ-123`
+2. Execute: `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/view_ticket.py PROJ-123`
 3. Present formatted output
 
 ### Transition a Ticket
@@ -146,7 +146,7 @@ See `docs/transitioning.md` and `docs/linking.md` for complete mapping tables.
 
 **Steps:**
 1. Parse intent: "start" → "In Progress"
-2. Execute: `python3 scripts/transition_ticket.py PROJ-123 "In Progress"`
+2. Execute: `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/transition_ticket.py PROJ-123 "In Progress"`
 3. Confirm success
 
 ### Check Available Actions
@@ -154,7 +154,7 @@ See `docs/transitioning.md` and `docs/linking.md` for complete mapping tables.
 **User:** "What can I do with PROJ-123?"
 
 **Steps:**
-1. Execute: `python3 scripts/transition_ticket.py PROJ-123 --list`
+1. Execute: `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/transition_ticket.py PROJ-123 --list`
 2. Display available transitions
 
 ### Link Tickets
@@ -163,7 +163,7 @@ See `docs/transitioning.md` and `docs/linking.md` for complete mapping tables.
 
 **Steps:**
 1. Parse intent: "blocks" → "Blocks" link type
-2. Execute: `python3 scripts/link_ticket.py PROJ-123 PROJ-456 "Blocks"`
+2. Execute: `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/link_ticket.py PROJ-123 PROJ-456 "Blocks"`
 3. Confirm success
 
 ### View Existing Links
@@ -171,7 +171,7 @@ See `docs/transitioning.md` and `docs/linking.md` for complete mapping tables.
 **User:** "Show links for PROJ-123"
 
 **Steps:**
-1. Execute: `python3 scripts/link_ticket.py PROJ-123 --list`
+1. Execute: `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/link_ticket.py PROJ-123 --list`
 2. Display linked issues with relationship types
 
 ## Error Handling
@@ -191,8 +191,8 @@ See `docs/transitioning.md` and `docs/linking.md` for complete mapping tables.
 - **Suggest:** Alternative valid transitions
 
 See detailed error guides in:
-- `docs/viewing.md#error-handling`
-- `docs/transitioning.md#error-handling`
+- `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/viewing.md#error-handling`
+- `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/transitioning.md#error-handling`
 
 ## Best Practices
 
@@ -204,7 +204,7 @@ See detailed error guides in:
 
 ## Examples
 
-See `examples/` directory for common usage patterns:
+See `${CLAUDE_PLUGIN_ROOT}/examples/` directory for common usage patterns:
 - View and transition workflow
 - Checking permissions
 - Bulk operations (future)
@@ -216,17 +216,17 @@ See `examples/` directory for common usage patterns:
 
 ```bash
 # Test viewing
-python3 scripts/view_ticket.py PROJ-123
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/view_ticket.py PROJ-123
 
 # Test transitions
-python3 scripts/transition_ticket.py PROJ-123 --list
-python3 scripts/transition_ticket.py PROJ-123 "Ready to Launch" --dry-run
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/transition_ticket.py PROJ-123 --list
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/transition_ticket.py PROJ-123 "Ready to Launch" --dry-run
 ```
 
 ## Documentation Structure
 
 ```
-skills/jira/
+${CLAUDE_PLUGIN_ROOT}/skills/jira/
 ├── SKILL.md                   # This file - main skill definition
 ├── docs/
 │   ├── viewing.md            # Detailed guide for view_ticket.py
@@ -238,10 +238,10 @@ skills/jira/
 
 ## Scripts Reference
 
-All scripts are in the plugin's root `scripts/` directory:
+All scripts are in the plugin's `${CLAUDE_PLUGIN_ROOT}/scripts/` directory:
 
 ```
-scripts/
+${CLAUDE_PLUGIN_ROOT}/scripts/
 ├── view_ticket.py           # View ticket details
 ├── transition_ticket.py     # Transition ticket status
 ├── link_ticket.py           # Link tickets together
@@ -252,5 +252,5 @@ scripts/
 
 ---
 
-**For detailed usage:** See `docs/viewing.md`, `docs/transitioning.md`, and `docs/linking.md`
-**For setup:** See `scripts/SETUP.md`
+**For detailed usage:** See `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/viewing.md`, `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/transitioning.md`, and `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/linking.md`
+**For setup:** See `${CLAUDE_PLUGIN_ROOT}/scripts/SETUP.md`
