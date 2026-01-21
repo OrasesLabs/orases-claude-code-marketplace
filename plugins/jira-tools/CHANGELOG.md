@@ -49,6 +49,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation for linking in `skills/jira/docs/linking.md`
 - Natural language triggers for linking ("link X to Y", "X blocks Y", "show links for X")
 
+## [1.2.0] - 2026-01-21
+
+### Added
+- **Log Work Time** - New capability to log time spent on tickets
+  - `log_worklog.py` script for worklog operations
+  - Flexible time formats (2h, 30m, 2h 30m)
+  - Multiple date formats (today, yesterday, YYYY-MM-DD, M/D)
+  - Auto-generated comments from ticket summary
+  - Custom comment support with `--comment`
+  - Dry-run mode to preview worklogs with `--dry-run`
+  - ADF (Atlassian Document Format) comment support for rich text
+- Documentation for time tracking in `skills/jira/docs/worklogging.md`
+- Natural language triggers for logging time ("log 2h to X for today", "track time", "add time")
+- Time tracking examples in `skills/jira/examples/common-workflows.md`
+
 ## [Unreleased]
 
 ### Planned - Jira Features
@@ -56,7 +71,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Create tickets skill with templates
 - Update tickets skill for field modifications
 - Comment management
-- Time tracking integration
 - Bulk operations support
 - Sprint management features
 

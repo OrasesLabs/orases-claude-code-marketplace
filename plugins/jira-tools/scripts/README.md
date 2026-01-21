@@ -94,7 +94,37 @@ See `skills/jira/docs/linking.md` for complete usage guide.
 
 ---
 
-### 4. `test_connection.py` - Test API Connection
+### 4. `log_worklog.py` - Log Work Time
+
+Log time spent on Jira tickets with flexible date formats.
+
+```bash
+# Log 2 hours for a specific date
+python3 scripts/log_worklog.py TICKET-KEY "2h" --date 2026-01-20
+
+# Log time for yesterday
+python3 scripts/log_worklog.py TICKET-KEY "1h 30m" --date yesterday
+
+# Log time for today with custom comment
+python3 scripts/log_worklog.py TICKET-KEY "2h" --date today --comment "Code review"
+
+# Preview worklog (dry run)
+python3 scripts/log_worklog.py TICKET-KEY "2h" --date today --dry-run
+```
+
+**Features:**
+- Flexible time formats (2h, 30m, 2h 30m)
+- Multiple date formats (today, yesterday, YYYY-MM-DD, M/D)
+- Auto-generated comments from ticket summary
+- Custom comment support
+- Dry-run mode to preview changes
+- ADF comment format for rich text support
+
+See `skills/jira/docs/worklogging.md` for complete usage guide.
+
+---
+
+### 5. `test_connection.py` - Test API Connection
 
 Verify that your API token authentication is working correctly.
 
@@ -270,7 +300,8 @@ scripts/
 ├── test_connection.py    # Test API authentication
 ├── view_ticket.py        # View ticket details
 ├── transition_ticket.py  # Transition workflow statuses
-└── link_ticket.py        # Link tickets together
+├── link_ticket.py        # Link tickets together
+└── log_worklog.py        # Log time to tickets
 ```
 
 ---
@@ -280,4 +311,6 @@ scripts/
 For detailed usage guides, see:
 - `skills/jira/docs/viewing.md` - Complete guide for viewing tickets
 - `skills/jira/docs/transitioning.md` - Complete guide for transitions
+- `skills/jira/docs/linking.md` - Complete guide for linking tickets
+- `skills/jira/docs/worklogging.md` - Complete guide for logging time
 - `skills/jira/examples/common-workflows.md` - Real-world usage examples

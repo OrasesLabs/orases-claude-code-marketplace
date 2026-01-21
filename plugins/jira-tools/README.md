@@ -21,6 +21,8 @@ Plugins are modular packages that extend Claude Code's capabilities with:
 Complete Jira workflow management including:
 - **View Tickets**: Display full ticket details with formatting
 - **Transition Tickets**: Move tickets through workflow statuses
+- **Link Tickets**: Create, view, and remove issue links
+- **Log Work Time**: Track time spent on tickets with flexible date formats
 - **List Transitions**: See available workflow actions
 - **Direct API Access**: Python scripts for standalone operations
 
@@ -35,6 +37,8 @@ Complete Jira workflow management including:
 Located in `scripts/` directory:
 - `view_ticket.py` - View ticket details (basic, full, or JSON output)
 - `transition_ticket.py` - Transition workflow statuses with dry-run support
+- `link_ticket.py` - Create, view, and remove ticket links
+- `log_worklog.py` - Log time spent on tickets
 - `test_connection.py` - Verify API authentication
 
 ## Installation
@@ -109,6 +113,8 @@ Simply ask Claude to perform Jira tasks:
 "Move PROJ-123 to In Progress"
 "What transitions are available for PROJ-123?"
 "Mark PROJ-456 as done"
+"Link PROJ-123 to PROJ-456 as blocking"
+"Log 2 hours to PROJ-123 for today"
 ```
 
 Claude will automatically invoke the appropriate skill based on your request.
@@ -127,6 +133,12 @@ python3 scripts/transition_ticket.py PROJ-123 --list
 # Transition ticket
 python3 scripts/transition_ticket.py PROJ-123 "Done"
 
+# Link tickets
+python3 scripts/link_ticket.py PROJ-123 PROJ-456 "Blocks"
+
+# Log time
+python3 scripts/log_worklog.py PROJ-123 "2h" --date today
+
 # Test authentication
 python3 scripts/test_connection.py
 ```
@@ -142,11 +154,17 @@ jira-tools/
 │   └── jira/
 │       ├── SKILL.md
 │       ├── docs/
+│       │   ├── viewing.md
+│       │   ├── transitioning.md
+│       │   ├── linking.md
+│       │   └── worklogging.md
 │       └── examples/
 │
 ├── scripts/                 # Standalone utilities
 │   ├── view_ticket.py
 │   ├── transition_ticket.py
+│   ├── link_ticket.py
+│   ├── log_worklog.py
 │   ├── test_connection.py
 │   ├── SETUP.md
 │   └── README.md
@@ -165,7 +183,6 @@ jira-tools/
 - Create tickets with templates
 - Update ticket fields
 - Add comments
-- Time tracking
 - Bulk operations
 - Sprint management
 

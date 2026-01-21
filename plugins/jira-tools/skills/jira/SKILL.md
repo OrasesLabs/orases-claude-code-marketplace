@@ -83,6 +83,28 @@ python3 ${CLAUDE_PLUGIN_ROOT}/scripts/link_ticket.py SOURCE-KEY TARGET-KEY "Rela
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/link_ticket.py TICKET-KEY --remove 12345
 ```
 
+### 4. Log Work Time ✅
+
+Log time spent on tickets with flexible date formats and custom comments.
+
+**Script:** `${CLAUDE_PLUGIN_ROOT}/scripts/log_worklog.py`
+**Detailed Guide:** `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/worklogging.md`
+
+**Quick Usage:**
+```bash
+# Log 2 hours for a specific date
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/log_worklog.py TICKET-KEY "2h" --date 2026-01-20
+
+# Log time for yesterday
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/log_worklog.py TICKET-KEY "1h 30m" --date yesterday
+
+# Log time with custom comment
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/log_worklog.py TICKET-KEY "2h" --date today --comment "Code review"
+
+# Preview worklog (dry run)
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/log_worklog.py TICKET-KEY "2h" --date today --dry-run
+```
+
 ### 5. Search Tickets (Coming Soon)
 - JQL queries
 - Natural language search
@@ -126,8 +148,11 @@ Map common phrases to Jira actions:
 | "X duplicates Y" | Link | "Duplicate" link type |
 | "relate X and Y" | Link | "Relates" link type |
 | "show links for X" | Link | `link_ticket.py --list` |
+| "log 2h to X for today" | Worklog | `log_worklog.py` |
+| "track time", "add time" | Worklog | `log_worklog.py` |
+| "log X hours yesterday" | Worklog | `log_worklog.py --date yesterday` |
 
-See `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/transitioning.md` and `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/linking.md` for complete mapping tables.
+See `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/transitioning.md`, `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/linking.md`, and `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/worklogging.md` for complete mapping tables.
 
 ## Workflow Patterns
 
@@ -173,6 +198,23 @@ See `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/transitioning.md` and `${CLAUDE_PLUG
 **Steps:**
 1. Execute: `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/link_ticket.py PROJ-123 --list`
 2. Display linked issues with relationship types
+
+### Log Work Time
+
+**User:** "Log 2 hours to PROJ-123 for yesterday"
+
+**Steps:**
+1. Parse intent: time="2h", date="yesterday"
+2. Execute: `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/log_worklog.py PROJ-123 "2h" --date yesterday`
+3. Confirm worklog created
+
+### Preview Worklog
+
+**User:** "What would it look like to log 4h to PROJ-123 for today?"
+
+**Steps:**
+1. Execute: `python3 ${CLAUDE_PLUGIN_ROOT}/scripts/log_worklog.py PROJ-123 "4h" --date today --dry-run`
+2. Display preview without making changes
 
 ## Error Handling
 
@@ -231,9 +273,10 @@ ${CLAUDE_PLUGIN_ROOT}/skills/jira/
 ├── docs/
 │   ├── viewing.md            # Detailed guide for view_ticket.py
 │   ├── transitioning.md      # Detailed guide for transition_ticket.py
-│   └── linking.md            # Detailed guide for link_ticket.py
+│   ├── linking.md            # Detailed guide for link_ticket.py
+│   └── worklogging.md        # Detailed guide for log_worklog.py
 └── examples/
-    └── (coming soon)
+    └── common-workflows.md   # Real-world usage patterns
 ```
 
 ## Scripts Reference
@@ -245,6 +288,7 @@ ${CLAUDE_PLUGIN_ROOT}/scripts/
 ├── view_ticket.py           # View ticket details
 ├── transition_ticket.py     # Transition ticket status
 ├── link_ticket.py           # Link tickets together
+├── log_worklog.py           # Log time to tickets
 ├── test_connection.py       # Test API authentication
 ├── README.md               # Complete scripts guide
 └── SETUP.md               # Authentication setup
@@ -252,5 +296,5 @@ ${CLAUDE_PLUGIN_ROOT}/scripts/
 
 ---
 
-**For detailed usage:** See `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/viewing.md`, `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/transitioning.md`, and `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/linking.md`
+**For detailed usage:** See `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/viewing.md`, `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/transitioning.md`, `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/linking.md`, and `${CLAUDE_PLUGIN_ROOT}/skills/jira/docs/worklogging.md`
 **For setup:** See `${CLAUDE_PLUGIN_ROOT}/scripts/SETUP.md`

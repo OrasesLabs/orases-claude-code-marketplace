@@ -134,6 +134,51 @@ python3 scripts/view_ticket.py PROJ-333 --json | jq '.fields.status.name'
 python3 scripts/view_ticket.py PROJ-333 --json | jq '.fields.assignee.displayName'
 ```
 
+## Time Tracking Workflow
+
+### End of Day Time Logging
+
+**User:** "Log my time for today"
+
+```bash
+# Log work to multiple tickets
+python3 scripts/log_worklog.py PROJ-123 "4h" --date today --comment "Feature implementation"
+python3 scripts/log_worklog.py PROJ-456 "2h" --date today --comment "Code review"
+python3 scripts/log_worklog.py PROJ-789 "1h 30m" --date today --comment "Bug investigation"
+```
+
+### Yesterday's Work
+
+**User:** "I forgot to log time yesterday. Add 6 hours to PROJ-123"
+
+```bash
+python3 scripts/log_worklog.py PROJ-123 "6h" --date yesterday
+```
+
+### Preview Before Logging
+
+**User:** "Show me what would be logged for PROJ-123"
+
+```bash
+python3 scripts/log_worklog.py PROJ-123 "2h 30m" --date today --dry-run
+```
+
+### Specific Date
+
+**User:** "Log 8 hours to PROJ-123 for January 15th"
+
+```bash
+python3 scripts/log_worklog.py PROJ-123 "8h" --date 2026-01-15
+```
+
+### Quick Meeting Entry
+
+**User:** "Log 30 minutes for the sprint planning meeting"
+
+```bash
+python3 scripts/log_worklog.py PROJ-100 "30m" --date today --comment "Sprint planning meeting"
+```
+
 ## Tips
 
 1. **Always view first** - Check current state before making changes
@@ -141,3 +186,5 @@ python3 scripts/view_ticket.py PROJ-333 --json | jq '.fields.assignee.displayNam
 3. **Use --dry-run** - Preview important changes
 4. **Check --full** - Get complete context with comments when needed
 5. **Natural language** - Ask in plain English, the skill handles mapping
+6. **Log time daily** - Use "today" or "yesterday" for quick time entry
+7. **Custom comments** - Add descriptive comments for better tracking
