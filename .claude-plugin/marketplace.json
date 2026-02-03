@@ -7,7 +7,7 @@
   },
   "metadata": {
     "description": "Orases curated Claude Code plugins for Jira workflow management, session analysis, and business process visualization",
-    "version": "1.3.0"
+    "version": "1.4.0"
   },
   "plugins": [
     {
@@ -19,7 +19,6 @@
         "name": "Orases",
         "email": "support@orases.com"
       },
-      "repository": "https://github.com/OrasesLabs/orases-claude-code-marketplace",
       "license": "MIT",
       "keywords": ["jira", "atlassian", "project-management", "workflow", "tickets"],
       "category": "productivity"
@@ -33,7 +32,6 @@
         "name": "Orases",
         "email": "support@orases.com"
       },
-      "repository": "https://github.com/OrasesLabs/orases-claude-code-marketplace",
       "license": "MIT",
       "keywords": ["workflow", "analysis", "optimization", "session-tracking", "transcript-analysis"],
       "category": "analysis"
@@ -47,10 +45,22 @@
         "name": "Orases",
         "email": "support@orases.com"
       },
-      "repository": "https://github.com/OrasesLabs/orases-claude-code-marketplace",
       "license": "MIT",
       "keywords": ["workflow", "visualization", "diagrams", "business-analysis", "process-flow"],
       "category": "visualization"
+    },
+    {
+      "name": "docs-management",
+      "source": "./plugins/docs-management",
+      "description": "Documentation management plugin with Diataxis framework support. Create, organize, and maintain project documentation following industry standards.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Orases",
+        "email": "support@orases.com"
+      },
+      "license": "MIT",
+      "keywords": ["documentation", "diataxis", "technical-writing", "tutorials", "how-to-guides", "reference", "architecture", "standards"],
+      "category": "documentation"
     }
   ]
 }

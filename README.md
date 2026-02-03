@@ -54,6 +54,23 @@ Business analysis toolkit that transforms written workflow descriptions into vis
 
 ---
 
+### [Docs Management](./plugins/docs-management) (v1.0.0)
+
+Documentation management plugin with Diátaxis framework support for creating, organizing, and maintaining project documentation following industry standards.
+
+**Features:**
+- **Diátaxis Framework**: Organize docs into Tutorials, How-to Guides, Reference, and Explanation
+- **Templates & Standards**: Ready-to-use templates with type-specific quality checklists
+- **Writer Skills**: Specialized skills for tutorials, how-to guides, tech specs, ADRs, and more
+- **Git Integration**: Update documentation based on recent code changes
+- **Coverage Auditing**: Identify documentation gaps and outdated content
+- **Project Setup**: Initialize standard documentation structure for new projects
+
+**Category:** Documentation
+**Documentation:** [View Plugin README](./plugins/docs-management/README.md)
+
+---
+
 ## Installation
 
 ### Prerequisites
@@ -67,7 +84,10 @@ Business analysis toolkit that transforms written workflow descriptions into vis
 This installs all plugins at once from the GitHub repository.
 
 ```bash
-# Install marketplace directly from GitHub
+# Install marketplace directly from GitHub (shorthand)
+claude plugin marketplace add OrasesLabs/orases-claude-code-marketplace
+
+# Or with full SSH URL
 claude plugin marketplace add git@github.com:OrasesLabs/orases-claude-code-marketplace.git
 ```
 
@@ -84,37 +104,19 @@ cd orases-claude-code-marketplace
 claude plugin install .
 ```
 
-### Option 3: Install Individual Plugins
-
-Install only the plugins you need.
-
-```bash
-# Clone the repository
-git clone git@github.com:OrasesLabs/orases-claude-code-marketplace.git
-
-# Install jira-tools only
-cd orases-claude-code-marketplace/plugins/jira-tools
-claude plugin install .
-
-# Or install workflow-analyzer only
-cd orases-claude-code-marketplace/plugins/workflow-analyzer
-claude plugin install .
-
-# Or install ba-toolkit only
-cd orases-claude-code-marketplace/plugins/ba-toolkit
-claude plugin install .
-```
-
 ### Verifying Installation
 
 After installation, verify the plugins are loaded:
 
 ```bash
-# List installed plugins
-claude plugin list
+# Open the plugin manager (interactive interface)
+/plugin
 
-# You should see the installed plugins listed
+# Or list configured marketplaces
+/plugin marketplace list
 ```
+
+The `/plugin` command opens an interactive interface with tabs for **Discover**, **Installed**, **Marketplaces**, and **Errors**.
 
 ### Plugin-Specific Configuration
 
@@ -138,8 +140,8 @@ See [Jira Tools INSTALL.md](./plugins/jira-tools/INSTALL.md) for detailed setup 
 To update to the latest version:
 
 ```bash
-# If installed from GitHub marketplace
-claude plugin marketplace update orases-marketplace
+# Update the marketplace
+/plugin marketplace update orases-claude-code-marketplace
 
 # If installed locally, pull latest and reinstall
 cd orases-claude-code-marketplace
@@ -158,6 +160,8 @@ claude plugin install .
 - "Transition PROJ-123 to In Progress" (Jira Tools)
 - `/analyze-workflow` (Workflow Analyzer)
 - "Create a process flow diagram for this workflow" (BA Toolkit)
+- `/docs-management:create-how-to deploying to production` (Docs Management)
+- `/docs-management:review-coverage` (Docs Management)
 
 For detailed setup instructions, see each plugin's README.md file.
 
