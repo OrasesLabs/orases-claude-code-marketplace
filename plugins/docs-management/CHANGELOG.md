@@ -9,14 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Compressed Documentation Index System** - Generate token-efficient, machine-readable documentation indexes
-- `generate-docs-index.py` script - Scans docs directories and produces compressed indexes with frontmatter extraction
+- **Compressed Documentation Index System** - Generate token-efficient, machine-readable documentation indexes that update CLAUDE.md
+- `generate-docs-index.py` script - Scans docs directories and writes compressed index to CLAUDE.md
+  - Auto-detects project CLAUDE.md from docs directory location
+  - Creates CLAUDE.md if missing, appends markers if absent, updates in-place if present
+  - `--dry-run` flag to preview index without writing files
   - `--quadrant` flag to filter by Diataxis section
-  - `--format` flag supporting `full`, `readme`, and `claude-md` output formats
-  - `--output` flag to write directly to file
-  - `--update-section` flag to replace content between markers in existing files
+  - `--output` flag to target a specific CLAUDE.md
   - `--docs-root` flag to override relative path display
-- `update-docs-index.sh` script - Regenerates all quadrant indexes and optionally updates CLAUDE.md in one pass
+- `update-docs-index.sh` script - Thin wrapper for quick CLAUDE.md index regeneration
 - `/docs-management:generate-index` command - Slash command to run index generation directly
 
 ## [1.0.0] - 2026-02-04

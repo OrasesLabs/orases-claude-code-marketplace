@@ -1,13 +1,24 @@
 ---
 name: docs-management:generate-index
-description: Generate a compressed documentation index for Claude Code. Scans docs directories and outputs a token-efficient index using compact notation. Supports filtering by quadrant, multiple output formats, and updating existing files.
-argument-hint: "[docs-path] [--quadrant NAME] [--format full|readme|claude-md]"
-allowed-tools: Bash, Read
+description: Generate a compressed documentation index and update CLAUDE.md. Scans docs directories and produces a token-efficient index using compact notation. By default writes to the project's CLAUDE.md between index markers.
+argument-hint: "[docs-path] [--dry-run] [--quadrant NAME]"
+allowed-tools: Bash, Read, Glob
 ---
 
 # Generate Documentation Index
 
-Generate a compressed, machine-readable documentation index optimized for Claude Code discovery.
+Generate a compressed, machine-readable documentation index and write it to the project's CLAUDE.md.
+
+## Default Behavior
+
+By default this command:
+1. Scans the project's `./docs/` directory for all `.md` files
+2. Generates a compressed index with description hints from frontmatter
+3. **Writes the index to CLAUDE.md** between `<!-- DOCS-INDEX:START -->` and `<!-- DOCS-INDEX:END -->` markers
+4. If CLAUDE.md has no markers, appends the index section with markers at the end
+5. If CLAUDE.md doesn't exist, creates it with the index section
+
+Use `--dry-run` to preview the index without writing any files.
 
 ## Arguments
 
@@ -15,71 +26,45 @@ $ARGUMENTS
 
 ## Instructions
 
-Run the `generate-docs-index.py` script to produce the documentation index.
+### Step 1: Determine the docs path
 
-### Default behavior (no arguments)
+1. **If a path is provided in the arguments** — use it directly
+2. **If no path is provided** — locate the project's main docs directory:
+   - Use Glob to search for `docs/README.md` or `docs/` in the current working directory
+   - If `./docs/` exists, use it
+   - If not found, check for common alternatives: `./documentation/`, `./doc/`
+   - If still not found, tell the user no docs directory was detected and ask them to specify the path
 
-If no arguments are provided, scan the current project's `./docs/` directory:
+### Step 2: Run the script
 
+```bash
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate-docs-index.py <docs-path> [flags]
+```
+
+### Argument parsing
+
+**Path argument** — the docs directory to scan:
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate-docs-index.py ./docs
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate-docs-index.py /absolute/path/to/docs
 ```
 
-### With arguments
-
-Parse the arguments to determine which flags to pass:
-
-**Path argument** - First positional argument is the docs directory path:
+**Dry run** — preview without writing:
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate-docs-index.py <path>
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate-docs-index.py ./docs --dry-run
 ```
 
-**Quadrant filter** - If user mentions a specific section (tutorials, guides, reference, technical, architecture, research):
+**Quadrant filter** — if user mentions a specific section (tutorials, guides, reference, technical, architecture, research):
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate-docs-index.py ./docs --quadrant reference
 ```
 
-**Format options**:
-- `full` (default) - Raw compressed index for stdout
-- `readme` - Wrapped in a README template for a quadrant
-- `claude-md` - Formatted for CLAUDE.md embedding
-
+**Explicit output target**:
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate-docs-index.py ./docs --format claude-md
-```
-
-**Write to file**:
-```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate-docs-index.py ./docs --format claude-md --output CLAUDE.md
-```
-
-**Update a section in an existing file** (replaces content between markers):
-```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate-docs-index.py ./docs --format claude-md --output CLAUDE.md --update-section DOCS-INDEX
-```
-
-This replaces content between `<!-- DOCS-INDEX:START -->` and `<!-- DOCS-INDEX:END -->` markers.
-
-**Regenerate all indexes at once**:
-```bash
-bash ${CLAUDE_PLUGIN_ROOT}/scripts/update-docs-index.sh ./docs --claude-md CLAUDE.md
-```
-
-### Compressed Index Format
-
-The output uses a compact notation:
-
-```
-root:./docs/|IMPORTANT: Read relevant docs before implementing.
-
-|getting-started/README.md    -> Learning-oriented guides
-|guides/README.md             -> Task-oriented procedures
-|reference/README.md          -> Technical specifications
-
-|reference/api:{AUTHENTICATION.md,ENDPOINTS.md,ERROR-CODES.md}
-|technical:{API-SPECIFICATION.md,DATA-MODELS.md}
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate-docs-index.py ./docs --output ./CLAUDE.md
 ```
 
 ### After running
 
-Display the generated index to the user. If using `--update-section`, confirm which file and section were updated.
+- If files were written, confirm which CLAUDE.md was updated and whether the section was created, appended, or updated
+- If `--dry-run` was used, display the generated index to the user

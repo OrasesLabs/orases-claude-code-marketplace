@@ -3,6 +3,7 @@
 
 Scans a docs directory and produces a compact, machine-readable index
 using a compressed notation format optimized for token efficiency.
+By default, updates the project's CLAUDE.md between index markers.
 
 Format rules:
   |           path delimiter prefix
@@ -16,9 +17,10 @@ Examples:
   |technical:DATA-MODELS.md
 
 Usage:
-  python3 generate-docs-index.py ./docs
+  python3 generate-docs-index.py ./docs                    # Updates CLAUDE.md
+  python3 generate-docs-index.py ./docs --dry-run          # Print only, no writes
   python3 generate-docs-index.py ./docs --quadrant reference
-  python3 generate-docs-index.py ./docs --format claude-md --output CLAUDE.md --update-section DOCS-INDEX
+  python3 generate-docs-index.py ./docs --output CLAUDE.md # Explicit target
 """
 
 import argparse
@@ -101,6 +103,8 @@ QUADRANT_DESCRIPTIONS = {
     'research': 'Research findings and analysis',
 }
 
+SECTION_MARKER = 'DOCS-INDEX'
+
 
 def scan_docs(docs_path, quadrant_filter=None):
     """Scan docs directory and group files by relative directory.
@@ -157,8 +161,8 @@ def scan_docs(docs_path, quadrant_filter=None):
     return sorted_groups, sorted(readme_entries, key=lambda x: x[0])
 
 
-def format_full(groups, readme_entries, docs_root_label=None):
-    """Format as raw compressed index."""
+def format_index(groups, readme_entries, docs_root_label=None):
+    """Format as compressed index."""
     lines = []
 
     root_label = docs_root_label or './docs/'
@@ -203,24 +207,6 @@ def format_full(groups, readme_entries, docs_root_label=None):
     return '\n'.join(lines)
 
 
-def format_readme(groups, readme_entries, quadrant=None, docs_root_label=None):
-    """Format wrapped in a README template for a quadrant."""
-    quadrant_name = QUADRANT_MAP.get(quadrant, quadrant or 'Documentation')
-    quadrant_desc = QUADRANT_DESCRIPTIONS.get(quadrant, '')
-
-    lines = []
-    lines.append('## {} Index'.format(quadrant_name))
-    lines.append('')
-    if quadrant_desc:
-        lines.append(quadrant_desc)
-        lines.append('')
-    lines.append('```')
-    lines.append(format_full(groups, readme_entries, docs_root_label))
-    lines.append('```')
-
-    return '\n'.join(lines)
-
-
 def format_claude_md(groups, readme_entries, docs_root_label=None):
     """Format for embedding in CLAUDE.md."""
     lines = []
@@ -229,16 +215,68 @@ def format_claude_md(groups, readme_entries, docs_root_label=None):
     lines.append('Use this index to find relevant documentation before implementing changes.')
     lines.append('')
     lines.append('```')
-    lines.append(format_full(groups, readme_entries, docs_root_label))
+    lines.append(format_index(groups, readme_entries, docs_root_label))
     lines.append('```')
 
     return '\n'.join(lines)
 
 
+def find_claude_md(docs_path):
+    """Auto-detect CLAUDE.md by searching from docs_path up to project root.
+
+    Looks for CLAUDE.md in the parent of the docs directory first,
+    then searches upward for common project root indicators.
+    """
+    docs_resolved = Path(docs_path).resolve()
+
+    # Start from the parent of the docs directory
+    search_dir = docs_resolved.parent
+
+    # Walk up looking for CLAUDE.md alongside project root indicators
+    for _ in range(10):  # Safety limit
+        candidate = search_dir / 'CLAUDE.md'
+        if candidate.is_file():
+            return str(candidate)
+
+        # Check for project root indicators
+        root_indicators = ['.git', 'package.json', 'composer.json', 'Cargo.toml',
+                           'pyproject.toml', 'go.mod', '.claude']
+        is_project_root = any((search_dir / ind).exists() for ind in root_indicators)
+
+        if is_project_root:
+            # This is the project root but no CLAUDE.md found
+            return str(candidate)  # Return path where it should be created
+
+        parent = search_dir.parent
+        if parent == search_dir:
+            break
+        search_dir = parent
+
+    # Fallback: CLAUDE.md next to docs dir
+    return str(docs_resolved.parent / 'CLAUDE.md')
+
+
 def update_section(filepath, marker, content):
-    """Replace content between <!-- MARKER:START --> and <!-- MARKER:END --> markers."""
+    """Replace content between <!-- MARKER:START --> and <!-- MARKER:END --> markers.
+
+    If the file exists but has no markers, appends the section with markers.
+    If the file doesn't exist, creates it with the section.
+    """
     start_marker = '<!-- {}:START -->'.format(marker)
     end_marker = '<!-- {}:END -->'.format(marker)
+    section_block = '{}\n{}\n{}'.format(start_marker, content, end_marker)
+
+    file_path = Path(filepath)
+
+    if not file_path.is_file():
+        # Create new CLAUDE.md with the section
+        try:
+            with open(filepath, 'w', encoding='utf-8') as f:
+                f.write('# CLAUDE.md\n\n{}\n'.format(section_block))
+            return 'created'
+        except IOError as e:
+            print("Error creating '{}': {}".format(filepath, e), file=sys.stderr)
+            sys.exit(1)
 
     try:
         with open(filepath, 'r', encoding='utf-8') as f:
@@ -250,18 +288,14 @@ def update_section(filepath, marker, content):
     start_idx = original.find(start_marker)
     end_idx = original.find(end_marker)
 
-    if start_idx == -1:
-        print("Error: Start marker '{}' not found in '{}'".format(start_marker, filepath), file=sys.stderr)
-        sys.exit(1)
-    if end_idx == -1:
-        print("Error: End marker '{}' not found in '{}'".format(end_marker, filepath), file=sys.stderr)
-        sys.exit(1)
-    if end_idx < start_idx:
-        print("Error: End marker appears before start marker in '{}'".format(filepath), file=sys.stderr)
-        sys.exit(1)
-
-    # Replace content between markers (preserve markers themselves)
-    new_content = original[:start_idx + len(start_marker)] + '\n' + content + '\n' + original[end_idx:]
+    if start_idx == -1 or end_idx == -1 or end_idx < start_idx:
+        # No valid markers found — append section at end
+        new_content = original.rstrip('\n') + '\n\n{}\n'.format(section_block)
+        action = 'appended'
+    else:
+        # Replace content between markers (preserve markers themselves)
+        new_content = original[:start_idx + len(start_marker)] + '\n' + content + '\n' + original[end_idx:]
+        action = 'updated'
 
     try:
         with open(filepath, 'w', encoding='utf-8') as f:
@@ -270,12 +304,13 @@ def update_section(filepath, marker, content):
         print("Error writing '{}': {}".format(filepath, e), file=sys.stderr)
         sys.exit(1)
 
-    return True
+    return action
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Generate compressed documentation indexes for Claude Code.'
+        description='Generate compressed documentation indexes for Claude Code. '
+                    'By default, updates the project CLAUDE.md with a compressed index.'
     )
     parser.add_argument(
         'docs_dir',
@@ -288,18 +323,18 @@ def main():
     )
     parser.add_argument(
         '--output',
-        help='Write output to file instead of stdout'
+        help='Target CLAUDE.md file path (default: auto-detect from project root)'
     )
     parser.add_argument(
-        '--format',
-        choices=['full', 'readme', 'claude-md'],
-        default='full',
-        help='Output format (default: full)'
+        '--dry-run',
+        action='store_true',
+        help='Print the index to stdout without writing any files'
     )
     parser.add_argument(
-        '--update-section',
+        '--section-marker',
+        default=SECTION_MARKER,
         metavar='MARKER',
-        help='Replace content between <!-- MARKER:START --> and <!-- MARKER:END --> in target file'
+        help='Marker name for section delimiters (default: {})'.format(SECTION_MARKER)
     )
     parser.add_argument(
         '--docs-root',
@@ -308,39 +343,25 @@ def main():
 
     args = parser.parse_args()
 
-    # Validate argument combinations
-    if args.update_section and not args.output:
-        print("Error: --update-section requires --output to specify the target file", file=sys.stderr)
-        sys.exit(1)
-
     # Scan docs
     groups, readme_entries = scan_docs(args.docs_dir, args.quadrant)
 
     # Determine docs root label
     docs_root_label = args.docs_root or './{}/'.format(Path(args.docs_dir).name)
 
-    # Format output
-    if args.format == 'readme':
-        output = format_readme(groups, readme_entries, args.quadrant, docs_root_label)
-    elif args.format == 'claude-md':
-        output = format_claude_md(groups, readme_entries, docs_root_label)
-    else:
-        output = format_full(groups, readme_entries, docs_root_label)
+    # Format output for CLAUDE.md
+    output = format_claude_md(groups, readme_entries, docs_root_label)
 
-    # Write output
-    if args.update_section and args.output:
-        update_section(args.output, args.update_section, output)
-        print("Updated section '{}' in '{}'".format(args.update_section, args.output))
-    elif args.output:
-        try:
-            with open(args.output, 'w', encoding='utf-8') as f:
-                f.write(output + '\n')
-            print("Written to '{}'".format(args.output))
-        except IOError as e:
-            print("Error writing '{}': {}".format(args.output, e), file=sys.stderr)
-            sys.exit(1)
-    else:
+    if args.dry_run:
         print(output)
+        return
+
+    # Determine target file
+    target = args.output or find_claude_md(args.docs_dir)
+
+    # Update the target file
+    action = update_section(target, args.section_marker, output)
+    print("{} CLAUDE.md index in '{}'".format(action.capitalize(), target))
 
 
 if __name__ == '__main__':
