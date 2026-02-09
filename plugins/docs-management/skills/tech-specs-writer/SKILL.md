@@ -236,3 +236,7 @@ Apply this checklist before finalizing any reference documentation.
 - [ ] Code blocks have language specified
 - [ ] Proper use of inline code for values
 - [ ] No broken links
+
+### Documentation Index
+
+- [ ] If a new file was created, moved, or removed: regenerate the CLAUDE.md documentation index via `/docs-management:generate-index`

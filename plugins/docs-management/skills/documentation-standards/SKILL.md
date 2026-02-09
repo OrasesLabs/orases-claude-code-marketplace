@@ -150,6 +150,39 @@ Documentation is organized into four types based on user needs:
 5. **UPDATE** `docs/README.md` index when adding new documents
 6. **KEEP** CHANGELOG.md in project root, not in docs/
 7. **USE** relative links for cross-references within docs/
+8. **REGENERATE** the CLAUDE.md documentation index whenever docs files or directories are added, moved, or removed (see below)
+
+### Documentation Index Maintenance
+
+The project's CLAUDE.md may contain a compressed documentation index between `<!-- DOCS-INDEX:START -->` and `<!-- DOCS-INDEX:END -->` markers. This index gives Claude fast context about what documentation exists and where.
+
+**When to regenerate the index:**
+
+| Event | Action Required |
+|-------|----------------|
+| New doc file created | Regenerate index |
+| Doc file deleted or removed | Regenerate index |
+| Doc file moved or renamed | Regenerate index |
+| Doc directory added or removed | Regenerate index |
+| Doc file content edited (no path change) | No regeneration needed |
+
+**How to regenerate:**
+
+Run the index generator against the project's docs directory:
+
+```bash
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate-docs-index.py <docs-path>
+```
+
+Or use the slash command:
+
+```
+/docs-management:generate-index <docs-path>
+```
+
+The script auto-detects the project's CLAUDE.md and updates it in place. Use `--dry-run` to preview changes first.
+
+> **Note:** The docs directory path varies by project. Do not assume `./docs/` -- check the actual project structure or ask the user if unclear.
 
 ### Required Documents (Minimum Viable Documentation)
 

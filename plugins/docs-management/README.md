@@ -5,6 +5,7 @@ Documentation management plugin for Claude Code with Diátaxis framework support
 ## Features
 
 - **Diátaxis Framework** - Organize docs into Tutorials, How-to Guides, Reference, and Explanation
+- **Compressed Documentation Index** - Generate token-efficient indexes in CLAUDE.md for fast doc discovery
 - **Templates** - Ready-to-use templates for each documentation type
 - **Quality Checklists** - Type-specific checklists to ensure documentation quality
 - **Project Customization** - Override defaults with project or user-specific settings
@@ -28,6 +29,7 @@ claude plugins add docs-management
 | `/docs-management:setup-project` | Initialize standard docs structure |
 | `/docs-management:migrate-existing` | Reorganize existing docs to standard structure |
 | `/docs-management:review-coverage` | Audit documentation and identify gaps |
+| `/docs-management:generate-index` | Generate compressed documentation index in CLAUDE.md |
 
 ### Usage Examples
 
@@ -43,6 +45,15 @@ claude plugins add docs-management
 
 # Check documentation coverage
 /docs-management:review-coverage API documentation
+
+# Generate documentation index (updates CLAUDE.md)
+/docs-management:generate-index ./docs
+
+# Preview index without writing
+/docs-management:generate-index ./docs --dry-run
+
+# Generate index for a specific section only
+/docs-management:generate-index ./docs --quadrant reference
 ```
 
 ## Diátaxis Framework
@@ -97,6 +108,56 @@ Each skill includes:
 - Writing guidelines (DO/DON'T)
 - Ready-to-use templates
 - Quality checklists
+
+## Documentation Index
+
+The plugin can generate a compressed, token-efficient documentation index and embed it in your project's CLAUDE.md. This gives Claude instant context about what documentation exists and where to find it.
+
+### How It Works
+
+1. Scans a `docs/` directory for all `.md` files
+2. Extracts description hints from YAML frontmatter or H1 headings
+3. Writes a compressed index between `<!-- DOCS-INDEX:START -->` and `<!-- DOCS-INDEX:END -->` markers in CLAUDE.md
+4. Auto-detects the project's CLAUDE.md by searching for project root indicators (`.git`, `package.json`, `composer.json`, etc.)
+
+### When to Regenerate
+
+Regenerate the index whenever documentation files or directories are added, moved, or removed. Content-only edits (no path changes) do not require regeneration.
+
+### Compressed Format
+
+The index uses a compact notation to minimize token usage. See [INDEX-FORMAT.md](docs/INDEX-FORMAT.md) for the full format reference.
+
+Example output:
+
+```
+root:./docs/|IMPORTANT: Read relevant docs before implementing.
+
+|getting-started/README.md    -> Learning-oriented guides
+|reference/api:{AUTH.md,ENDPOINTS.md}
+|architecture:OVERVIEW.md     -> System architecture
+```
+
+### Scripts
+
+| Script | Description |
+|--------|-------------|
+| `scripts/generate-docs-index.py` | Scans docs and writes compressed index to CLAUDE.md |
+| `scripts/update-docs-index.sh` | Thin bash wrapper for quick regeneration |
+
+```bash
+# Generate index (updates CLAUDE.md automatically)
+python3 scripts/generate-docs-index.py ./docs
+
+# Preview without writing
+python3 scripts/generate-docs-index.py ./docs --dry-run
+
+# Filter to a specific Diataxis section
+python3 scripts/generate-docs-index.py ./docs --quadrant reference
+
+# Target a specific CLAUDE.md
+python3 scripts/generate-docs-index.py ./docs --output ./CLAUDE.md
+```
 
 ## Customization
 
