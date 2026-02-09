@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# update-docs-index.sh - Regenerate the CLAUDE.md documentation index.
+# update-docs-index.sh - Regenerate the documentation index.
 #
 # Thin wrapper around generate-docs-index.py that auto-detects the docs
-# directory and updates CLAUDE.md with a compressed index.
+# directory and writes INDEX.md inside it.
 #
 # Usage:
-#   ./update-docs-index.sh [docs-dir] [--output CLAUDE.md] [--dry-run]
+#   ./update-docs-index.sh [docs-dir] [--output PATH] [--dry-run]
 #
 # Arguments:
 #   docs-dir       Path to docs directory (default: ./docs)
-#   --output       Explicit path to CLAUDE.md (default: auto-detect)
+#   --output       Explicit output file path (default: <docs-dir>/INDEX.md)
 #   --dry-run      Print index without writing files
 
 set -euo pipefail
@@ -30,13 +30,13 @@ EXTRA_ARGS=()
 for arg in "$@"; do
     case "$arg" in
         -h|--help)
-            echo "Usage: $(basename "$0") [docs-dir] [--output CLAUDE.md] [--dry-run]"
+            echo "Usage: $(basename "$0") [docs-dir] [--output PATH] [--dry-run]"
             echo ""
-            echo "Regenerate the CLAUDE.md documentation index."
+            echo "Regenerate the documentation index."
             echo ""
             echo "Arguments:"
             echo "  docs-dir         Path to docs directory (default: ./docs)"
-            echo "  --output PATH    Explicit path to CLAUDE.md (default: auto-detect)"
+            echo "  --output PATH    Explicit output file path (default: <docs-dir>/INDEX.md)"
             echo "  --dry-run        Print index without writing files"
             exit 0
             ;;

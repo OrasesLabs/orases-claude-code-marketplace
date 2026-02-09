@@ -155,30 +155,13 @@ The generator extracts description hints in this priority order:
 
 ## CLAUDE.md Integration
 
-The index is embedded in CLAUDE.md between marker comments:
+The index is written as a standalone `INDEX.md` file inside the docs directory. To include it in Claude's context, add an `@` file reference in your project's CLAUDE.md:
 
 ```markdown
-<!-- DOCS-INDEX:START -->
-### Documentation Index
-
-Use this index to find relevant documentation before implementing changes.
-
-\`\`\`
-root:./docs/|IMPORTANT: Read relevant docs before implementing.
-
-|getting-started/README.md    -> Learning-oriented guides
-|reference/api:{AUTH.md,ENDPOINTS.md}
-\`\`\`
-<!-- DOCS-INDEX:END -->
+@docs/INDEX.md
 ```
 
-The generator handles three scenarios:
-
-| Scenario | Behavior |
-|----------|----------|
-| CLAUDE.md doesn't exist | Creates it with the index section |
-| CLAUDE.md exists, no markers | Appends the index section with markers at the end |
-| CLAUDE.md exists, markers present | Replaces content between markers (in-place update) |
+This keeps the root CLAUDE.md clean while ensuring the index is always loaded into context. The `INDEX.md` file is overwritten in place on each regeneration -- no marker-based splicing is needed.
 
 ## Quadrant Filtering
 
@@ -202,8 +185,9 @@ The generator supports filtering output to a specific Diataxis section using the
 - Hints (`->`) give Claude enough context to select the right file without reading every one
 - The `root:` directive instructs Claude on how to use the index
 
-**Why embed in CLAUDE.md?**
+**Why a standalone INDEX.md with `@` reference?**
 
-- CLAUDE.md is automatically loaded as context in every Claude Code session
-- No extra file reads needed -- the index is always available
-- Marker-based updates allow the index to coexist with other CLAUDE.md content
+- Keeps the root CLAUDE.md clean and human-readable
+- `@docs/INDEX.md` in CLAUDE.md auto-loads the index into every Claude Code session
+- No marker-based splicing needed -- the entire file is overwritten on regeneration
+- The index lives alongside the documentation it describes

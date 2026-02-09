@@ -3,7 +3,7 @@
 
 Scans a docs directory and produces a compact, machine-readable index
 using a compressed notation format optimized for token efficiency.
-By default, updates the project's CLAUDE.md between index markers.
+By default, writes INDEX.md inside the docs directory.
 
 Format rules:
   |           path delimiter prefix
@@ -17,10 +17,13 @@ Examples:
   |technical:DATA-MODELS.md
 
 Usage:
-  python3 generate-docs-index.py ./docs                    # Updates CLAUDE.md
+  python3 generate-docs-index.py ./docs                    # Writes ./docs/INDEX.md
   python3 generate-docs-index.py ./docs --dry-run          # Print only, no writes
   python3 generate-docs-index.py ./docs --quadrant reference
-  python3 generate-docs-index.py ./docs --output CLAUDE.md # Explicit target
+  python3 generate-docs-index.py ./docs --output ./custom/INDEX.md
+
+After generating, add @docs/INDEX.md to your project's CLAUDE.md so the
+index is automatically loaded into Claude's context.
 """
 
 import argparse
@@ -103,15 +106,16 @@ QUADRANT_DESCRIPTIONS = {
     'research': 'Research findings and analysis',
 }
 
-SECTION_MARKER = 'DOCS-INDEX'
+# Files excluded from index listings
+EXCLUDED_FILES = {'README.md', 'CLAUDE.md', 'INDEX.md'}
 
 
 def scan_docs(docs_path, quadrant_filter=None):
     """Scan docs directory and group files by relative directory.
 
     Returns OrderedDict mapping relative_dir -> list of (filename, hint).
-    Excludes README.md and CLAUDE.md from file listings but includes
-    directory README.md entries separately for top-level index.
+    Excludes README.md, CLAUDE.md, and INDEX.md from file listings but
+    includes directory README.md entries separately for top-level index.
     """
     docs_path = Path(docs_path).resolve()
     if not docs_path.is_dir():
@@ -148,7 +152,7 @@ def scan_docs(docs_path, quadrant_filter=None):
                     readme_entries.append((rel_dir_str, hint))
                 continue
 
-            if fname == 'CLAUDE.md':
+            if fname in EXCLUDED_FILES:
                 continue
 
             if rel_dir_str not in groups:
@@ -207,10 +211,10 @@ def format_index(groups, readme_entries, docs_root_label=None):
     return '\n'.join(lines)
 
 
-def format_claude_md(groups, readme_entries, docs_root_label=None):
-    """Format for embedding in CLAUDE.md."""
+def format_index_md(groups, readme_entries, docs_root_label=None):
+    """Format as a standalone INDEX.md file."""
     lines = []
-    lines.append('### Documentation Index')
+    lines.append('# Documentation Index')
     lines.append('')
     lines.append('Use this index to find relevant documentation before implementing changes.')
     lines.append('')
@@ -221,96 +225,29 @@ def format_claude_md(groups, readme_entries, docs_root_label=None):
     return '\n'.join(lines)
 
 
-def find_claude_md(docs_path):
-    """Auto-detect CLAUDE.md by searching from docs_path up to project root.
-
-    Looks for CLAUDE.md in the parent of the docs directory first,
-    then searches upward for common project root indicators.
-    """
-    docs_resolved = Path(docs_path).resolve()
-
-    # Start from the parent of the docs directory
-    search_dir = docs_resolved.parent
-
-    # Walk up looking for CLAUDE.md alongside project root indicators
-    for _ in range(10):  # Safety limit
-        candidate = search_dir / 'CLAUDE.md'
-        if candidate.is_file():
-            return str(candidate)
-
-        # Check for project root indicators
-        root_indicators = ['.git', 'package.json', 'composer.json', 'Cargo.toml',
-                           'pyproject.toml', 'go.mod', '.claude']
-        is_project_root = any((search_dir / ind).exists() for ind in root_indicators)
-
-        if is_project_root:
-            # This is the project root but no CLAUDE.md found
-            return str(candidate)  # Return path where it should be created
-
-        parent = search_dir.parent
-        if parent == search_dir:
-            break
-        search_dir = parent
-
-    # Fallback: CLAUDE.md next to docs dir
-    return str(docs_resolved.parent / 'CLAUDE.md')
-
-
-def update_section(filepath, marker, content):
-    """Replace content between <!-- MARKER:START --> and <!-- MARKER:END --> markers.
-
-    If the file exists but has no markers, appends the section with markers.
-    If the file doesn't exist, creates it with the section.
-    """
-    start_marker = '<!-- {}:START -->'.format(marker)
-    end_marker = '<!-- {}:END -->'.format(marker)
-    section_block = '{}\n{}\n{}'.format(start_marker, content, end_marker)
-
+def write_index(filepath, content):
+    """Write the index file, overwriting any existing content."""
     file_path = Path(filepath)
 
-    if not file_path.is_file():
-        # Create new CLAUDE.md with the section
-        try:
-            with open(filepath, 'w', encoding='utf-8') as f:
-                f.write('# CLAUDE.md\n\n{}\n'.format(section_block))
-            return 'created'
-        except IOError as e:
-            print("Error creating '{}': {}".format(filepath, e), file=sys.stderr)
-            sys.exit(1)
+    # Ensure parent directory exists
+    file_path.parent.mkdir(parents=True, exist_ok=True)
 
-    try:
-        with open(filepath, 'r', encoding='utf-8') as f:
-            original = f.read()
-    except IOError as e:
-        print("Error reading '{}': {}".format(filepath, e), file=sys.stderr)
-        sys.exit(1)
-
-    start_idx = original.find(start_marker)
-    end_idx = original.find(end_marker)
-
-    if start_idx == -1 or end_idx == -1 or end_idx < start_idx:
-        # No valid markers found — append section at end
-        new_content = original.rstrip('\n') + '\n\n{}\n'.format(section_block)
-        action = 'appended'
-    else:
-        # Replace content between markers (preserve markers themselves)
-        new_content = original[:start_idx + len(start_marker)] + '\n' + content + '\n' + original[end_idx:]
-        action = 'updated'
+    existed = file_path.is_file()
 
     try:
         with open(filepath, 'w', encoding='utf-8') as f:
-            f.write(new_content)
+            f.write(content + '\n')
     except IOError as e:
         print("Error writing '{}': {}".format(filepath, e), file=sys.stderr)
         sys.exit(1)
 
-    return action
+    return 'Updated' if existed else 'Created'
 
 
 def main():
     parser = argparse.ArgumentParser(
         description='Generate compressed documentation indexes for Claude Code. '
-                    'By default, updates the project CLAUDE.md with a compressed index.'
+                    'By default, writes INDEX.md inside the docs directory.'
     )
     parser.add_argument(
         'docs_dir',
@@ -323,18 +260,12 @@ def main():
     )
     parser.add_argument(
         '--output',
-        help='Target CLAUDE.md file path (default: auto-detect from project root)'
+        help='Target file path (default: <docs-dir>/INDEX.md)'
     )
     parser.add_argument(
         '--dry-run',
         action='store_true',
         help='Print the index to stdout without writing any files'
-    )
-    parser.add_argument(
-        '--section-marker',
-        default=SECTION_MARKER,
-        metavar='MARKER',
-        help='Marker name for section delimiters (default: {})'.format(SECTION_MARKER)
     )
     parser.add_argument(
         '--docs-root',
@@ -349,19 +280,21 @@ def main():
     # Determine docs root label
     docs_root_label = args.docs_root or './{}/'.format(Path(args.docs_dir).name)
 
-    # Format output for CLAUDE.md
-    output = format_claude_md(groups, readme_entries, docs_root_label)
+    # Format output
+    output = format_index_md(groups, readme_entries, docs_root_label)
 
     if args.dry_run:
         print(output)
         return
 
     # Determine target file
-    target = args.output or find_claude_md(args.docs_dir)
+    target = args.output or str(Path(args.docs_dir).resolve() / 'INDEX.md')
 
-    # Update the target file
-    action = update_section(target, args.section_marker, output)
-    print("{} CLAUDE.md index in '{}'".format(action.capitalize(), target))
+    # Write the index file
+    action = write_index(target, output)
+    print("{} index at '{}'".format(action, target))
+    print("Add @{} to your CLAUDE.md to include this index in context.".format(
+        os.path.relpath(target)))
 
 
 if __name__ == '__main__':

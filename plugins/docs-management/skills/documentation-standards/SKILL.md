@@ -150,11 +150,11 @@ Documentation is organized into four types based on user needs:
 5. **UPDATE** `docs/README.md` index when adding new documents
 6. **KEEP** CHANGELOG.md in project root, not in docs/
 7. **USE** relative links for cross-references within docs/
-8. **REGENERATE** the CLAUDE.md documentation index whenever docs files or directories are added, moved, or removed (see below)
+8. **REGENERATE** the `docs/INDEX.md` documentation index whenever docs files or directories are added, moved, or removed (see below)
 
 ### Documentation Index Maintenance
 
-The project's CLAUDE.md may contain a compressed documentation index between `<!-- DOCS-INDEX:START -->` and `<!-- DOCS-INDEX:END -->` markers. This index gives Claude fast context about what documentation exists and where.
+The project's `docs/` directory may contain an `INDEX.md` file with a compressed documentation index. This file is referenced from CLAUDE.md via `@docs/INDEX.md` so that Claude has fast context about what documentation exists and where.
 
 **When to regenerate the index:**
 
@@ -180,7 +180,7 @@ Or use the slash command:
 /docs-management:generate-index <docs-path>
 ```
 
-The script auto-detects the project's CLAUDE.md and updates it in place. Use `--dry-run` to preview changes first.
+The script writes `INDEX.md` inside the docs directory. Use `--dry-run` to preview changes first.
 
 > **Note:** The docs directory path varies by project. Do not assume `./docs/` -- check the actual project structure or ask the user if unclear.
 

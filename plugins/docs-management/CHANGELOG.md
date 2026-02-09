@@ -19,7 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Index output target changed from CLAUDE.md to `docs/INDEX.md`** - The script now writes a standalone `INDEX.md` inside the docs directory instead of embedding in the root CLAUDE.md. Users add `@docs/INDEX.md` to their CLAUDE.md for automatic context loading. This keeps the root CLAUDE.md clean.
+- Removed marker-based CLAUDE.md splicing (`find_claude_md`, `update_section`) in favor of simple file overwrite
+- `INDEX.md` now excluded from scan results alongside `README.md` and `CLAUDE.md`
 - Updated README with generate-index command, scripts section, compressed index documentation, and usage examples
+- Updated all documentation references (INDEX-FORMAT.md, command, standards skill) to reflect new output approach
 
 ## [1.1.0-beta-2] - 2026-02-06
 

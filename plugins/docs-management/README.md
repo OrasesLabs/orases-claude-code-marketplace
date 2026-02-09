@@ -111,14 +111,14 @@ Each skill includes:
 
 ## Documentation Index
 
-The plugin can generate a compressed, token-efficient documentation index and embed it in your project's CLAUDE.md. This gives Claude instant context about what documentation exists and where to find it.
+The plugin can generate a compressed, token-efficient documentation index as a standalone `INDEX.md` file inside your docs directory. Reference it from CLAUDE.md with `@docs/INDEX.md` so Claude has instant context about what documentation exists and where.
 
 ### How It Works
 
 1. Scans a `docs/` directory for all `.md` files
 2. Extracts description hints from YAML frontmatter or H1 headings
-3. Writes a compressed index between `<!-- DOCS-INDEX:START -->` and `<!-- DOCS-INDEX:END -->` markers in CLAUDE.md
-4. Auto-detects the project's CLAUDE.md by searching for project root indicators (`.git`, `package.json`, `composer.json`, etc.)
+3. Writes `INDEX.md` inside the docs directory (overwrites on each run)
+4. User adds `@docs/INDEX.md` to their project's CLAUDE.md for automatic context loading
 
 ### When to Regenerate
 
@@ -142,11 +142,11 @@ root:./docs/|IMPORTANT: Read relevant docs before implementing.
 
 | Script | Description |
 |--------|-------------|
-| `scripts/generate-docs-index.py` | Scans docs and writes compressed index to CLAUDE.md |
+| `scripts/generate-docs-index.py` | Scans docs and writes `INDEX.md` inside the docs directory |
 | `scripts/update-docs-index.sh` | Thin bash wrapper for quick regeneration |
 
 ```bash
-# Generate index (updates CLAUDE.md automatically)
+# Generate index (writes docs/INDEX.md)
 python3 scripts/generate-docs-index.py ./docs
 
 # Preview without writing
@@ -155,8 +155,8 @@ python3 scripts/generate-docs-index.py ./docs --dry-run
 # Filter to a specific Diataxis section
 python3 scripts/generate-docs-index.py ./docs --quadrant reference
 
-# Target a specific CLAUDE.md
-python3 scripts/generate-docs-index.py ./docs --output ./CLAUDE.md
+# Write to a custom location
+python3 scripts/generate-docs-index.py ./docs --output ./custom/INDEX.md
 ```
 
 ## Customization
