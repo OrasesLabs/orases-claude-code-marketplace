@@ -197,3 +197,7 @@ Apply this checklist before finalizing any research documentation.
 - [ ] Evidence is properly formatted
 - [ ] Links are functional
 - [ ] No broken references
+
+### Documentation Index
+
+- [ ] If a new file was created, moved, or removed: regenerate the CLAUDE.md documentation index via `/docs-management:generate-index`

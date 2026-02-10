@@ -6,23 +6,10 @@
     "url": "https://orases.com"
   },
   "metadata": {
-    "description": "Orases curated Claude Code plugins for Jira workflow management, session analysis, and business process visualization",
-    "version": "1.4.0"
+    "description": "Orases curated Claude Code plugins for session analysis, business process visualization, and documentation management",
+    "version": "1.5.0"
   },
   "plugins": [
-    {
-      "name": "jira-tools",
-      "source": "./plugins/jira-tools",
-      "description": "Jira productivity tools and integrations for Claude Code. Includes Jira ticket management, workflow automation, and platform integrations.",
-      "version": "1.2.0",
-      "author": {
-        "name": "Orases",
-        "email": "support@orases.com"
-      },
-      "license": "MIT",
-      "keywords": ["jira", "atlassian", "project-management", "workflow", "tickets"],
-      "category": "productivity"
-    },
     {
       "name": "workflow-analyzer",
       "source": "./plugins/workflow-analyzer",
@@ -52,8 +39,8 @@
     {
       "name": "docs-management",
       "source": "./plugins/docs-management",
-      "description": "Documentation management plugin with Diataxis framework support. Create, organize, and maintain project documentation following industry standards.",
-      "version": "1.0.0",
+      "description": "Documentation management plugin with Diataxis framework support. Create, organize, and maintain project documentation following industry standards with compressed CLAUDE.md index generation.",
+      "version": "1.1.0",
       "author": {
         "name": "Orases",
         "email": "support@orases.com"

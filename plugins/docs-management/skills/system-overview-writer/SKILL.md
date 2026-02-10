@@ -226,3 +226,7 @@ Apply this checklist before finalizing any explanation documentation.
 - [ ] Diagrams have alt text/descriptions
 - [ ] Code examples support understanding
 - [ ] Readable paragraph length
+
+### Documentation Index
+
+- [ ] If a new file was created, moved, or removed: regenerate the CLAUDE.md documentation index via `/docs-management:generate-index`

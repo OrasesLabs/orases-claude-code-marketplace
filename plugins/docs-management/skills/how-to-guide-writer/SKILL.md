@@ -191,3 +191,7 @@ Apply this checklist before finalizing any how-to guide documentation.
 - [ ] Code blocks have language specified
 - [ ] Notes/warnings use consistent format
 - [ ] No broken links
+
+### Documentation Index
+
+- [ ] If a new file was created, moved, or removed: regenerate the CLAUDE.md documentation index via `/docs-management:generate-index`

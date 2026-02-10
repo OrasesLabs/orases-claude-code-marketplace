@@ -227,3 +227,7 @@ Apply this checklist before finalizing any ADR.
 - [ ] Tables properly formatted
 - [ ] Lists are clear
 - [ ] Readable and scannable
+
+### Documentation Index
+
+- [ ] If a new file was created, moved, or removed: regenerate the CLAUDE.md documentation index via `/docs-management:generate-index`

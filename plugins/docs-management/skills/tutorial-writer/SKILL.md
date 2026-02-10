@@ -192,3 +192,7 @@ Apply this checklist before finalizing any tutorial documentation.
 - [ ] Code blocks have language specified
 - [ ] Expected output is shown after commands
 - [ ] No broken links
+
+### Documentation Index
+
+- [ ] If a new file was created, moved, or removed: regenerate the CLAUDE.md documentation index via `/docs-management:generate-index`
