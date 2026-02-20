@@ -2,7 +2,7 @@
 name: docs-management:generate-index
 description: Generate a compressed documentation index. Scans docs directories and produces a token-efficient INDEX.md using compact notation. By default writes INDEX.md inside the docs directory.
 argument-hint: "[docs-path] [--dry-run] [--quadrant NAME]"
-allowed-tools: Bash, Read, Glob
+allowed-tools: Bash, Read, Write, Glob, AskUserQuestion
 ---
 
 # Generate Documentation Index
@@ -34,7 +34,44 @@ $ARGUMENTS
    - If not found, check for common alternatives: `./documentation/`, `./doc/`
    - If still not found, tell the user no docs directory was detected and ask them to specify the path
 
-### Step 2: Run the script
+### Step 2: Check for missing README files
+
+Before generating the index, verify that every subdirectory in the docs path contains a `README.md`. Directory READMEs are what provide the `-> description` labels in the index — without them, directories appear unlabeled.
+
+1. **Scan for subdirectories** -- use Glob to find all subdirectories under the docs path, then check which ones are missing a `README.md`
+   - Use `docs-path/**/` to discover directories
+   - For each directory, check if `README.md` exists
+   - Exclude the root docs directory itself (it has its own README handling)
+   - Exclude `assets/`, `images/`, `diagrams/`, and other non-documentation directories
+2. **If all directories have READMEs** -- report that all directories are covered and proceed to Step 3
+3. **If any directories are missing READMEs** -- present the list of directories without READMEs and ask the user what to do:
+   - **Option 1: Create README files** -- Generate a `README.md` for each missing directory before indexing. Each README should have:
+     - YAML frontmatter with `title` and `description` fields derived from the directory name and a quick scan of the files inside it
+     - An H1 heading matching the title
+     - A brief 1-2 sentence description of the directory's contents based on scanning the filenames and any available frontmatter in the files within
+     - A note that it was auto-generated
+   - **Option 2: Generate index without READMEs** -- Skip README creation and proceed directly to Step 3. Directories without READMEs will appear unlabeled in the index.
+   - **Option 3: Create READMEs for selected directories only** -- Let the user pick which directories should get READMEs
+
+**When creating READMEs**, follow this template:
+
+```markdown
+---
+title: {Directory Label}
+description: {Brief description of directory contents}
+---
+
+# {Directory Label}
+
+{1-2 sentence description of what this directory contains, based on the files found inside.}
+```
+
+To derive good descriptions:
+- Read the first few files in the directory to understand their content
+- Use frontmatter descriptions or H1 headings from those files to infer the directory's purpose
+- Keep descriptions concise and informative
+
+### Step 3: Run the script
 
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate-docs-index.py <docs-path> [flags]
