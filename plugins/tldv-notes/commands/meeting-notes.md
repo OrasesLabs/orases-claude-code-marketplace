@@ -1,5 +1,5 @@
 ---
-name: meeting-notes
+name: tldv-notes:meeting-notes
 description: Create Confluence pages from TLDV meeting recordings
 argument-hint: days:N space:KEY dryrun:true meetingid:ID
 ---

@@ -1,5 +1,5 @@
 ---
-name: TLDV Processor
+name: tldv-notes:tldv-processor
 description: >
   This skill should be used when the user asks to "create meeting notes",
   "process TLDV meetings", "generate confluence notes from meetings",
