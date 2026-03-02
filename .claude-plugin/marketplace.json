@@ -16,8 +16,8 @@
       "description": "Advanced workflow analysis and optimization tools for Claude Code. Analyzes development patterns, tracks session transcripts, and provides intelligent recommendations.",
       "version": "0.1.0",
       "author": {
-        "name": "Orases",
-        "email": "support@orases.com"
+        "name": "Mike Eckert",
+        "email": "mike.eckert@orases.com"
       },
       "license": "MIT",
       "keywords": ["workflow", "analysis", "optimization", "session-tracking", "transcript-analysis"],
@@ -29,8 +29,8 @@
       "description": "A Claude Code skill that transforms written workflow steps into interactive, browser-based visual process flow diagrams with clickable elements.",
       "version": "0.1.0",
       "author": {
-        "name": "Orases",
-        "email": "support@orases.com"
+        "name": "Courtney Lewis",
+        "email": "courtney@orases.com"
       },
       "license": "MIT",
       "keywords": ["workflow", "visualization", "diagrams", "business-analysis", "process-flow"],
@@ -42,12 +42,25 @@
       "description": "Documentation management plugin with Diataxis framework support. Create, organize, and maintain project documentation following industry standards with compressed CLAUDE.md index generation.",
       "version": "1.2.0",
       "author": {
-        "name": "Orases",
-        "email": "support@orases.com"
+        "name": "Mike Eckert",
+        "email": "mike.eckert@orases.com"
       },
       "license": "MIT",
       "keywords": ["documentation", "diataxis", "technical-writing", "tutorials", "how-to-guides", "reference", "architecture", "standards"],
       "category": "documentation"
+    },
+    {
+      "name": "tldv-notes",
+      "source": "./plugins/tldv-notes",
+      "description": "Create Confluence pages from TLDV meeting recordings. Processes meetings and generates structured notes with summaries, action items, and discussion topics.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Hyun Masiello",
+        "email": "hyun@orases.com"
+      },
+      "license": "MIT",
+      "keywords": ["tldv", "meetings", "confluence", "notes", "productivity"],
+      "category": "productivity"
     }
   ]
 }

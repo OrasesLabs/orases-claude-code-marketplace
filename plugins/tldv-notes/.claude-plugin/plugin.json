@@ -1,0 +1,20 @@
+{
+  "name": "tldv-notes",
+  "version": "1.0.0",
+  "description": "Create Confluence pages from TLDV meeting recordings. Processes meetings and generates structured notes with summaries, action items, and discussion topics.",
+  "author": {
+    "name": "Hyun Masiello",
+    "email": "hyun@orases.com",
+    "url": "https://orases.com"
+  },
+  "homepage": "https://github.com/OrasesLabs/orases-claude-code-marketplace/tree/main/tldv-notes",
+  "repository": "https://github.com/OrasesLabs/orases-claude-code-marketplace",
+  "license": "MIT",
+  "keywords": [
+    "tldv",
+    "meetings",
+    "confluence",
+    "notes",
+    "productivity"
+  ]
+}

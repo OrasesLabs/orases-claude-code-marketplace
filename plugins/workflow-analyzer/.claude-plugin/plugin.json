@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "Advanced workflow analysis and optimization tools for Claude Code. Analyzes development patterns, suggests improvements, and automates workflow optimization with hooks, agents, and intelligent recommendations.",
   "author": {
-    "name": "Orases",
-    "email": "support@orases.com",
+    "name": "Mike Eckert",
+    "email": "mike.eckert@orases.com",
     "url": "https://orases.com"
   },
   "homepage": "https://github.com/OrasesLabs/orases-claude-code-marketplace/tree/main/workflow-analyzer",

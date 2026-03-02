@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "A Claude Code skill that transforms written workflow steps into interactive, browser-based visual process flow diagrams with clickable elements.",
   "author": {
-    "name": "Orases",
-    "email": "support@orases.com",
+    "name": "Courtney Lewis",
+    "email": "courtney@orases.com",
     "url": "https://orases.com"
   },
   "homepage": "https://github.com/OrasesLabs/orases-claude-code-marketplace/tree/main/ba-toolkit",
