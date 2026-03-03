@@ -41,6 +41,11 @@ If no settings file exists, inform the user they can create one for persistent c
 - `sections` - Note sections to include (default: all)
 - `footer` - Custom footer text (default: `*Generated automatically from TLDV recording*`)
 - `mcp_server` - MCP server prefix for Atlassian tools (default: `atlassian`)
+- `duration_rounding` - How to round duration (default: none; set `ceil_15m` to round up to nearest 15 min)
+- `meeting_details_format` - Layout for meeting details (default: standard; set `listed` for separate lines)
+- `summary_format` - Summary style (default: bullets; set `paragraph` for prose)
+- `discussion_notes_format` - Discussion notes style (default: prose; set `bulleted` for bullet points)
+- `action_items_format` - Action items layout (default: flat checklist; set `grouped_by_person` for owner-grouped)
 
 ### Step 2: Parse Arguments
 
@@ -70,7 +75,7 @@ Report how many meetings were found.
 
 Gather meeting data:
 1. **Metadata**: Use `mcp__tldv__get-meeting-metadata` for title, date, attendees, URL
-   - **Duration**: Round up to the next 15-minute increment (e.g., 21m -> 30m, 44m -> 45m, 62m -> 1h 15m, 45m -> 45m)
+   - **Duration**: If `duration_rounding: ceil_15m`, round up to the next 15-minute increment (e.g., 21m -> 30m, 44m -> 45m, 62m -> 1h 15m, 45m -> 45m). Otherwise, display exact duration.
    - **Timezone**: Convert all meeting times from UTC to the configured timezone. Display as "h:mm AM/PM TZ".
 2. **Transcript**: Use `mcp__tldv__get-transcript` for full conversation
 3. **Highlights**: Use `mcp__tldv__get-highlights` for AI-extracted key points
@@ -80,14 +85,14 @@ Gather meeting data:
 Generate notes using only the sections enabled in configuration.
 Default sections (all enabled unless overridden):
 
-1. **header** - Meeting title, date, and duration (rounded to next 15m increment). Display meeting time in configured timezone.
-2. **meeting_link** - TLDV recording URL
-3. **attendees** - List participants, mark organizer
-4. **summary** - Top 3-5 highlights as bullets
-5. **discussion_notes** - Group by topic from highlights
-6. **action_items** - Extract from transcript/highlights
-   - Include due dates if mentioned in the discussion
-   - Format: "- [Action item] (Due: [date])" or "- [Action item]" if no due date mentioned
+1. **header** - Meeting title, date, and duration. Display meeting time in configured timezone. If `duration_rounding: ceil_15m`, round duration up to next 15-minute increment.
+2. **meeting_link** - TLDV recording URL. If `meeting_details_format: listed`, include the recording link as a bold-labeled line in the header details instead of a separate section.
+3. **attendees** - If `meeting_details_format: listed`, render as a separate `## Attendees` section with a bulleted list and the organizer in **bold**. Otherwise, list participants and mark organizer.
+4. **summary** - If `summary_format: paragraph`, write a single cohesive prose paragraph. Otherwise, top 3-5 highlights as bullets.
+5. **discussion_notes** - Group by topic from highlights. If `discussion_notes_format: bulleted`, render as bullet points under each topic heading. Otherwise, write as prose paragraphs.
+6. **action_items** - Extract from transcript/highlights.
+   - If `action_items_format: grouped_by_person`: bulleted list grouped by owner. Each owner is a top-level **bold** bullet, their tasks are sub-bullets. Due dates appear inline in italics, e.g. *(by Wednesday)*. For shared tasks, combine owners: **Hyun / Matt / Ed**.
+   - Otherwise: flat list with format "- [Action item] (Due: [date])" or "- [Action item]" if no due date mentioned.
 7. **footer** - Configurable footer text
 
 If the settings file contains a markdown body (content after the frontmatter), append it as an additional "Custom Notes" section at the end.
@@ -141,6 +146,11 @@ sections:
   - action_items
   - footer
 footer: "*Generated automatically from TLDV recording*"
+duration_rounding: "ceil_15m"
+meeting_details_format: "listed"
+summary_format: "paragraph"
+discussion_notes_format: "bulleted"
+action_items_format: "grouped_by_person"
 ---
 
 Any markdown content here will be appended as a "Custom Notes" section.
