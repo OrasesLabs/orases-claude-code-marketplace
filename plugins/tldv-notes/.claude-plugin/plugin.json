@@ -1,6 +1,6 @@
 {
   "name": "tldv-notes",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Create Confluence pages from TLDV meeting recordings. Processes meetings and generates structured notes with summaries, action items, and discussion topics.",
   "author": {
     "name": "Hyun Masiello",

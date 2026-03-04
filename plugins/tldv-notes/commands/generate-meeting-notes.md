@@ -13,12 +13,12 @@ Process TLDV meetings and create Confluence pages with structured notes using th
 Arguments are passed as plain text after the command. Parse `$ARGUMENTS` to extract options.
 
 **Supported formats:**
-- `/meeting-notes` - Process today's meetings
-- `/meeting-notes days:7` - Process last 7 days
-- `/meeting-notes dryrun:true` - Preview without creating pages
-- `/meeting-notes meetingid:abc123` - Process specific meeting
-- `/meeting-notes parentid:12345` - Create under specific parent page
-- `/meeting-notes days:3 space:TEAM dryrun:true` - Combined options
+- `/generate-meeting-notes` - Process today's meetings
+- `/generate-meeting-notes days:7` - Process last 7 days
+- `/generate-meeting-notes dryrun:true` - Preview without creating pages
+- `/generate-meeting-notes meetingid:abc123` - Process specific meeting
+- `/generate-meeting-notes parentid:12345` - Create under specific parent page
+- `/generate-meeting-notes days:3 space:TEAM dryrun:true` - Combined options
 
 ## Instructions
 

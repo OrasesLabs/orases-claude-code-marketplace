@@ -20,13 +20,13 @@ Or skip this step — the plugin will prompt you for these values on first run.
 ## 2. Run the Command
 
 ```
-/tldv-notes:meeting-notes
+/tldv-notes:generate-meeting-notes
 ```
 
 Or with options:
 
 ```
-/tldv-notes:meeting-notes days:3
+/tldv-notes:generate-meeting-notes days:3
 ```
 
 ## 3. Follow the Workflow

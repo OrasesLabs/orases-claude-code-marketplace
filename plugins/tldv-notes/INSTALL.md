@@ -24,7 +24,7 @@ claude plugin install .
 
 After installation, verify the plugin is loaded:
 
-1. Run `/tldv-notes:meeting-notes dryrun:true` in Claude Code
+1. Run `/tldv-notes:generate-meeting-notes dryrun:true` in Claude Code
 2. The plugin should prompt for configuration or fetch your TLDV meetings
 
 ## MCP Server Configuration

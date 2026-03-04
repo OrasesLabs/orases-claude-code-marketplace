@@ -23,7 +23,7 @@ Display this summary:
 > - Your Atlassian Cloud ID, Confluence Space ID, and a parent page ID
 >
 > **Commands:**
-> - `/tldv-notes:meeting-notes` — Process meetings and create Confluence pages
+> - `/tldv-notes:generate-meeting-notes` — Process meetings and create Confluence pages
 > - `/tldv-notes:help` — This help guide
 
 ### Step 2: Ask What They Need
@@ -91,7 +91,7 @@ parent_page_id: "your-parent-page-id"
 ---
 ```
 
-Confirm success and suggest they try `/tldv-notes:meeting-notes dryrun:true` to preview.
+Confirm success and suggest they try `/tldv-notes:generate-meeting-notes dryrun:true` to preview.
 
 ---
 

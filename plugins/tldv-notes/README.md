@@ -23,16 +23,16 @@ Processes your meetings and generates structured notes with summaries, discussio
 ### Slash Command
 
 ```
-/tldv-notes:meeting-notes
+/tldv-notes:generate-meeting-notes
 ```
 
 ### With Options
 
 ```
-/tldv-notes:meeting-notes days:7
-/tldv-notes:meeting-notes dryrun:true
-/tldv-notes:meeting-notes meetingid:abc123
-/tldv-notes:meeting-notes days:3 space:TEAM dryrun:true
+/tldv-notes:generate-meeting-notes days:7
+/tldv-notes:generate-meeting-notes dryrun:true
+/tldv-notes:generate-meeting-notes meetingid:abc123
+/tldv-notes:generate-meeting-notes days:3 space:TEAM dryrun:true
 ```
 
 ### Natural Language
@@ -85,7 +85,7 @@ If no settings file exists, the plugin will prompt for required values interacti
 | Component | Name | Description |
 |-----------|------|-------------|
 | Skill | `tldv-notes:tldv-processor` | Core processing workflow and note generation |
-| Command | `/tldv-notes:meeting-notes` | Slash command entry point |
+| Command | `/tldv-notes:generate-meeting-notes` | Slash command entry point |
 
 ## Author
 

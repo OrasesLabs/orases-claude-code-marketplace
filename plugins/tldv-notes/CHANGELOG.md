@@ -20,7 +20,7 @@
 
 ### Added
 - Initial marketplace release
-- `/tldv-notes:meeting-notes` slash command with argument parsing
+- `/tldv-notes:generate-meeting-notes` slash command with argument parsing
 - TLDV Processor skill for meeting note generation
 - Confluence page templates for structured notes
 - Per-user configuration via `.claude/tldv-notes.local.md`
