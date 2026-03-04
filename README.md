@@ -8,21 +8,6 @@ This marketplace provides a curated collection of Claude Code plugins designed t
 
 ## Available Plugins
 
-### [Jira Tools](./plugins/jira-tools) (v1.1.0)
-
-Comprehensive Jira workflow management with direct REST API access.
-
-**Features:**
-- **Jira Integration**: View tickets, transition statuses, link issues, and manage workflows
-- **Skills**: Autonomous Jira operations invoked by Claude based on context
-- **Scripts**: Standalone Python utilities for direct API operations
-- **Planned**: Confluence integration, custom Orases platform integrations
-
-**Category:** Productivity
-**Documentation:** [View Plugin README](./plugins/jira-tools/README.md)
-
----
-
 ### [Workflow Analyzer](./plugins/workflow-analyzer) (v0.1.0)
 
 Advanced workflow analysis and optimization tools for Claude Code development sessions.
@@ -71,13 +56,30 @@ Documentation management plugin with Diátaxis framework support for creating, o
 
 ---
 
+### [TLDV Notes](./plugins/tldv-notes) (v1.2.1)
+
+Create Confluence pages from TLDV meeting recordings with structured notes, discussion topics, and action items.
+
+**Features:**
+- **Meeting Processing**: Fetches meetings from TLDV where you participated
+- **Structured Notes**: Generates summaries, discussion notes, and action items
+- **Confluence Publishing**: Creates formatted pages automatically
+- **Configurable Formatting**: Customize duration rounding, summary style, action item grouping, and more
+- **Template Overrides**: Customize page layout and section templates
+- **Dry Run Mode**: Preview notes before publishing
+
+**Category:** Productivity
+**Documentation:** [View Plugin README](./plugins/tldv-notes/README.md)
+
+---
+
 ## Installation
 
 ### Prerequisites
 
 - [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) installed and configured
 - Git (for cloning the repository)
-- Python 3.6+ (for jira-tools scripts)
+- Python 3.6+ (for script-based plugins)
 
 ### Option 1: Install Entire Marketplace (Recommended)
 
@@ -120,20 +122,7 @@ The `/plugin` command opens an interactive interface with tabs for **Discover**,
 
 ### Plugin-Specific Configuration
 
-Some plugins require additional configuration:
-
-**Jira Tools** - Requires Atlassian API credentials:
-```bash
-# Set environment variables (add to your shell profile)
-export ATLASSIAN_EMAIL="your-email@company.com"
-export ATLASSIAN_API_TOKEN="your-api-token"
-export ATLASSIAN_SITE="yoursite.atlassian.net"
-
-# Test the connection
-python3 plugins/jira-tools/scripts/test_connection.py
-```
-
-See [Jira Tools INSTALL.md](./plugins/jira-tools/INSTALL.md) for detailed setup instructions.
+Some plugins require additional configuration after installation. See each plugin's README and INSTALL.md for setup instructions.
 
 ### Updating Plugins
 
@@ -156,8 +145,8 @@ claude plugin install .
 3. **Start using** - Ask Claude to perform tasks or use slash commands
 
 **Example Commands:**
-- "Show me PROJ-123" (Jira Tools)
-- "Transition PROJ-123 to In Progress" (Jira Tools)
+- `/tldv-notes:generate-meeting-notes` (TLDV Notes)
+- "Summarize my meetings to Confluence" (TLDV Notes)
 - `/analyze-workflow` (Workflow Analyzer)
 - "Create a process flow diagram for this workflow" (BA Toolkit)
 - `/docs-management:create-how-to deploying to production` (Docs Management)
