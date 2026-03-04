@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.2.0] - 2026-03-04
+
+### Changed
+- **Default formats now match author's intended output:**
+  - `duration_rounding` default changed from `none` to `ceil_15m` (round up to nearest 15 min)
+  - `discussion_notes_format` default changed from `prose` to `bulleted`
+  - `action_items_format` default changed from `flat` to `grouped_by_person`
+- **Header format updated:** Date, time, and duration now render on a single pipe-separated line with meeting recording link below (matching the original plugin output)
+- **Attendees section:** Organizer is now always bold with "(Organizer)" label in default format
+- **Slash command simplified:** Removed duplicated formatting/configuration logic from the command — it now delegates entirely to the skill, eliminating maintenance drift between the two
+
+### Fixed
+- Discussion notes defaulting to prose paragraphs instead of bulleted lists
+- Action items defaulting to flat checklist instead of grouped-by-person format
+- Duration not being rounded to 15-minute increments by default
+
 ## [1.0.0] - 2026-03-02
 
 ### Added

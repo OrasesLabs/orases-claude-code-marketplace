@@ -20,8 +20,9 @@ Fetch meetings from TLDV where the user participated, extract transcripts and hi
 This plugin supports per-user and per-project configuration via settings files.
 Before processing, check for settings in this order:
 
-1. `.claude/tldv-notes.local.md` - User-local settings (not committed)
-2. `.claude/tldv-notes.md` - Project-scoped settings (can be committed)
+1. `.claude/tldv-notes.local.md` - Project-local settings (not committed, gitignored)
+2. `.claude/tldv-notes.md` - Project-scoped settings (can be committed for team defaults)
+3. `~/.claude/tldv-notes.md` - User-global settings (applies across all projects)
 
 Parse YAML frontmatter for: `cloud_id`, `space_id`, `parent_page_id`, `timezone`, `sections`, `footer`, `mcp_server`, `duration_rounding`, `meeting_details_format`, `summary_format`, `discussion_notes_format`, `action_items_format`.
 
@@ -32,13 +33,13 @@ If no settings file exists, ask the user for the required values and offer to sa
 | `cloud_id` | "What is your Atlassian Cloud ID?" | Help the user find it: use Atlassian MCP tools like `getAccessibleAtlassianResources` to list their available cloud instances, or direct them to `https://admin.atlassian.com` → select their org → the Cloud ID is in the URL. |
 | `space_id` | "Which Confluence Space should notes go to?" | Use `getConfluenceSpaces` to list available spaces and let the user pick one. Show space name and key. |
 | `parent_page_id` | "What is the parent page ID for meeting notes?" | Help the user navigate: use `searchConfluenceUsingCql` to find pages in their chosen space, or ask them to paste the URL of the parent page and extract the ID from it. |
-| `duration_rounding` | "How should meeting duration be displayed?" | "Exact duration" / "Rounded up to nearest 15 minutes" |
-| `meeting_details_format` | "How should meeting details be laid out?" | "Standard format" / "Listed on separate lines" |
-| `summary_format` | "How should the summary be written?" | "Bullet points" / "Single paragraph" |
-| `discussion_notes_format` | "How should discussion notes be formatted?" | "Prose paragraphs" / "Bullet points" |
-| `action_items_format` | "How should action items be organized?" | "Flat checklist" / "Grouped by person" |
+| `duration_rounding` | "How should meeting duration be displayed?" | "Rounded up to nearest 15 minutes (Recommended)" / "Exact duration" |
+| `meeting_details_format` | "How should meeting details be laid out?" | "Standard format (Recommended)" / "Listed on separate lines" |
+| `summary_format` | "How should the summary be written?" | "Bullet points (Recommended)" / "Single paragraph" |
+| `discussion_notes_format` | "How should discussion notes be formatted?" | "Bullet points (Recommended)" / "Prose paragraphs" |
+| `action_items_format` | "How should action items be organized?" | "Grouped by person (Recommended)" / "Flat checklist" |
 
-Store the user's choices using the setting key names (e.g. `action_items_format: grouped_by_person`).
+Store the user's choices using the setting key names (e.g. `action_items_format: flat` to override the default grouped format).
 
 ## MCP Tools Required
 
@@ -82,12 +83,12 @@ mcp__tldv__list-meetings with:
 Create markdown using only the enabled sections from configuration.
 
 Available sections:
-1. **header** - Meeting title and date
-2. **meeting_link** - Link to TLDV recording
-3. **attendees** - List of participants (organizer noted)
-4. **summary** - 3-5 highlights (format controlled by `summary_format`)
-5. **discussion_notes** - Detailed notes grouped by topic (format controlled by `discussion_notes_format`)
-6. **action_items** - Extracted tasks and follow-ups (format controlled by `action_items_format`)
+1. **header** - Meeting title, date | time | duration on one line, and meeting recording link below
+2. **meeting_link** - Included inline in the header by default (separate section only if `meeting_details_format: listed`)
+3. **attendees** - Bulleted list of participants with organizer in **bold** and noted as "(Organizer)"
+4. **summary** - 3-5 highlights as bullet points (format controlled by `summary_format`)
+5. **discussion_notes** - Detailed notes grouped by topic as bullet points (format controlled by `discussion_notes_format`)
+6. **action_items** - Extracted tasks grouped by person (format controlled by `action_items_format`)
 7. **footer** - Configurable footer text
 
 If the settings file has a markdown body, append it as "Custom Notes".
@@ -96,30 +97,30 @@ If the settings file has a markdown body, append it as "Custom Notes".
 
 These settings control how each section is rendered. When absent, the default format is used.
 
-#### `duration_rounding: ceil_15m`
-Round meeting duration up to the nearest 15-minute increment.
-- 28 min → 30 min, 42 min → 45 min, 31 min → 45 min, 60 min → 60 min
-- Default: no rounding (exact duration)
+#### `duration_rounding`
+Controls how meeting duration is displayed.
+- `ceil_15m` (default): Round up to the nearest 15-minute increment — 28 min → 30 min, 42 min → 45 min, 31 min → 45 min, 60 min → 60 min
+- `exact`: Display exact duration with no rounding
 
-#### `meeting_details_format: listed`
-Render meeting details (date, time, duration, organizer, recording link) as inline bold-labeled fields on separate lines instead of a table. Attendees move to their own `## Attendees` section as a bulleted list with the organizer in **bold**.
-- Default: standard header + separate attendees section
+#### `meeting_details_format`
+Controls how the header area is laid out.
+- `standard` (default): Date | Time | Duration on a single pipe-separated line, meeting recording link below, then a separate `## Attendees` section with organizer in **bold**
+- `listed`: Render date, time, duration, organizer, and recording link as bold-labeled fields on separate lines
 
-#### `summary_format: paragraph`
-Write the summary as a single cohesive prose paragraph instead of bullet points.
-- Default: bullet points
+#### `summary_format`
+Controls how the summary section is written.
+- `bullets` (default): Top highlights as bullet points
+- `paragraph`: Single cohesive prose paragraph synthesizing the highlights
 
-#### `discussion_notes_format: bulleted`
-Render discussion notes under each topic heading as bullet points instead of prose paragraphs.
-- Default: prose paragraphs
+#### `discussion_notes_format`
+Controls how discussion notes are rendered under each topic heading.
+- `bulleted` (default): Bullet points under each topic heading
+- `prose`: Prose paragraphs under each topic heading
 
-#### `action_items_format: grouped_by_person`
-Replace the action items table/checklist with a bulleted list grouped by owner:
-- Each owner is a top-level **bold** bullet
-- Their tasks are sub-bullets
-- Due dates appear inline in italics, e.g. *(by Wednesday)*
-- Shared tasks list all owners together, e.g. **Hyun / Matt / Ed**
-- Default: flat checklist with assignee and due date
+#### `action_items_format`
+Controls how action items are organized.
+- `grouped_by_person` (default): Bulleted list grouped by owner. Each owner is a top-level **bold** bullet, their tasks are sub-bullets. Due dates appear inline in italics, e.g. *(by Wednesday)*. Shared tasks list all owners together, e.g. **Hyun / Matt / Ed**.
+- `flat`: Flat checklist with assignee and due date on each line
 
 ### Step 5: Create Confluence Page
 
@@ -132,17 +133,17 @@ Use Atlassian MCP to create page:
 ## Note Generation Guidelines
 
 ### Summary Section
-- If `summary_format: paragraph`: Write a single cohesive prose paragraph synthesizing the top highlights
-- Default: Extract top 5 highlights as bullet points
+- Extract top 5 highlights as bullet points
 - Focus on decisions, outcomes, and key discussions
 - Keep each point concise (1-2 sentences)
+- If `summary_format: paragraph`: Write a single cohesive prose paragraph instead
 
 ### Detailed Notes
 - Group by topic from TLDV's topic detection
-- If `discussion_notes_format: bulleted`: Render each topic's notes as bullet points
-- Default: Write as prose paragraphs
+- Render each topic's notes as bullet points under the topic heading
 - Include relevant quotes from transcript
 - Preserve speaker attribution for important statements
+- If `discussion_notes_format: prose`: Write as prose paragraphs instead
 
 ### Action Items Extraction
 Look for:
@@ -151,14 +152,21 @@ Look for:
 - Deadlines mentioned
 - Commitments made
 
-If `action_items_format: grouped_by_person`:
-- Group items by owner as top-level **bold** bullets with task sub-bullets
+Group items by owner as top-level **bold** bullets with task sub-bullets:
 - Include due dates inline in italics: *(by Wednesday)*
 - For shared tasks, combine owners: **Hyun / Matt / Ed**
-
-Default: flat checklist with assignee and due date.
+- If `action_items_format: flat`: Use a flat checklist with assignee and due date instead
 
 If no action items found, note: "No action items identified"
+
+### Meeting Type Variations
+
+Adjust note emphasis based on the type of meeting:
+
+- **Standup/Daily Sync** - Shorter format, focus on blockers, progress updates, and quick decisions
+- **Planning/Sprint Meeting** - Emphasize decisions made, items prioritized, and assignments
+- **Client Call** - Emphasize client requests, commitments made, follow-up items, and timeline discussions
+- **1:1 Meeting** - Focus on discussion topics, feedback given/received, career/growth items, and action items for both parties
 
 ## Default Configuration
 
@@ -171,11 +179,11 @@ If no action items found, note: "No action items identified"
 | Sections | all enabled |
 | Footer | `*Generated automatically from TLDV recording*` |
 | MCP server | `atlassian` |
-| duration_rounding | none (exact duration) |
+| duration_rounding | `ceil_15m` (round up to nearest 15 min) |
 | meeting_details_format | standard |
 | summary_format | bullets |
-| discussion_notes_format | prose |
-| action_items_format | flat checklist |
+| discussion_notes_format | `bulleted` |
+| action_items_format | `grouped_by_person` |
 
 ## Error Handling
 
@@ -185,7 +193,24 @@ If no action items found, note: "No action items identified"
 - **Missing highlights**: Generate summary from transcript if possible
 - **Confluence error**: Report error, offer to save notes locally as markdown
 
-## Additional Resources
+## Template Overrides
 
-### Reference Files
-- **`references/confluence-templates.md`** - Markdown templates for different meeting types
+Users can customize templates by placing override files in their settings directory. Before using a built-in template, check for overrides in this order:
+
+1. `.claude/tldv-notes-templates/` (project-local overrides)
+2. `~/.claude/tldv-notes-templates/` (user-global overrides)
+3. Built-in `templates/` directory (defaults, shipped with plugin)
+
+Override files use the same filenames as the built-in references. Only the files present in the override directory are replaced — missing files fall back to the built-in defaults.
+
+| Override file | What it controls |
+|---|---|
+| `page-layout.md` | Overall page structure and section order |
+| `section-formats.md` | Format variants for each section (header, summary, discussion, action items, etc.) |
+| `empty-states.md` | Fallback content when data is unavailable |
+
+## Reference Files
+
+- **`templates/page-layout.md`** - Overall page structure template
+- **`templates/section-formats.md`** - Section format variants controlled by settings
+- **`templates/empty-states.md`** - Empty state fallback messages
