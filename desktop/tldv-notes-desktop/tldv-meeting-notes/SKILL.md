@@ -16,13 +16,31 @@ Users will ask using natural language like:
 - "Generate notes for meeting [ID]"
 - "Preview my meeting notes" (dry run — no pages created)
 
-## Required Connectors
+## Required Tools
 
-This skill requires two connectors to be enabled in your organization:
-- **TLDV** — for fetching meetings, transcripts, and highlights
-- **Atlassian** — for creating Confluence pages
+This skill requires MCP tools from two integrations. Search your available tools to find them.
 
-If either connector is not available, inform the user and explain which connector needs to be enabled by their organization admin.
+### TLDV MCP Tools (for meeting data)
+
+Look for these tools by name — they may appear with a server prefix (e.g., `mcp__tldv__list-meetings` or similar):
+
+| Tool | Purpose | Key Parameters |
+|------|---------|----------------|
+| `list-meetings` | List meetings with filters | `from`, `to` (ISO datetime), `onlyParticipated` (boolean), `limit` (integer) |
+| `get-meeting-metadata` | Get meeting details by ID | `id` (string) |
+| `get-transcript` | Get speaker-attributed transcript | `meetingId` (string) |
+| `get-highlights` | Get AI-extracted highlights | `meetingId` (string) |
+
+### Atlassian / Confluence Tools (for publishing pages)
+
+Look for Confluence tools by searching for tools containing "confluence" or "atlassian". Common tool names include:
+- `confluence_create_page` or `createConfluencePage` — create a new page
+- `confluence_search` or `searchConfluenceUsingCql` — search for pages
+- `confluence_get_page` or `getConfluencePage` — read a page
+- `getConfluenceSpaces` or `confluence_search` — list spaces
+- `getAccessibleAtlassianResources` — list cloud instances (for Cloud ID discovery)
+
+If any required tools are not available, inform the user and explain which integration (TLDV or Atlassian) needs to be installed or enabled.
 
 ## Configuration
 
@@ -39,15 +57,15 @@ timezone: "America/New_York"
 
 If configuration values are unknown, help the user discover them:
 
-1. **Cloud ID** — Use the Atlassian connector to list accessible cloud resources. Let the user pick their instance.
-2. **Space ID** — Use the Atlassian connector to list Confluence spaces for the chosen Cloud ID. Show names and keys, let the user pick.
-3. **Parent Page ID** — Ask where notes should go. Use the Atlassian connector to search for pages, or ask the user to paste the page URL and extract the ID.
+1. **Cloud ID** — Use `getAccessibleAtlassianResources` (or equivalent available Atlassian tool) to list cloud instances. Let the user pick their instance.
+2. **Space ID** — Use `getConfluenceSpaces` (or equivalent) to list Confluence spaces for the chosen Cloud ID. Show names and keys, let the user pick.
+3. **Parent Page ID** — Ask where notes should go. Search for pages using `confluence_search` or `searchConfluenceUsingCql`, or ask the user to paste the page URL and extract the ID.
 
 Once discovered, confirm the values with the user so they can be reused in future conversations.
 
 ### Format Settings
 
-These control how each section is rendered. Use the defaults unless the user requests changes.
+These control how each section is rendered. Use the defaults unless the user requests changes. See `templates/section-formats.md` for the exact template of each variant.
 
 | Setting | Default | Options |
 |---------|---------|---------|
@@ -86,10 +104,11 @@ Extract options from the user's natural language request:
 
 ### Step 2: Fetch Meetings
 
-Use the TLDV connector to list meetings with:
-- Only meetings the user participated in
-- Date range based on days lookback (use configured timezone)
-- Limit of 50
+Call the `list-meetings` tool with:
+- `onlyParticipated: true`
+- `from`: start of date range (ISO 8601 datetime in configured timezone)
+- `to`: end of date range (ISO 8601 datetime in configured timezone)
+- `limit: 50`
 
 If a specific meeting ID was requested, skip the list and go directly to Step 3 for that meeting.
 
@@ -97,144 +116,25 @@ If no meetings found, report: "No meetings found for the specified period."
 
 ### Step 3: For Each Meeting, Gather Data
 
-For each meeting, use the TLDV connector to fetch:
+For each meeting, call these TLDV tools:
 
-1. **Metadata** — meeting details (title, date, start time, end time, duration, attendees, organizer, recording URL)
-2. **Transcript** — speaker-attributed conversation text
-3. **Highlights** — AI-extracted key points, topics, and action items
+1. **Metadata** — `get-meeting-metadata` with `id: "<meeting_id>"` → returns title, date, start time, end time, duration, attendees, organizer, recording URL
+2. **Transcript** — `get-transcript` with `meetingId: "<meeting_id>"` → returns speaker-attributed conversation text
+3. **Highlights** — `get-highlights` with `meetingId: "<meeting_id>"` → returns AI-extracted key points, topics, and action items
 
 ### Step 4: Generate Structured Notes
 
-Create markdown content using only the enabled sections. Follow the templates below based on the configured format settings.
+Read `templates/page-layout.md` for the full page structure and section order.
+Read `templates/section-formats.md` for the exact rendering of each section based on the user's format settings.
+Read `templates/empty-states.md` for fallback content when data is missing.
 
-#### Duration Calculation
-
-- If `duration_rounding: ceil_15m` — Round up to the nearest 15 minutes: 28 min → 30 min, 42 min → 45 min, 31 min → 45 min, 60 min → 60 min
-- If `duration_rounding: exact` — Display exact duration
-
-#### Header Section
-
-**Standard format** (default):
-
-```markdown
-# {MEETING_TITLE}
-
-**Date:** {DATE} | **Time:** {TIME} {TZ} | **Duration:** {DURATION}
-
-**Meeting Recording:** [{MEETING_TITLE}]({TLDV_URL})
-```
-
-**Listed format** (`meeting_details_format: listed`):
-
-```markdown
-# {MEETING_TITLE}
-
-**Date:** {DATE} at {TIME}
-**Duration:** {DURATION}
-**Organizer:** {ORGANIZER}
-**Recording:** [View Recording]({TLDV_URL})
-```
-
-#### Attendees Section
-
-```markdown
-## Attendees
-
-- **{ORGANIZER_NAME}** (Organizer) - {EMAIL}
-- {ATTENDEE_2} - {EMAIL}
-- {ATTENDEE_3} - {EMAIL}
-```
-
-When name is unavailable, fall back to email address only.
-
-#### Summary Section
-
-**Bullets format** (default):
-
-```markdown
-## Summary
-
-- {HIGHLIGHT_1}
-- {HIGHLIGHT_2}
-- {HIGHLIGHT_3}
-```
-
-**Paragraph format** (`summary_format: paragraph`):
-
-```markdown
-## Summary
-
-{COHESIVE_PROSE_PARAGRAPH_SYNTHESIZING_HIGHLIGHTS}
-```
-
-#### Discussion Notes Section
-
-**Bulleted format** (default):
-
-```markdown
-## Discussion Notes
-
-### {TOPIC_TITLE}
-
-- {KEY_POINT_1}
-- {KEY_POINT_2}
-- {KEY_POINT_3}
-```
-
-**Prose format** (`discussion_notes_format: prose`):
-
-```markdown
-## Discussion Notes
-
-### {TOPIC_TITLE}
-
-{PROSE_PARAGRAPH_ABOUT_TOPIC}
-```
-
-#### Action Items Section
-
-**Grouped by person** (default):
-
-```markdown
-## Action Items
-
-- **{PERSON_1}**
-  - {TASK_1}
-  - {TASK_2} *(by Wednesday)*
-- **{PERSON_2}**
-  - {TASK_3}
-- **{PERSON_3} / {PERSON_4}**
-  - {SHARED_TASK} *(by Friday)*
-```
-
-- Single owner: bold name as top-level bullet, tasks as sub-bullets with optional due date in italics
-- Shared task: combine owners with ` / ` separator
-- No action items: `- _No action items identified_`
-
-**Flat format** (`action_items_format: flat`):
-
-```markdown
-## Action Items
-
-- [ ] **{ASSIGNEE}**: {TASK_DESCRIPTION}
-- [ ] **{ASSIGNEE}**: {TASK_DESCRIPTION} (Due: {DATE})
-```
-
-#### Footer Section
-
-```markdown
----
-
-{FOOTER}
-```
-
-Default footer: `*Generated automatically from TLDV recording*`
+Assemble the page using only the enabled sections and the user's chosen format variants.
 
 ### Step 5: Create Confluence Page
 
 **If dry run:** Display the generated markdown to the user. Do not create a page. Label output clearly as "[DRY RUN] Preview".
 
-**If publishing:** Use the Atlassian connector to create a Confluence page with:
+**If publishing:** Use the `confluence_create_page` or `createConfluencePage` tool to create a Confluence page with:
 - The configured Cloud ID, Space ID, and Parent Page ID (or overrides)
 - Title: meeting title with date, e.g. "Weekly Standup - March 10, 2026"
 - Body: the generated markdown content
@@ -250,52 +150,6 @@ For each meeting processed, report:
 - Confluence page URL (if created) or "[DRY RUN]" indicator
 - Any errors encountered
 
-## Note Generation Guidelines
-
-### Summary Section
-
-- Extract top 3-5 highlights as bullet points
-- Focus on decisions, outcomes, and key discussions
-- Keep each point concise (1-2 sentences)
-- If `summary_format: paragraph` — write a single cohesive prose paragraph instead
-
-### Discussion Notes
-
-- Group by topic from TLDV's topic detection
-- Render each topic's notes as bullet points under the topic heading
-- Include relevant quotes from transcript
-- Preserve speaker attribution for important statements
-- If `discussion_notes_format: prose` — write as prose paragraphs instead
-
-### Action Items Extraction
-
-Look for:
-- Explicit mentions of "action item", "to do", "follow up"
-- Assignments: "[Person] will [task]"
-- Deadlines mentioned
-- Commitments made
-
-Group items by owner with task sub-bullets. Include due dates inline in italics.
-For shared tasks, combine owners with ` / ` separator.
-If no action items found: `- _No action items identified_`
-
-### Meeting Type Variations
-
-Adjust note emphasis based on the type of meeting:
-
-- **Standup/Daily Sync** — Shorter format, focus on blockers, progress updates, quick decisions
-- **Planning/Sprint Meeting** — Emphasize decisions made, items prioritized, assignments
-- **Client Call** — Emphasize client requests, commitments made, follow-up items, timeline discussions
-- **1:1 Meeting** — Focus on discussion topics, feedback given/received, career/growth items, action items for both parties
-
-## Empty States
-
-When data is unavailable, use these fallbacks:
-
-- **No summary:** `_No summary available — transcript may be processing_`
-- **No action items:** `- _No action items identified_`
-- **No transcript:** `_Transcript not yet available for this meeting_`
-
 ## Error Handling
 
 - **No meetings found** — Report "No meetings found for the specified period"
@@ -303,4 +157,4 @@ When data is unavailable, use these fallbacks:
 - **Missing highlights** — Generate summary from transcript if possible
 - **Confluence error** — Report the error, offer to display the notes as markdown so the user can copy them
 - **Configuration missing** — Walk the user through interactive discovery (see Configuration section)
-- **Connector not available** — Inform the user which connector needs to be enabled by their organization admin
+- **Tools not available** — Inform the user which integration (TLDV or Atlassian) needs to be installed or enabled
