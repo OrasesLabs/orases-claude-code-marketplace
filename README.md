@@ -73,6 +73,20 @@ Create Confluence pages from TLDV meeting recordings with structured notes, disc
 
 ---
 
+## Desktop Projects
+
+In addition to Claude Code CLI plugins, this marketplace includes project templates for **Claude.ai Teams** and **Claude Desktop**.
+
+### [TLDV Notes — Desktop](./desktop/tldv-notes-desktop) (v1.0.0)
+
+The desktop companion to the TLDV Notes CLI plugin. Same meeting-notes-to-Confluence workflow, packaged as project knowledge files for Claude.ai Teams Projects and Claude Desktop.
+
+**Setup:** Create a Project, upload the project knowledge file, connect Atlassian + TLDV integrations, and use natural language to process meetings.
+
+**Documentation:** [View Desktop README](./desktop/tldv-notes-desktop/README.md) | [Install Guide](./desktop/tldv-notes-desktop/INSTALL.md)
+
+---
+
 ## Installation
 
 ### Prerequisites
