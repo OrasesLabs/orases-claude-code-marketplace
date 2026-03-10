@@ -1,23 +1,53 @@
+---
+name: tldv-meeting-notes
+description: Process TLDV meeting recordings and create structured Confluence pages with summaries, discussion notes, and action items.
+---
+
 # TLDV Meeting Notes Processor
 
-This document contains all instructions for processing TLDV meeting recordings and creating structured Confluence pages.
+Process TLDV meeting recordings and create structured Confluence pages with summaries, discussion topics, and action items.
+
+## How Users Will Ask
+
+Users will ask using natural language like:
+- "Create meeting notes from today's calls"
+- "Process my TLDV meetings from the last 3 days"
+- "Summarize my meetings to Confluence"
+- "Generate notes for meeting [ID]"
+- "Preview my meeting notes" (dry run — no pages created)
+
+## Required Connectors
+
+This skill requires two connectors to be enabled in your organization:
+- **TLDV** — for fetching meetings, transcripts, and highlights
+- **Atlassian** — for creating Confluence pages
+
+If either connector is not available, inform the user and explain which connector needs to be enabled by their organization admin.
 
 ## Configuration
 
-Edit the values below to match your Atlassian environment. These are required for creating Confluence pages.
+The user's Confluence environment details are needed to create pages. Ask the user for these values on first use if not previously provided:
 
 ```yaml
-cloud_id: "YOUR_CLOUD_ID"
-space_id: "YOUR_SPACE_ID"
-parent_page_id: "YOUR_PARENT_PAGE_ID"
+cloud_id: ""
+space_id: ""
+parent_page_id: ""
 timezone: "America/New_York"
 ```
 
-If the values above are still placeholders, use `getAccessibleAtlassianResources` to discover the Cloud ID, `getConfluenceSpaces` to find the Space ID, and `searchConfluenceUsingCql` to locate the Parent Page ID. Walk the user through each step interactively.
+### Interactive Discovery
+
+If configuration values are unknown, help the user discover them:
+
+1. **Cloud ID** — Use the Atlassian connector to list accessible cloud resources. Let the user pick their instance.
+2. **Space ID** — Use the Atlassian connector to list Confluence spaces for the chosen Cloud ID. Show names and keys, let the user pick.
+3. **Parent Page ID** — Ask where notes should go. Use the Atlassian connector to search for pages, or ask the user to paste the page URL and extract the ID.
+
+Once discovered, confirm the values with the user so they can be reused in future conversations.
 
 ### Format Settings
 
-These control how each section is rendered. Defaults are shown — change only what you need.
+These control how each section is rendered. Use the defaults unless the user requests changes.
 
 | Setting | Default | Options |
 |---------|---------|---------|
@@ -30,7 +60,7 @@ These control how each section is rendered. Defaults are shown — change only w
 
 ### Enabled Sections
 
-All sections are enabled by default. Remove any you don't want:
+All sections are enabled by default. The user may request to exclude any:
 
 - header
 - meeting_link
@@ -40,36 +70,9 @@ All sections are enabled by default. Remove any you don't want:
 - action_items
 - footer
 
-## MCP Tools
-
-### TLDV Tools
-
-- `list-meetings` — List meetings (use `onlyParticipated: true`)
-- `get-meeting-metadata` — Get meeting details (title, date, attendees, URL)
-- `get-transcript` — Get speaker-attributed transcript
-- `get-highlights` — Get AI-extracted key points
-
-### Atlassian Tools (Claude.ai Integration)
-
-- `createConfluencePage` — Create the notes page (params: cloudId, spaceId, body, contentFormat, parentId, title)
-- `getConfluenceSpaces` — List available spaces (params: cloudId)
-- `searchConfluenceUsingCql` — Search for pages (params: cloudId, cql)
-- `getAccessibleAtlassianResources` — Discover Cloud IDs (no params)
-
 ## Workflow
 
-### Step 1: Load Configuration
-
-Read the configuration values from the Configuration section above.
-If any required values (`cloud_id`, `space_id`, `parent_page_id`) are still placeholders, help the user discover them interactively:
-
-1. **Cloud ID** — Call `getAccessibleAtlassianResources` to list available cloud instances. Let the user pick one.
-2. **Space ID** — Call `getConfluenceSpaces` with the Cloud ID. Show space names and keys, let the user pick.
-3. **Parent Page ID** — Ask the user where notes should go. Use `searchConfluenceUsingCql` to help them find the page, or ask them to paste the page URL and extract the ID.
-
-Remind the user to update the Configuration section in this document with their values for next time.
-
-### Step 2: Parse User Request
+### Step 1: Parse User Request
 
 Extract options from the user's natural language request:
 
@@ -81,29 +84,26 @@ Extract options from the user's natural language request:
 | Space override | "in the TEAM space", "space KEY" | from config |
 | Parent override | "under page 12345" | from config |
 
-### Step 3: Fetch Meetings
+### Step 2: Fetch Meetings
 
-Call `list-meetings` with:
-- `onlyParticipated: true`
-- `from` / `to` date range based on days lookback (use configured timezone)
-- `limit: 50`
+Use the TLDV connector to list meetings with:
+- Only meetings the user participated in
+- Date range based on days lookback (use configured timezone)
+- Limit of 50
 
-If a specific meeting ID was requested, skip the list and go directly to Step 4 for that meeting.
+If a specific meeting ID was requested, skip the list and go directly to Step 3 for that meeting.
 
 If no meetings found, report: "No meetings found for the specified period."
 
-### Step 4: For Each Meeting, Gather Data
+### Step 3: For Each Meeting, Gather Data
 
-For each meeting, call these in sequence:
+For each meeting, use the TLDV connector to fetch:
 
-1. **Metadata** — `get-meeting-metadata` with the meeting ID
-   - Extract: title, date, start time, end time, duration, attendees, organizer, recording URL
-2. **Transcript** — `get-transcript` with the meeting ID
-   - Extract: speaker-attributed conversation text
-3. **Highlights** — `get-highlights` with the meeting ID
-   - Extract: AI-generated key points, topics, action items
+1. **Metadata** — meeting details (title, date, start time, end time, duration, attendees, organizer, recording URL)
+2. **Transcript** — speaker-attributed conversation text
+3. **Highlights** — AI-extracted key points, topics, and action items
 
-### Step 5: Generate Structured Notes
+### Step 4: Generate Structured Notes
 
 Create markdown content using only the enabled sections. Follow the templates below based on the configured format settings.
 
@@ -230,21 +230,19 @@ When name is unavailable, fall back to email address only.
 
 Default footer: `*Generated automatically from TLDV recording*`
 
-### Step 6: Create Confluence Page
+### Step 5: Create Confluence Page
 
 **If dry run:** Display the generated markdown to the user. Do not create a page. Label output clearly as "[DRY RUN] Preview".
 
-**If publishing:** Call `createConfluencePage` with:
-- `cloudId` — from configuration
-- `spaceId` — from configuration (or override)
-- `parentId` — from configuration (or override)
-- `title` — meeting title with date, e.g. "Weekly Standup - March 10, 2026"
-- `body` — the generated markdown content
-- `contentFormat` — `"markdown"`
+**If publishing:** Use the Atlassian connector to create a Confluence page with:
+- The configured Cloud ID, Space ID, and Parent Page ID (or overrides)
+- Title: meeting title with date, e.g. "Weekly Standup - March 10, 2026"
+- Body: the generated markdown content
+- Content format: markdown
 
 Ask for confirmation before creating each page (unless user pre-approved batch processing).
 
-### Step 7: Report Results
+### Step 6: Report Results
 
 For each meeting processed, report:
 - Meeting title
@@ -304,4 +302,5 @@ When data is unavailable, use these fallbacks:
 - **Missing transcript** — Create page with available data, note transcript unavailable
 - **Missing highlights** — Generate summary from transcript if possible
 - **Confluence error** — Report the error, offer to display the notes as markdown so the user can copy them
-- **Configuration missing** — Walk the user through interactive setup (see Step 1)
+- **Configuration missing** — Walk the user through interactive discovery (see Configuration section)
+- **Connector not available** — Inform the user which connector needs to be enabled by their organization admin
