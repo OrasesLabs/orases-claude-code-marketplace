@@ -1,5 +1,5 @@
 ---
-name: research-findings-writer
+name: docs-management:research-findings-writer
 description: Guidelines for documenting research findings and investigation results. Use when writing content about discoveries, analysis, and recommendations from code analysis, API testing, or other research.
 allowed-tools: Read, Write, Edit, Glob
 ---

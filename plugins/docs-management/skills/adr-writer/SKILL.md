@@ -1,5 +1,5 @@
 ---
-name: adr-writer
+name: docs-management:adr-writer
 description: Guidelines for creating Architecture Decision Records (ADRs). Use when documenting significant architectural decisions, their context, alternatives considered, and consequences.
 allowed-tools: Read, Write, Edit, Glob
 ---
