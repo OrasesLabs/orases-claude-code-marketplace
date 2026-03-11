@@ -56,6 +56,24 @@ Documentation management plugin with Diátaxis framework support for creating, o
 
 ---
 
+### [Work Summary](./plugins/work-summary) (v1.0.0)
+
+Generates comprehensive work summaries from git branch changes and posts them as structured Jira comments.
+
+**Features:**
+- **Client-Friendly Summary**: Business-level summary with QA steps and testing checklist
+- **Technical Summary**: Architecture notes, file categories, commits, and code quality
+- **Jira Integration**: Posts combined summary as a structured comment
+- **Local Archival**: Saves summaries locally for audit trail
+- **Configurable Settings**: Three-tier settings hierarchy (user, project, local)
+- **Template Overrides**: Customize summary output with your own templates
+- **PR Detection**: Supports CodeCommit, GitHub, and other hosting services
+
+**Category:** Productivity
+**Documentation:** [View Plugin README](./plugins/work-summary/README.md)
+
+---
+
 ### [TLDV Notes](./plugins/tldv-notes) (v1.2.1)
 
 Create Confluence pages from TLDV meeting recordings with structured notes, discussion topics, and action items.
@@ -149,6 +167,8 @@ claude plugin install .
 - "Summarize my meetings to Confluence" (TLDV Notes)
 - `/analyze-workflow` (Workflow Analyzer)
 - "Create a process flow diagram for this workflow" (BA Toolkit)
+- `/work-summary:work-summary ABC-123` (Work Summary)
+- "Summarize my branch changes for Jira" (Work Summary)
 - `/docs-management:create-how-to deploying to production` (Docs Management)
 - `/docs-management:review-coverage` (Docs Management)
 
