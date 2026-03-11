@@ -2,9 +2,9 @@
 
 ## Prerequisites
 
-- **Atlassian MCP server** configured for `orases.atlassian.net`
+- **Atlassian MCP server** configured for your Jira instance
 - **Git** repository with feature branches
-- **GitHub CLI** (`gh`) installed and authenticated (optional, for PR detection)
+- **AWS CLI** configured (for CodeCommit PR detection) or **GitHub CLI** (`gh`) authenticated (for GitHub PR detection) — optional
 
 ## Install from Marketplace
 
@@ -25,27 +25,33 @@ claude plugin install .
 
 After installation, verify the plugin is loaded:
 
-1. Run `/work-summary:work-summary` in a git repository with a feature branch checked out
-2. The skill should prompt for a Jira ticket key or detect one from the branch name
+1. Run `/work-summary:help` to see the capabilities overview
+2. Run `/work-summary:work-summary` in a git repository with a feature branch checked out
+3. The skill should prompt for a Jira ticket key or detect one from the branch name
 
 ## Atlassian MCP Configuration
 
-This plugin requires the Atlassian MCP server to be configured in your Claude Code environment.
-It uses `getJiraIssue` and `addCommentToJiraIssue` tools via the configured MCP server prefix.
-Ensure your MCP server has access to the target Jira project.
+This plugin requires an Atlassian MCP server configured in your Claude Code environment.
+It uses Jira tools for fetching ticket details and posting comments. The specific tool names
+depend on your MCP server configuration — the plugin adapts automatically.
 
 If your MCP server prefix differs from the default (`claude_ai_Atlassian`), configure it
-in your settings file.
+in your settings file via the `mcp_server` setting.
 
-## Configure Settings (Optional)
+## Configure Settings
 
-Create `.claude/work-summary.local.md` in your project root:
+Run the guided setup:
+
+```
+/work-summary:setup
+```
+
+Or create `.claude/work-summary.local.md` in your project root manually:
 
 ```markdown
 ---
 base_branch: auto
 atlassian_hostname: orases.atlassian.net
-mcp_server: claude_ai_Atlassian
 default_post_action: ask
 ---
 ```

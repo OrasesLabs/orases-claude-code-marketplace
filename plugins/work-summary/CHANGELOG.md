@@ -1,29 +1,26 @@
 # Changelog
 
-## [1.1.0] - 2026-03-10
+## [1.0.0] - 2026-03-11
 
 ### Added
-- Configurable settings via `.claude/work-summary.local.md`
+- Initial plugin release
+- Work summary generator skill with 10-step workflow
+- Client-friendly summary generator skill (standalone capable)
+- Technical summary generator skill (standalone capable)
+- `/work-summary:work-summary` slash command
+- `/work-summary:setup` command for guided settings configuration
+- `/work-summary:help` command for capabilities overview and configuration assistance
+- Configurable settings via three-tier hierarchy (user-global, project-scoped, project-local)
 - Settings: `base_branch`, `atlassian_hostname`, `mcp_server`, `default_post_action`,
   `include_client_summary`, `include_technical_summary`, `local_save_path`,
-  `auto_detect_ticket`, `file_categories`
-- Three-tier settings lookup: project-local, project-scoped, user-global
-- Settings template file with full field reference
-- Step 0 (Load Configuration) in execution workflow
-
-### Fixed
-- MCP tool names now use configurable server prefix instead of hardcoded values
-- `Task` tool references updated to `Agent` tool
-- Removed `allowed-tools` from skill and command frontmatter (avoids breakage on tool renames)
-
-## [1.0.0] - 2026-02-20
-
-### Added
-- Initial plugin release migrated from project-local skill
-- Work summary generator skill with 9-step workflow
-- `/work-summary:work-summary` slash command
+  `auto_detect_ticket`, `file_categories`, `client_summary_template`,
+  `technical_summary_template`, `review_display_template`
+- Template override support for client summary, technical summary, and review display
 - Client-friendly summary template (QA steps, testing checklist)
 - Technical summary template (architecture, files, commits)
-- Review display format for Jira posting
+- Review display format template for Jira posting
 - Local summary storage template
-- Error handling guide for common failure scenarios
+- Settings template with HTML comment examples for optional settings
+- Error handling guide with CodeCommit and GitHub support
+- File categorization reference with custom category examples
+- "Post to Jira and save locally" option for combined post-and-save workflow

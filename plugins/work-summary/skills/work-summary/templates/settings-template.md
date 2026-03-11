@@ -1,17 +1,33 @@
 # Settings Template
 
-Template for `.claude/work-summary.local.md`. Copy this to the project root and customize.
+Template for work-summary settings files. Copy one of the examples below to the appropriate
+location and customize:
+
+- `.claude/work-summary.local.md` — Project-local (gitignored, highest priority)
+- `.claude/work-summary.md` — Project-scoped (committable for team defaults)
+- `~/.claude/work-summary.md` — User-global (base defaults across all projects)
+
+## Full Settings Template
 
 ```markdown
 ---
 base_branch: auto
 atlassian_hostname: orases.atlassian.net
-mcp_server: claude_ai_Atlassian
+<!-- mcp_server: claude_ai_Atlassian -->
 default_post_action: ask
 include_client_summary: true
 include_technical_summary: true
-local_save_path: .claude/work-summaries
-auto_detect_ticket: true
+<!-- local_save_path: .claude/work-summaries -->
+<!-- auto_detect_ticket: true -->
+<!-- client_summary_template: .claude/work-summary-templates/client-summary.md -->
+<!-- technical_summary_template: .claude/work-summary-templates/technical-summary.md -->
+<!-- review_display_template: .claude/work-summary-templates/review-display.md -->
+<!-- file_categories:
+  Controllers: "app/Http/Controllers/**/*.php"
+  Models: "app/Models/**/*.php"
+  Views: "resources/views/**/*.blade.php"
+  Migrations: "database/migrations/**/*.php"
+  Tests: "tests/**/*.php" -->
 ---
 
 # Work Summary Settings
@@ -26,6 +42,7 @@ For most projects, only override what differs from defaults:
 ```markdown
 ---
 base_branch: review
+atlassian_hostname: orases.atlassian.net
 ---
 ```
 
@@ -35,7 +52,7 @@ base_branch: review
 - **Type**: string
 - **Default**: `auto`
 - **Values**: `auto`, `review`, `main`, `develop`, or any branch name
-- **Description**: Branch to compare against when analyzing changes. `auto` checks for `review` first, then falls back to `main`.
+- **Description**: Branch to compare against when analyzing changes. `auto` checks for a beta/development branch (e.g., `review`, `develop`, `staging`) first, then falls back to `main`.
 
 ### `atlassian_hostname`
 - **Type**: string
@@ -45,13 +62,13 @@ base_branch: review
 ### `mcp_server`
 - **Type**: string
 - **Default**: `claude_ai_Atlassian`
-- **Description**: MCP server prefix for Atlassian tools. The full tool name is constructed as `mcp__{mcp_server}__toolName`.
+- **Description**: MCP server prefix for Atlassian tools. Tool names may vary depending on the MCP server configuration.
 
 ### `default_post_action`
 - **Type**: string
 - **Default**: `ask`
-- **Values**: `ask`, `post_to_jira`, `save_locally`
-- **Description**: What happens after summary generation. `ask` prompts each time, `post_to_jira` posts without confirmation, `save_locally` skips Jira posting.
+- **Values**: `ask`, `post_to_jira`, `save_locally`, `both`
+- **Description**: What happens after summary generation. `ask` prompts each time, `post_to_jira` posts without saving locally, `save_locally` skips Jira posting, `both` posts and saves.
 
 ### `include_client_summary`
 - **Type**: boolean
@@ -72,6 +89,21 @@ base_branch: review
 - **Type**: boolean
 - **Default**: `true`
 - **Description**: Attempt to extract Jira ticket key from the current git branch name when no ticket argument is provided.
+
+### `client_summary_template`
+- **Type**: string
+- **Default**: *(built-in template)*
+- **Description**: Path to a custom client summary template file. Overrides the built-in template.
+
+### `technical_summary_template`
+- **Type**: string
+- **Default**: *(built-in template)*
+- **Description**: Path to a custom technical summary template file. Overrides the built-in template.
+
+### `review_display_template`
+- **Type**: string
+- **Default**: *(built-in template)*
+- **Description**: Path to a custom review display format template file. Overrides the built-in template.
 
 ### `file_categories`
 - **Type**: object (YAML mapping)

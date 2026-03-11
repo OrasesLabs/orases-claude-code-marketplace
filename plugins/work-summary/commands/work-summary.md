@@ -1,4 +1,5 @@
 ---
+name: work-summary:work-summary
 description: "Generate work summary from git changes and post to Jira"
 argument-hint: "[ABC-123]"
 ---
