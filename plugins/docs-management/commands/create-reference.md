@@ -2,7 +2,7 @@
 name: docs-management:create-reference
 description: Create information-oriented reference documentation following the Diataxis framework. Reference docs provide factual, complete information for lookup.
 argument-hint: "[subject]"
-allowed-tools: Task, Skill
+allowed-tools: Task, Agent, Skill
 ---
 
 # Create Reference Documentation
@@ -11,7 +11,7 @@ Invoke the **documentation-engineer** subagent to create reference documentation
 
 ## Task
 
-Use the Task tool to spawn the `docs-management:documentation-engineer` agent with the following instructions:
+Use the Task or Agent tool to spawn the `docs-management:documentation-engineer` agent with the following instructions:
 
 1. **Load the reference skill**: /docs-management:tech-specs-writer
 2. **Check for project customizations**:

@@ -40,7 +40,7 @@
       "name": "docs-management",
       "source": "./plugins/docs-management",
       "description": "Documentation management plugin with Diataxis framework support. Create, organize, and maintain project documentation following industry standards with compressed CLAUDE.md index generation.",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "author": {
         "name": "Mike Eckert",
         "email": "mike.eckert@orases.com"

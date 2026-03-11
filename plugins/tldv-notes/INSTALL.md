@@ -8,15 +8,21 @@
 ## Install from Marketplace
 
 ```bash
-# Install the entire marketplace (includes this plugin)
-claude plugin install git@github.com:OrasesLabs/orases-claude-code-marketplace.git
+# Add the Orases marketplace (one-time)
+/plugin marketplace add OrasesLabs/orases-claude-code-marketplace
+
+# Or with full SSH URL
+/plugin marketplace add git@github.com:OrasesLabs/orases-claude-code-marketplace.git
 ```
 
-## Install Standalone
+You can also use the **interactive plugin manager** inside Claude Code — run `/plugin`
+and browse the **Discover** tab to install available plugins.
+
+## Install from Local Clone (Development)
 
 ```bash
-# From the plugin directory
-cd plugins/tldv-notes
+git clone git@github.com:OrasesLabs/orases-claude-code-marketplace.git
+cd orases-claude-code-marketplace
 claude plugin install .
 ```
 
@@ -24,8 +30,9 @@ claude plugin install .
 
 After installation, verify the plugin is loaded:
 
-1. Run `/tldv-notes:generate-meeting-notes dryrun:true` in Claude Code
-2. The plugin should prompt for configuration or fetch your TLDV meetings
+1. Run `/plugin` to open the interactive plugin manager and check the **Installed** tab
+2. Run `/tldv-notes:generate-meeting-notes dryrun:true` in Claude Code
+3. The plugin should prompt for configuration or fetch your TLDV meetings
 
 ## MCP Server Configuration
 

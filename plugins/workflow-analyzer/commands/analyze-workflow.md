@@ -1,9 +1,8 @@
 ---
 name: workflow-analyzer:analyze-workflow
 description: Analyzes a recent Claude Code development session from logs to identify improvements, inefficiencies, and optimization opportunities
-tools: Read, Glob, Grep, Bash, Task
+allowed-tools: Read, Glob, Grep, Bash, Task, Agent
 argument-hint: "[date] [additional-instructions] - Optional date (YYYYMMDD) and/or custom analysis instructions"
-color: cyan
 ---
 
 # Workflow Session Analyzer

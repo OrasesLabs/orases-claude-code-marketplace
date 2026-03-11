@@ -199,7 +199,7 @@ Users can customize templates by placing override files in their settings direct
 
 1. `.claude/tldv-notes-templates/` (project-local overrides)
 2. `~/.claude/tldv-notes-templates/` (user-global overrides)
-3. Built-in `templates/` directory (defaults, shipped with plugin)
+3. Built-in `${CLAUDE_SKILL_DIR}/templates/` directory (defaults, shipped with plugin)
 
 Override files use the same filenames as the built-in references. Only the files present in the override directory are replaced — missing files fall back to the built-in defaults.
 
@@ -211,6 +211,6 @@ Override files use the same filenames as the built-in references. Only the files
 
 ## Reference Files
 
-- **`templates/page-layout.md`** - Overall page structure template
-- **`templates/section-formats.md`** - Section format variants controlled by settings
-- **`templates/empty-states.md`** - Empty state fallback messages
+- **`${CLAUDE_SKILL_DIR}/templates/page-layout.md`** - Overall page structure template
+- **`${CLAUDE_SKILL_DIR}/templates/section-formats.md`** - Section format variants controlled by settings
+- **`${CLAUDE_SKILL_DIR}/templates/empty-states.md`** - Empty state fallback messages

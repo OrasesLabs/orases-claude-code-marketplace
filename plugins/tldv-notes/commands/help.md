@@ -1,6 +1,7 @@
 ---
 name: tldv-notes:help
 description: Learn about the TLDV Notes plugin, configure settings, and customize templates
+disable-model-invocation: true
 ---
 
 # TLDV Notes Plugin — Help & Setup

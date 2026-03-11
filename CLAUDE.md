@@ -216,9 +216,9 @@ Before committing plugin changes:
 ## Plugin Distribution
 
 Plugins can be installed:
-- **From GitHub:** `claude plugin install git@github.com:OrasesLabs/orases-claude-code-marketplace.git`
-- **Locally:** `claude plugin install .` (from plugin directory)
-- **Marketplace-wide:** `claude plugin install .` (from repository root)
+- **From Marketplace:** `/plugin marketplace add OrasesLabs/orases-claude-code-marketplace` (adds all plugins)
+- **Interactive:** `/plugin` opens the plugin manager UI with Discover, Installed, Marketplaces, and Errors tabs
+- **Locally:** `claude plugin install .` (from repository root, for development)
 
 ## Planned Features
 

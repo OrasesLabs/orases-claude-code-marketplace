@@ -1,7 +1,8 @@
 ---
 name: docs-management:setup-project
 description: Initialize the standard documentation directory structure in a new project following the Diataxis framework and documentation standards.
-allowed-tools: Task, Skill
+allowed-tools: Task, Agent, Skill
+disable-model-invocation: true
 ---
 
 # Setup Project Documentation Structure
@@ -10,7 +11,7 @@ Invoke the **documentation-engineer** subagent to initialize the standard docume
 
 ## Task
 
-Use the Task tool to spawn the `docs-management:documentation-engineer` agent with the following instructions:
+Use the Task or Agent tool to spawn the `docs-management:documentation-engineer` agent with the following instructions:
 
 1. **Load the documentation standards**: /docs-management:documentation-standards
 2. **Check for project customizations**:
