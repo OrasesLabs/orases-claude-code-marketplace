@@ -3,6 +3,7 @@ name: docs-management:help
 description: Display help and usage information for the docs-management plugin. Optionally specify a command or skill name for detailed help.
 argument-hint: "[command or skill]"
 allowed-tools: Read
+disable-model-invocation: true
 ---
 
 # docs-management Plugin Help

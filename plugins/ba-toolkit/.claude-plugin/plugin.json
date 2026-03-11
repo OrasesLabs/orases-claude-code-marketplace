@@ -7,7 +7,7 @@
     "email": "courtney@orases.com",
     "url": "https://orases.com"
   },
-  "homepage": "https://github.com/OrasesLabs/orases-claude-code-marketplace/tree/main/ba-toolkit",
+  "homepage": "https://github.com/OrasesLabs/orases-claude-code-marketplace/tree/main/plugins/ba-toolkit",
   "repository": "https://github.com/OrasesLabs/orases-claude-code-marketplace",
   "license": "MIT",
   "keywords": [

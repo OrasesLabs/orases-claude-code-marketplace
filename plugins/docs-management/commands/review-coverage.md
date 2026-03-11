@@ -2,7 +2,7 @@
 name: docs-management:review-coverage
 description: Audit current project documentation to identify gaps, outdated content, and areas needing improvement. Provides a coverage report with recommendations.
 argument-hint: "[focus area]"
-allowed-tools: Task, Skill
+allowed-tools: Task, Agent, Skill
 ---
 
 # Review Documentation Coverage
@@ -11,7 +11,7 @@ Invoke the **documentation-engineer** subagent to audit documentation and identi
 
 ## Task
 
-Use the Task tool to spawn the `docs-management:documentation-engineer` agent with the following instructions:
+Use the Task or Agent tool to spawn the `docs-management:documentation-engineer` agent with the following instructions:
 
 1. **Load the documentation standards**: /docs-management:documentation-standards
 2. **Check for project customizations**:

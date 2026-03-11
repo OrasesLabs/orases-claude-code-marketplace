@@ -1,6 +1,7 @@
 ---
 name: work-summary:help
 description: "Learn about the work-summary plugin, configure settings, and customize templates"
+disable-model-invocation: true
 ---
 
 # Work Summary Plugin — Help & Setup

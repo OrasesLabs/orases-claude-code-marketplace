@@ -13,8 +13,22 @@ Documentation management plugin for Claude Code with Diátaxis framework support
 
 ## Installation
 
+Install via the Orases marketplace:
+
 ```bash
-claude plugins add docs-management
+# Add the Orases marketplace (one-time)
+/plugin marketplace add OrasesLabs/orases-claude-code-marketplace
+```
+
+Or use the **interactive plugin manager** inside Claude Code — run `/plugin` and browse
+the **Discover** tab.
+
+For local development:
+
+```bash
+git clone git@github.com:OrasesLabs/orases-claude-code-marketplace.git
+cd orases-claude-code-marketplace
+claude plugin install .
 ```
 
 ## Commands

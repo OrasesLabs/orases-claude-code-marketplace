@@ -7,7 +7,7 @@
     "email": "hyun@orases.com",
     "url": "https://orases.com"
   },
-  "homepage": "https://github.com/OrasesLabs/orases-claude-code-marketplace/tree/main/tldv-notes",
+  "homepage": "https://github.com/OrasesLabs/orases-claude-code-marketplace/tree/main/plugins/tldv-notes",
   "repository": "https://github.com/OrasesLabs/orases-claude-code-marketplace",
   "license": "MIT",
   "keywords": [

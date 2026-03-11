@@ -2,7 +2,7 @@
 name: docs-management:update-from-changes
 description: Review recent git commits and update project documentation based on new features, bug fixes, or changes. Automatically determines which doc types need updating.
 argument-hint: "[scope]"
-allowed-tools: Task, Skill
+allowed-tools: Task, Agent, Skill
 ---
 
 # Update Documentation from Recent Changes
@@ -11,7 +11,7 @@ Invoke the **documentation-engineer** subagent to review recent code changes and
 
 ## Task
 
-Use the Task tool to spawn the `docs-management:documentation-engineer` agent with the following instructions:
+Use the Task or Agent tool to spawn the `docs-management:documentation-engineer` agent with the following instructions:
 
 1. **Load the documentation standards**: /docs-management:documentation-standards
 2. **Check for project customizations**:

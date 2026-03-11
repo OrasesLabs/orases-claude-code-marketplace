@@ -2,7 +2,7 @@
 name: docs-management:create-how-to
 description: Create task-oriented how-to guide documentation following the Diataxis framework. How-to guides help users accomplish specific goals.
 argument-hint: "[task]"
-allowed-tools: Task, Skill
+allowed-tools: Task, Agent, Skill
 ---
 
 # Create How-to Guide Documentation
@@ -11,7 +11,7 @@ Invoke the **documentation-engineer** subagent to create how-to guide documentat
 
 ## Task
 
-Use the Task tool to spawn the `docs-management:documentation-engineer` agent with the following instructions:
+Use the Task or Agent tool to spawn the `docs-management:documentation-engineer` agent with the following instructions:
 
 1. **Load the how-to-guide skill**: /docs-management:how-to-guide-writer
 2. **Check for project customizations**:

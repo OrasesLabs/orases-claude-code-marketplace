@@ -190,7 +190,7 @@ the template override.
 ### Step 8: User Review & Approval
 
 Present both summaries using the review display format. Load the template from
-`${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/review-display-format.md`, or use the
+`${CLAUDE_SKILL_DIR}/templates/review-display-format.md`, or use the
 `review_display_template` override path from settings if configured. Include:
 - Ticket key, title, branch name, commit count, files modified
 - Client-friendly summary (if generated)
@@ -230,11 +230,11 @@ Check if `{LOCAL_SAVE_PATH}/{TICKET_KEY}.md` (relative to project root) already 
 
 **If the file does not exist**, create it directly.
 
-Refer to `${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/local-summary-template.md` for the file structure.
+Refer to `${CLAUDE_SKILL_DIR}/templates/local-summary-template.md` for the file structure.
 
 ## Error Handling
 
-Refer to `${CLAUDE_PLUGIN_ROOT}/skills/work-summary/references/error-handling-guide.md` for recovery actions for common failure scenarios
+Refer to `${CLAUDE_SKILL_DIR}/references/error-handling-guide.md` for recovery actions for common failure scenarios
 including ticket access issues, empty branches, posting failures, and ambiguous branch names.
 
 ## Additional Resources
@@ -242,12 +242,12 @@ including ticket access issues, empty branches, posting failures, and ambiguous 
 ### Templates
 - **`${CLAUDE_PLUGIN_ROOT}/skills/client-summary-generator/templates/client-summary-template.md`** - Markdown structure for the client-friendly summary section
 - **`${CLAUDE_PLUGIN_ROOT}/skills/technical-summary-generator/templates/technical-summary-template.md`** - Markdown structure for the technical summary section
-- **`${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/review-display-format.md`** - Combined display format for user review and Jira posting
-- **`${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/local-summary-template.md`** - File structure for local summary storage
-- **`${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/settings-template.md`** - Settings file template and field reference
+- **`${CLAUDE_SKILL_DIR}/templates/review-display-format.md`** - Combined display format for user review and Jira posting
+- **`${CLAUDE_SKILL_DIR}/templates/local-summary-template.md`** - File structure for local summary storage
+- **`${CLAUDE_SKILL_DIR}/templates/settings-template.md`** - Settings file template and field reference
 
 ### References
-- **`${CLAUDE_PLUGIN_ROOT}/skills/work-summary/references/error-handling-guide.md`** - Error scenarios and recovery guidance
+- **`${CLAUDE_SKILL_DIR}/references/error-handling-guide.md`** - Error scenarios and recovery guidance
 - **`${CLAUDE_PLUGIN_ROOT}/skills/technical-summary-generator/references/file-categories.md`** - Default file categorization patterns and custom category examples
 
 ### Related Skills

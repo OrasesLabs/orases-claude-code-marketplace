@@ -1,6 +1,7 @@
 ---
 name: work-summary:setup
 description: "Configure work-summary plugin settings for this project"
+disable-model-invocation: true
 ---
 
 # Work Summary Plugin — Setup

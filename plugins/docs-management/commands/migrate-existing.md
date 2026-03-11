@@ -2,7 +2,7 @@
 name: docs-management:migrate-existing
 description: Analyze existing project documentation and migrate it to the standard Diataxis-based structure. Creates a migration plan before making changes.
 argument-hint: "[path]"
-allowed-tools: Task, Skill
+allowed-tools: Task, Agent, Skill
 ---
 
 # Migrate Existing Documentation
@@ -11,7 +11,7 @@ Invoke the **documentation-engineer** subagent to analyze existing documentation
 
 ## Task
 
-Use the Task tool to spawn the `docs-management:documentation-engineer` agent with the following instructions:
+Use the Task or Agent tool to spawn the `docs-management:documentation-engineer` agent with the following instructions:
 
 1. **Load the documentation standards**: /docs-management:documentation-standards
 2. **Check for project customizations**:

@@ -35,27 +35,35 @@ Advanced workflow analysis and optimization tools for Claude Code. Analyzes deve
 - Python 3.8+ (for hooks)
 - Node.js 14+ (for JavaScript skills)
 
-### Install from GitHub
+### Install from Marketplace
 
 ```bash
-# Install entire marketplace (includes workflow-analyzer)
-claude plugin install git@github.com:OrasesLabs/orases-claude-code-marketplace.git
+# Add the Orases marketplace (one-time)
+/plugin marketplace add OrasesLabs/orases-claude-code-marketplace
+
+# Or with full SSH URL
+/plugin marketplace add git@github.com:OrasesLabs/orases-claude-code-marketplace.git
 ```
 
-### Install Locally (Development)
+Once the marketplace is added, all plugins (including workflow-analyzer) are available.
+
+You can also use the **interactive plugin manager** inside Claude Code by running `/plugin` —
+navigate to the **Discover** tab to browse and install available plugins.
+
+### Install from Local Clone (Development)
 
 ```bash
 # Clone and install
 git clone git@github.com:OrasesLabs/orases-claude-code-marketplace.git
-cd orases-claude-code-marketplace/workflow-analyzer
+cd orases-claude-code-marketplace
 claude plugin install .
 ```
 
 ### Verify Installation
 
 ```bash
-# Check plugin is installed
-claude plugin list
+# Open the interactive plugin manager
+/plugin
 
 # Start Claude and test
 # Ask: "What sessions do I have?"
@@ -142,7 +150,7 @@ workflow-analyzer/
 ## Troubleshooting
 
 ### Plugin Not Found
-- Verify installation: `claude plugin list`
+- Open `/plugin` and check the **Installed** tab
 - Restart Claude Code
 - Try local installation method
 

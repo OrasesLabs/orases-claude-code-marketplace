@@ -2,7 +2,7 @@
 name: docs-management:create-explanation
 description: Create understanding-oriented explanation documentation following the Diataxis framework. Explanations clarify concepts, architecture, and design decisions.
 argument-hint: "[topic]"
-allowed-tools: Task, Skill
+allowed-tools: Task, Agent, Skill
 ---
 
 # Create Explanation Documentation
@@ -11,7 +11,7 @@ Invoke the **documentation-engineer** subagent to create explanation documentati
 
 ## Task
 
-Use the Task tool to spawn the `docs-management:documentation-engineer` agent with the following instructions:
+Use the Task or Agent tool to spawn the `docs-management:documentation-engineer` agent with the following instructions:
 
 1. **Load the explanation skill**: /docs-management:system-overview-writer
 2. **Check for project customizations**:
