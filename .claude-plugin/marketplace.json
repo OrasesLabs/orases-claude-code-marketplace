@@ -61,6 +61,19 @@
       "license": "MIT",
       "keywords": ["tldv", "meetings", "confluence", "notes", "productivity"],
       "category": "productivity"
+    },
+    {
+      "name": "work-summary",
+      "source": "./plugins/work-summary",
+      "description": "Generates comprehensive work summaries from git branch changes and posts them as structured Jira comments. Produces client-friendly and technical summaries for stakeholder visibility.",
+      "version": "1.0.0-beta.1",
+      "author": {
+        "name": "Brent Decker",
+        "email": "brent@orases.com"
+      },
+      "license": "MIT",
+      "keywords": ["jira", "work-summary", "git", "changelog", "documentation", "productivity", "atlassian"],
+      "category": "productivity"
     }
   ]
 }
