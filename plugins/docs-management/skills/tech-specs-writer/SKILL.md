@@ -1,5 +1,5 @@
 ---
-name: tech-specs-writer
+name: docs-management:tech-specs-writer
 description: Guidelines for creating technical specification and API reference documentation. Use when writing factual, complete content about data models, API contracts, and configuration options.
 allowed-tools: Read, Write, Edit, Glob
 ---

@@ -1,5 +1,5 @@
 ---
-name: tutorial-writer
+name: docs-management:tutorial-writer
 description: Guidelines for creating learning-oriented tutorial documentation. Use when writing step-by-step content that helps users learn by doing.
 allowed-tools: Read, Write, Edit, Glob
 ---

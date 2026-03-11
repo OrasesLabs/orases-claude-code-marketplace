@@ -1,5 +1,5 @@
 ---
-name: how-to-guide-writer
+name: docs-management:how-to-guide-writer
 description: Guidelines for creating task-oriented how-to guide documentation. Use when writing content that helps users accomplish specific goals.
 allowed-tools: Read, Write, Edit, Glob
 ---

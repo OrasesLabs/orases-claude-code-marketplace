@@ -1,5 +1,5 @@
 ---
-name: documentation-standards
+name: docs-management:documentation-standards
 description: Documentation standards and conventions based on Diataxis framework. Use this skill to learn project documentation conventions before creating, reviewing, or updating docs.
 allowed-tools: Read, Glob
 ---

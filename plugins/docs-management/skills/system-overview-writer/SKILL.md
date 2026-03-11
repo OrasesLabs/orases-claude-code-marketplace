@@ -1,5 +1,5 @@
 ---
-name: system-overview-writer
+name: docs-management:system-overview-writer
 description: Guidelines for creating architecture overview and system explanation documentation. Use when writing content that clarifies system design, data flow, and architectural concepts.
 allowed-tools: Read, Write, Edit, Glob
 ---

@@ -1,0 +1,22 @@
+{
+  "name": "work-summary",
+  "version": "1.0.0",
+  "description": "Generates comprehensive work summaries from git branch changes and posts them as structured Jira comments. Produces client-friendly and technical summaries for stakeholder visibility.",
+  "author": {
+    "name": "Brent Decker",
+    "email": "brent@orases.com",
+    "url": "https://orases.com"
+  },
+  "homepage": "https://github.com/OrasesLabs/orases-claude-code-marketplace/tree/main/plugins/work-summary",
+  "repository": "https://github.com/OrasesLabs/orases-claude-code-marketplace",
+  "license": "MIT",
+  "keywords": [
+    "jira",
+    "work-summary",
+    "git",
+    "changelog",
+    "documentation",
+    "productivity",
+    "atlassian"
+  ]
+}
