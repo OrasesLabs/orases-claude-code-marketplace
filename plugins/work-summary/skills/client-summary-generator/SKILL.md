@@ -55,7 +55,7 @@ Produce these sections (omit any that do not apply):
 - **Related Tasks**: Links to related tickets from issue links and mentions in comments
 - **Testing Checklist**: Acceptance criteria checkboxes, each verified against code
 
-Refer to the template at `${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/client-summary-template.md`
+Refer to the template at `${CLAUDE_PLUGIN_ROOT}/skills/client-summary-generator/templates/client-summary-template.md`
 for the complete Markdown structure. If a template override is configured in settings, use
 that instead.
 
@@ -79,4 +79,4 @@ can read them. Then ask via `AskUserQuestion`:
 ## Additional Resources
 
 ### Templates
-- **`${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/client-summary-template.md`** - Default Markdown structure for the client-friendly summary
+- **`${CLAUDE_PLUGIN_ROOT}/skills/client-summary-generator/templates/client-summary-template.md`** - Default Markdown structure for the client-friendly summary

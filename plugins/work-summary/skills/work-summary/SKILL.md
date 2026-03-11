@@ -150,7 +150,7 @@ change data:
 - `git diff {BASE_BRANCH}...HEAD --stat` - additions/deletions statistics
 
 Categorize modified files by type. If `file_categories` is set in settings, use those patterns.
-Otherwise, load the default patterns from `${CLAUDE_PLUGIN_ROOT}/skills/work-summary/references/file-categories.md`.
+Otherwise, load the default patterns from `${CLAUDE_PLUGIN_ROOT}/skills/technical-summary-generator/references/file-categories.md`.
 
 Record: branch name, commit count, file count, files-by-category, and change statistics.
 
@@ -240,15 +240,15 @@ including ticket access issues, empty branches, posting failures, and ambiguous 
 ## Additional Resources
 
 ### Templates
-- **`${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/client-summary-template.md`** - Markdown structure for the client-friendly summary section
-- **`${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/technical-summary-template.md`** - Markdown structure for the technical summary section
+- **`${CLAUDE_PLUGIN_ROOT}/skills/client-summary-generator/templates/client-summary-template.md`** - Markdown structure for the client-friendly summary section
+- **`${CLAUDE_PLUGIN_ROOT}/skills/technical-summary-generator/templates/technical-summary-template.md`** - Markdown structure for the technical summary section
 - **`${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/review-display-format.md`** - Combined display format for user review and Jira posting
 - **`${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/local-summary-template.md`** - File structure for local summary storage
 - **`${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/settings-template.md`** - Settings file template and field reference
 
 ### References
 - **`${CLAUDE_PLUGIN_ROOT}/skills/work-summary/references/error-handling-guide.md`** - Error scenarios and recovery guidance
-- **`${CLAUDE_PLUGIN_ROOT}/skills/work-summary/references/file-categories.md`** - Default file categorization patterns and custom category examples
+- **`${CLAUDE_PLUGIN_ROOT}/skills/technical-summary-generator/references/file-categories.md`** - Default file categorization patterns and custom category examples
 
 ### Related Skills
 - **`work-summary:client-summary-generator`** - Standalone client-friendly summary generation

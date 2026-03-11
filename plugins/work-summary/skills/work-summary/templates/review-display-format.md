@@ -7,8 +7,8 @@ If a `review_display_template` path is configured in the work-summary settings f
 that template instead of this one.
 
 The client-friendly and technical sections use the templates defined in:
-- `${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/client-summary-template.md`
-- `${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/technical-summary-template.md`
+- `${CLAUDE_PLUGIN_ROOT}/skills/client-summary-generator/templates/client-summary-template.md`
+- `${CLAUDE_PLUGIN_ROOT}/skills/technical-summary-generator/templates/technical-summary-template.md`
 
 Or their respective override paths (`client_summary_template`, `technical_summary_template`)
 if configured in settings.

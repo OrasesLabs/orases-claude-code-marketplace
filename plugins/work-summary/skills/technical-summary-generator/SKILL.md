@@ -29,7 +29,7 @@ in the work-summary settings file (`.claude/work-summary.local.md`, `.claude/wor
 or `~/.claude/work-summary.md`), load that template instead of the built-in default.
 
 For file categorization patterns, check the `file_categories` setting. If not defined, load
-defaults from `${CLAUDE_PLUGIN_ROOT}/skills/work-summary/references/file-categories.md`.
+defaults from `${CLAUDE_PLUGIN_ROOT}/skills/technical-summary-generator/references/file-categories.md`.
 
 ## Process
 
@@ -57,7 +57,7 @@ Produce these sections (omit any that do not apply):
 - **Code Quality**: Standards compliance, deprecations addressed
 - **Performance Considerations**: Query changes, caching impact (only if applicable)
 
-Refer to the template at `${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/technical-summary-template.md`
+Refer to the template at `${CLAUDE_PLUGIN_ROOT}/skills/technical-summary-generator/templates/technical-summary-template.md`
 for the complete Markdown structure. If a template override is configured in settings, use
 that instead.
 
@@ -73,7 +73,7 @@ that instead.
 ## Additional Resources
 
 ### Templates
-- **`${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/technical-summary-template.md`** - Default Markdown structure for the technical summary
+- **`${CLAUDE_PLUGIN_ROOT}/skills/technical-summary-generator/templates/technical-summary-template.md`** - Default Markdown structure for the technical summary
 
 ### References
-- **`${CLAUDE_PLUGIN_ROOT}/skills/work-summary/references/file-categories.md`** - Default file categorization patterns and custom category examples
+- **`${CLAUDE_PLUGIN_ROOT}/skills/technical-summary-generator/references/file-categories.md`** - Default file categorization patterns and custom category examples
