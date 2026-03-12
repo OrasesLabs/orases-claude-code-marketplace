@@ -23,7 +23,7 @@ Display this summary:
 > commits) for stakeholder visibility.
 >
 > **Commands:**
-> - `/work-summary:work-summary [ABC-123]` — Generate and post a work summary
+> - `/work-summary:generate-work-summary [ABC-123]` — Generate and post a work summary
 > - `/work-summary:setup` — Configure plugin settings
 > - `/work-summary:help` — This help guide
 >
@@ -70,7 +70,7 @@ offer to run `/work-summary:setup` or proceed with defaults.
 
 Suggest the user try:
 1. Check out a feature branch
-2. Run `/work-summary:work-summary` (with or without a ticket key)
+2. Run `/work-summary:generate-work-summary` (with or without a ticket key)
 3. Follow the interactive prompts
 
 ---

@@ -24,13 +24,13 @@ Generates comprehensive work summaries from git branch changes and posts them as
 ### Slash Commands
 
 ```
-/work-summary:work-summary ABC-123
+/work-summary:generate-work-summary ABC-123
 ```
 
 Or without arguments to auto-detect the ticket from the branch name:
 
 ```
-/work-summary:work-summary
+/work-summary:generate-work-summary
 ```
 
 ### Setup & Help
@@ -114,6 +114,6 @@ All settings are optional — sensible defaults are used when no settings file e
 | Skill | `work-summary:work-summary-generator` | Full workflow orchestrator |
 | Skill | `work-summary:client-summary-generator` | Client-friendly summary (standalone capable) |
 | Skill | `work-summary:technical-summary-generator` | Technical summary (standalone capable) |
-| Command | `/work-summary:work-summary` | Generate and post work summary |
+| Command | `/work-summary:generate-work-summary` | Generate and post work summary |
 | Command | `/work-summary:setup` | Guided settings configuration |
 | Command | `/work-summary:help` | Capabilities and configuration help |

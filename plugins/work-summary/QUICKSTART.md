@@ -19,13 +19,13 @@ git checkout jsmith/abc-123-my-feature
 ## 3. Run the Command
 
 ```
-/work-summary:work-summary ABC-123
+/work-summary:generate-work-summary ABC-123
 ```
 
 Or omit the ticket key to auto-detect from the branch name:
 
 ```
-/work-summary:work-summary
+/work-summary:generate-work-summary
 ```
 
 ## 4. Follow the Prompts

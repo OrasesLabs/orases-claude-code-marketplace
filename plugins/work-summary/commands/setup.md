@@ -78,6 +78,6 @@ complete template and field reference.
 ### Step 5: Confirm
 
 Confirm success and suggest:
-- Run `/work-summary:work-summary` to try it out
+- Run `/work-summary:generate-work-summary` to try it out
 - Run `/work-summary:help` for more information about capabilities
 - If project-local, remind to add `.claude/*.local.md` to `.gitignore`

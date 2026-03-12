@@ -167,7 +167,7 @@ claude plugin install .
 - "Summarize my meetings to Confluence" (TLDV Notes)
 - `/analyze-workflow` (Workflow Analyzer)
 - "Create a process flow diagram for this workflow" (BA Toolkit)
-- `/work-summary:work-summary ABC-123` (Work Summary)
+- `/work-summary:generate-work-summary ABC-123` (Work Summary)
 - "Summarize my branch changes for Jira" (Work Summary)
 - `/docs-management:create-how-to deploying to production` (Docs Management)
 - `/docs-management:review-coverage` (Docs Management)

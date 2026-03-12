@@ -33,7 +33,7 @@ After installation, verify the plugin is loaded:
 
 1. Run `/plugin` to open the interactive plugin manager and check the **Installed** tab
 2. Run `/work-summary:help` to see the capabilities overview
-3. Run `/work-summary:work-summary` in a git repository with a feature branch checked out
+3. Run `/work-summary:generate-work-summary` in a git repository with a feature branch checked out
 4. The skill should prompt for a Jira ticket key or detect one from the branch name
 
 ## Atlassian MCP Configuration

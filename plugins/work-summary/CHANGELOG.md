@@ -7,7 +7,7 @@
 - Work summary generator skill with 10-step workflow
 - Client-friendly summary generator skill (standalone capable)
 - Technical summary generator skill (standalone capable)
-- `/work-summary:work-summary` slash command
+- `/work-summary:generate-work-summary` slash command
 - `/work-summary:setup` command for guided settings configuration
 - `/work-summary:help` command for capabilities overview and configuration assistance
 - Configurable settings via three-tier hierarchy (user-global, project-scoped, project-local)
