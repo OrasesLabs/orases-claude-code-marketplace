@@ -13,12 +13,12 @@ Advanced workflow analysis and optimization tools for Claude Code. Analyzes deve
 ### 🤖 Components
 
 **Skills** (Model-invoked):
-- `session-analyzer` - Discovers and lists Claude Code session transcripts
-- `transcript-condenser` - Condenses verbose transcripts into readable summaries
+- `workflow-analyzer:session-analyzer` - Discovers and lists Claude Code session transcripts
+- `workflow-analyzer:transcript-condenser` - Condenses verbose transcripts into readable summaries
 - `workflow-analysis`, `pattern-detection`, `optimization-suggestions` (stubs for future)
 
 **Agent**:
-- `workflow-analyzer` - Specialized agent for comprehensive session analysis
+- `workflow-analyzer:workflow-analyzer` - Specialized agent for comprehensive session analysis
 
 **Hooks** (Event-driven):
 - `pre_compact.py` - Creates transcript backups before compaction

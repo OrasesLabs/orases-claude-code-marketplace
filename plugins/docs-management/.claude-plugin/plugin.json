@@ -2,6 +2,8 @@
   "name": "docs-management",
   "version": "1.2.1",
   "description": "Documentation management plugin with Diátaxis framework support. Create, organize, and maintain project documentation following industry standards.",
+  "homepage": "https://github.com/OrasesLabs/orases-claude-code-marketplace/tree/main/plugins/docs-management",
+  "repository": "https://github.com/OrasesLabs/orases-claude-code-marketplace",
   "author": {
     "name": "Mike Eckert",
     "email": "mike.eckert@orases.com"

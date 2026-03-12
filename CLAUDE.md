@@ -20,13 +20,13 @@ orases-marketplace/
 │   ├── workflow-analyzer/    # Session analysis tools (v0.1.0)
 │   │   ├── .claude-plugin/
 │   │   │   └── plugin.json
-│   │   ├── skills/           # transcript-condenser, session-analyzer
+│   │   ├── skills/           # workflow-analyzer:transcript-condenser, workflow-analyzer:session-analyzer
 │   │   ├── agents/           # workflow-analyzer agent
 │   │   └── commands/         # /analyze-workflow command
 │   └── ba-toolkit/           # Business analysis tools (v0.1.0)
 │       ├── .claude-plugin/
 │       │   └── plugin.json
-│       └── skills/           # visual-workflow-diagram-generator
+│       └── skills/           # ba-toolkit:visual-workflow-diagram-generator
 └── example-plugin/           # Template for new plugins
     └── agents/               # Example agent implementations
 ```
@@ -56,11 +56,11 @@ Complete Jira workflow management with direct REST API access.
 Advanced workflow analysis and optimization tools for Claude Code development sessions.
 
 **Skills:**
-- `transcript-condenser` - Condenses verbose session transcripts into readable summaries
-- `session-analyzer` - Discovers and lists available Claude Code sessions
+- `workflow-analyzer:transcript-condenser` - Condenses verbose session transcripts into readable summaries
+- `workflow-analyzer:session-analyzer` - Discovers and lists available Claude Code sessions
 
 **Agents:**
-- `workflow-analyzer` - Comprehensive session analysis with metrics and recommendations
+- `workflow-analyzer:workflow-analyzer` - Comprehensive session analysis with metrics and recommendations
 
 **Commands:**
 - `/analyze-workflow` - Quick workflow analysis slash command
@@ -69,7 +69,7 @@ Advanced workflow analysis and optimization tools for Claude Code development se
 Business analysis toolkit for process visualization.
 
 **Skills:**
-- `visual-workflow-diagram-generator` - Transforms written workflow steps into interactive browser-based process flow diagrams
+- `ba-toolkit:visual-workflow-diagram-generator` - Transforms written workflow steps into interactive browser-based process flow diagrams
 
 ## Plugin Architecture
 

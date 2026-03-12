@@ -1,5 +1,5 @@
 ---
-name: session-analyzer
+name: workflow-analyzer:session-analyzer
 description: Discovers and lists Claude Code session transcripts from .claude/logs/ for analysis. Use when the user wants to find available sessions, view session timelines, identify which sessions to analyze for workflow improvements, or understand session history. Triggers when user mentions "what sessions do I have", "analyze my workflow", "show my recent sessions", "find transcripts from [date]", or similar session discovery requests.
 ---
 
@@ -155,7 +155,7 @@ Session grouping is based on the session ID portion of the filename.
 - Date format must be YYYYMMDD (e.g., 20251017)
 - Session IDs are displayed as short 8-character identifiers (first part of UUID)
 - When user asks about "recent sessions", show the most recent date's sessions
-- Suggest running the transcript-condenser skill on specific sessions for detailed analysis
+- Suggest running the `workflow-analyzer:transcript-condenser` skill on specific sessions for detailed analysis
 - If logs directory doesn't exist, inform user that logging may not be enabled
 
 ## Command Reference
@@ -178,7 +178,7 @@ Examples:
 
 ## Integration with Other Skills
 
-**Workflow recommendation**: After discovering sessions with this skill, use the **transcript-condenser** skill to generate detailed reports:
+**Workflow recommendation**: After discovering sessions with this skill, use the **`workflow-analyzer:transcript-condenser`** skill to generate detailed reports:
 
 ```bash
 # 1. Find sessions

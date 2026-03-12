@@ -1,5 +1,5 @@
 ---
-name: transcript-condenser
+name: workflow-analyzer:transcript-condenser
 description: Condenses Claude Code session transcripts into readable summaries by filtering metadata, system notifications, and command artifacts. Use when the user wants to review, analyze, or understand what happened in a Claude Code session, view tool usage patterns, or export session data. Triggers when user mentions "analyze session", "review transcript", "condense logs", "what tools did I use", or similar workflow analysis requests.
 ---
 

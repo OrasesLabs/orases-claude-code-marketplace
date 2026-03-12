@@ -152,7 +152,7 @@ Offer to show the contents of any built-in template so the user can copy and cus
 ### Step C: Create Override
 
 If the user wants to override a template:
-1. Read the built-in version from `${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/`
+1. Read the built-in version from `${CLAUDE_PLUGIN_ROOT}/skills/work-summary-generator/templates/`
 2. Show the user the current content
 3. Ask what they'd like to change
 4. Write the customized version to the user's chosen override path

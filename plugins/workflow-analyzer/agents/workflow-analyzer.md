@@ -1,5 +1,5 @@
 ---
-name: workflow-analyzer
+name: workflow-analyzer:workflow-analyzer
 description: Use proactively for analyzing Claude Code session transcripts, development workflows, and subagent usage patterns to identify inefficiencies, optimization opportunities, and areas for improvement. Specialist for reviewing logs from .claude/logs/ directories.
 tools: Read, Glob, Grep, Bash, Write, WebFetch, TodoWrite, WebSearch, BashOutput, KillShell, Edit, NotebookEdit, AskUserQuestion, Skill
 model: sonnet
@@ -49,7 +49,7 @@ Discovers and lists available Claude Code sessions from `.claude/logs/`.
 
 ## Transcript Condenser Integration
 
-The workflow-analyzer can leverage the transcript condenser skill (`${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/`) to improve analysis efficiency on large transcript files.
+The workflow-analyzer can leverage the `workflow-analyzer:transcript-condenser` skill (`${CLAUDE_PLUGIN_ROOT}/skills/transcript-condenser/`) to improve analysis efficiency on large transcript files.
 
 **When to Use the Condenser:**
 - Transcripts larger than 100KB
@@ -76,7 +76,7 @@ When invoked, you must follow these steps:
 
 Before beginning analysis, use the available skills to discover and optimize your approach:
 
-1. **Use session-analyzer skill to discover available sessions** (if not provided):
+1. **Use `workflow-analyzer:session-analyzer` skill to discover available sessions** (if not provided):
    ```bash
    # Lists all available session dates with metadata
    node ${CLAUDE_PLUGIN_ROOT}/skills/session-analyzer/analyze-session.js
@@ -90,7 +90,7 @@ Before beginning analysis, use the available skills to discover and optimize you
    - **100KB - 1MB:** Consider pre-condensing for faster analysis
    - **> 1MB per file:** Strongly recommend using condenser skill first
 
-3. **Use transcript-condenser skill** based on file size and analysis needs:
+3. **Use `workflow-analyzer:transcript-condenser` skill** based on file size and analysis needs:
 
    **For small sessions (< 100KB):**
    - Analyze original transcripts directly
@@ -182,7 +182,7 @@ Before beginning analysis, use the available skills to discover and optimize you
 
 ### When Analyzing Large Sessions
 
-Use the **transcript-condenser skill** for efficient processing:
+Use the **`workflow-analyzer:transcript-condenser` skill** for efficient processing:
 
 1. **Pre-condense transcripts > 1MB** using the skill:
    ```bash
@@ -201,7 +201,7 @@ Use the **transcript-condenser skill** for efficient processing:
 
 4. **Batch process multiple sessions efficiently:**
    ```bash
-   # Use session-analyzer to find available sessions
+   # Use workflow-analyzer:session-analyzer to find available sessions
    node ${CLAUDE_PLUGIN_ROOT}/skills/session-analyzer/analyze-session.js 20251022
 
    # Condense all transcripts from a date at once

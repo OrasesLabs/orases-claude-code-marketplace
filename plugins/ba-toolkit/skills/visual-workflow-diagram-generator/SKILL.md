@@ -1,5 +1,5 @@
 ---
-name: visual-workflow-diagram-generator
+name: ba-toolkit:visual-workflow-diagram-generator
 description: This skill should be used when the user asks to "create a workflow diagram", "visualize a workflow", "generate a process flow", "make a flowchart", "diagram these steps", or provides workflow steps that need visual representation. Transforms written workflow steps into interactive, browser-based visual process flow diagrams with clickable elements.
 ---
 

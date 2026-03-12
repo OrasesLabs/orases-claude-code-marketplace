@@ -1,5 +1,5 @@
 ---
-name: documentation-engineer
+name: docs-management:documentation-engineer
 description: Expert documentation engineer specializing in technical documentation systems using the Diataxis framework. Coordinates documentation assessment, creation, and organization following industry standards.
 tools: Read, Write, Edit, Glob, Grep, Bash
 skills: docs-management:documentation-standards, docs-management:tutorial-writer, docs-management:how-to-guide-writer, docs-management:tech-specs-writer, docs-management:research-findings-writer, docs-management:system-overview-writer, docs-management:adr-writer

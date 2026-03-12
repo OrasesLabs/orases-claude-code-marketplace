@@ -72,7 +72,7 @@ Create the settings file at the chosen location with YAML frontmatter. Only incl
 that differ from defaults to keep the file clean. Use HTML comments to document available
 settings that were left at defaults.
 
-Refer to `${CLAUDE_PLUGIN_ROOT}/skills/work-summary/templates/settings-template.md` for the
+Refer to `${CLAUDE_PLUGIN_ROOT}/skills/work-summary-generator/templates/settings-template.md` for the
 complete template and field reference.
 
 ### Step 5: Confirm
