@@ -26,6 +26,29 @@ Before processing, check for settings in this order:
 
 Parse YAML frontmatter for: `cloud_id`, `space_id`, `parent_page_id`, `timezone`, `sections`, `footer`, `mcp_server`, `duration_rounding`, `meeting_details_format`, `summary_format`, `discussion_notes_format`, `action_items_format`.
 
+### Timezone and Daylight Saving Time
+
+The `timezone` value is an IANA timezone identifier. **You must account for Daylight Saving Time (DST) when converting timestamps.**
+
+For `America/New_York`:
+- **EST** (Eastern Standard Time) = **UTC-5** — first Sunday of November through second Sunday of March
+- **EDT** (Eastern Daylight Time) = **UTC-4** — second Sunday of March through first Sunday of November
+
+**To determine the correct offset:** Check the meeting's date against these DST boundaries. If the meeting occurred during DST, use UTC-4 and display "EDT". If outside DST, use UTC-5 and display "EST".
+
+Common US timezone DST rules (all follow the same March–November schedule):
+| IANA Timezone | Standard | DST |
+|---|---|---|
+| `America/New_York` | EST (UTC-5) | EDT (UTC-4) |
+| `America/Chicago` | CST (UTC-6) | CDT (UTC-5) |
+| `America/Denver` | MST (UTC-7) | MDT (UTC-6) |
+| `America/Los_Angeles` | PST (UTC-8) | PDT (UTC-7) |
+
+**When converting TLDV timestamps (which are in UTC) to local time:**
+1. Determine whether DST is active on the meeting's date
+2. Apply the correct UTC offset
+3. Use the correct abbreviation (e.g., EDT not EST) in the displayed time
+
 If no settings file exists, ask the user for the required values and offer to save them. When prompting interactively, use friendly names and provide clear options — not raw setting keys. For example:
 
 | Setting key | Friendly prompt | Options / Help |
@@ -44,16 +67,24 @@ Store the user's choices using the setting key names (e.g. `action_items_format:
 ## MCP Tools Required
 
 ### TLDV MCP Server
-- `mcp__tldv__list-meetings` - List meetings (use `onlyParticipated: true`)
-- `mcp__tldv__get-meeting-metadata` - Get meeting details
-- `mcp__tldv__get-transcript` - Get full transcript
-- `mcp__tldv__get-highlights` - Get AI-generated highlights
+
+| Tool | Purpose | Key Parameters |
+|------|---------|----------------|
+| `mcp__tldv__list-meetings` | List meetings with filters | `from`, `to` (ISO datetime), `onlyParticipated` (boolean), `limit` (integer) |
+| `mcp__tldv__get-meeting-metadata` | Get meeting details by ID | `id` (string) |
+| `mcp__tldv__get-transcript` | Get speaker-attributed transcript | `meetingId` (string) |
+| `mcp__tldv__get-highlights` | Get AI-extracted highlights | `meetingId` (string) |
 
 ### Atlassian MCP Server
-- `mcp__atlassian__createConfluencePage` - Create the notes page
-- `mcp__atlassian__getConfluenceSpaces` - Find target space
 
-The MCP server prefix (`atlassian`) can be overridden via the `mcp_server` setting.
+| Tool | Purpose |
+|------|---------|
+| `mcp__atlassian__createConfluencePage` | Create the notes page |
+| `mcp__atlassian__getConfluenceSpaces` | Find target space |
+| `mcp__atlassian__searchConfluenceUsingCql` | Search for pages |
+| `mcp__atlassian__getAccessibleAtlassianResources` | List cloud instances (for Cloud ID discovery) |
+
+The MCP server prefix (`atlassian`) can be overridden via the `mcp_server` setting. Tools may appear under different prefixes depending on the environment — search for tools containing "confluence" or "atlassian" if the exact names above are not found.
 
 ## Workflow
 
@@ -69,7 +100,10 @@ Retrieve recent meetings where user participated:
 ```
 mcp__tldv__list-meetings with:
 - onlyParticipated: true
-- Filter by date range as needed
+- from: start of date range as ISO 8601 datetime with the correct UTC offset
+  (e.g., 2026-03-13T00:00:00-04:00 for EDT, 2026-03-13T00:00:00-05:00 for EST)
+  Check if DST is active on the target date — see Timezone and Daylight Saving Time section.
+- to: end of date range, same offset rules as from
 ```
 
 ### Step 3: For Each Meeting, Gather Data

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2] - 2026-03-13
+
+### Fixed
+- **DST timezone bug** — Meeting times displayed incorrectly after Daylight Saving Time took effect (March 9, 2026). Added explicit DST handling rules, UTC offset lookup table for US timezones, and step-by-step timestamp conversion instructions to SKILL.md
+- **DST-aware date ranges** — `from`/`to` parameters in Step 2 now include correct ISO 8601 UTC offsets based on whether DST is active on the target date
+- **DST abbreviation in templates** — Added reminder to `section-formats.md` that `{TZ}` must use the DST-aware abbreviation (e.g., EDT not EST)
+
 ## [1.2.0] - 2026-03-04
 
 ### Changed
