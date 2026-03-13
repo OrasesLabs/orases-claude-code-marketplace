@@ -2,6 +2,8 @@
 
 Format variants for each section, controlled by user preferences.
 
+**Important:** `{TZ}` must be the DST-aware abbreviation (e.g., EDT during daylight saving, EST during standard time). See the "Timezone and Daylight Saving Time" section in SKILL.md.
+
 ## Header
 
 ### Standard (default)

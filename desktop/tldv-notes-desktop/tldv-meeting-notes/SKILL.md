@@ -53,6 +53,29 @@ parent_page_id: ""
 timezone: "America/New_York"
 ```
 
+### Timezone and Daylight Saving Time
+
+The `timezone` value is an IANA timezone identifier. **You must account for Daylight Saving Time (DST) when converting timestamps.**
+
+For `America/New_York`:
+- **EST** (Eastern Standard Time) = **UTC-5** — first Sunday of November through second Sunday of March
+- **EDT** (Eastern Daylight Time) = **UTC-4** — second Sunday of March through first Sunday of November
+
+**To determine the correct offset:** Check the meeting's date against these DST boundaries. If the meeting occurred during DST, use UTC-4 and display "EDT". If outside DST, use UTC-5 and display "EST".
+
+Common US timezone DST rules (all follow the same March–November schedule):
+| IANA Timezone | Standard | DST |
+|---|---|---|
+| `America/New_York` | EST (UTC-5) | EDT (UTC-4) |
+| `America/Chicago` | CST (UTC-6) | CDT (UTC-5) |
+| `America/Denver` | MST (UTC-7) | MDT (UTC-6) |
+| `America/Los_Angeles` | PST (UTC-8) | PDT (UTC-7) |
+
+**When converting TLDV timestamps (which are in UTC) to local time:**
+1. Determine whether DST is active on the meeting's date
+2. Apply the correct UTC offset
+3. Use the correct abbreviation (e.g., EDT not EST) in the displayed time
+
 ### Interactive Discovery
 
 If configuration values are unknown, help the user discover them:
@@ -106,8 +129,8 @@ Extract options from the user's natural language request:
 
 Call the `list-meetings` tool with:
 - `onlyParticipated: true`
-- `from`: start of date range (ISO 8601 datetime in configured timezone)
-- `to`: end of date range (ISO 8601 datetime in configured timezone)
+- `from`: start of date range as ISO 8601 datetime with the correct UTC offset (e.g., `2026-03-13T00:00:00-04:00` for EDT, `2026-03-13T00:00:00-05:00` for EST). Check if DST is active on the target date — see Timezone and Daylight Saving Time section.
+- `to`: end of date range, same offset rules as `from`
 - `limit: 50`
 
 If a specific meeting ID was requested, skip the list and go directly to Step 3 for that meeting.
@@ -146,7 +169,7 @@ Ask for confirmation before creating each page (unless user pre-approved batch p
 
 For each meeting processed, report:
 - Meeting title
-- Date/time (in configured timezone)
+- Date/time converted to the configured timezone with the correct DST offset and abbreviation (e.g., "2:00 PM EDT" not "2:00 PM EST" if DST is active)
 - Confluence page URL (if created) or "[DRY RUN]" indicator
 - Any errors encountered
 
